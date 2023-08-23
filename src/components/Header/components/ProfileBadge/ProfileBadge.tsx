@@ -6,6 +6,7 @@ import {FiChevronDown} from 'react-icons/fi'
 import getClassNames from '../../../../utils/getClassNames';
 import { Cookies } from 'typescript-cookie';
 import { cookiesStorageKeys } from '@utils/storageKeys';
+import Dropdown from 'antd/es/dropdown/dropdown';
 
 const {ADMIN} = cookiesStorageKeys
 const d = Cookies.get(ADMIN)
@@ -24,9 +25,14 @@ const ProfileBadge:FC = () => {
           isRound
           />
       </div>
-      <button className={getClassNames([styles.toggle, 'scale-effect-on-click'])}>
-        <FiChevronDown/>
-      </button>
+      <Dropdown
+        
+        >
+        <button className={getClassNames([styles.toggle, 'scale-effect-on-click'])}>
+          <FiChevronDown/>
+        </button>
+      </Dropdown>
+      
     </div>
   )
 }
