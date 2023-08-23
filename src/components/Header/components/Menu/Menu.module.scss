@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  margin-left: -3px;
+  margin-right: -3px;
+  
+  .item {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 45px;
+    margin: 0 3px;
+    background-color: var(--blue_4);
+    border: 1px solid transparent;
+    opacity: .5;
+
+    &:nth-child(1) {
+      background-image: url('../../../../assets/icons/menu-icon-chat.svg');  
+    }
+
+    &:nth-child(2) {
+      background-image: url('../../../../assets/icons/menu-icon-dash.svg');
+    }
+  }
+  .item.active {
+    border-color: var(--violet_2);
+    opacity: 1;
+  }
+}

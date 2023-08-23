@@ -1,0 +1,45 @@
+.wrapper {
+  // height: 100px;
+  background-color: var(--blue_3);
+  border-radius: 8px;
+  margin-bottom: 5px;
+  padding: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .2s ease;
+
+  &:hover {
+    border-color: var(--violet_2);
+  }
+
+  .part {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    .main {
+      padding: 0 5px;
+      overflow: hidden;
+      
+      .limits {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 20px;
+        color: var(--green_1);
+      }
+    }
+  }
+
+  .part.left {
+    justify-content: flex-start;
+  }
+  .part.right {
+    justify-content: flex-end;
+    text-align: right;
+  }
+}
+
+.wrapper.active {
+  background-color: var(--violet_3);
+}

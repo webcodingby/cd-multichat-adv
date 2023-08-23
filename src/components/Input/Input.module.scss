@@ -1,0 +1,27 @@
+.wrapper {
+  width: 100%;
+  .input {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: var(--blue_3);
+    transition: all .2s ease;
+    border: 1px solid transparent;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(#7D6AF0, .5);
+      border-color: var(--violet_1);
+    }
+  }
+}
+
+.wrapper.error {
+  .input {
+    box-shadow: 0 0 0 3px rgba(#EB5858, .3);
+    border-color: red;
+    color: var(--red_1);
+  }
+}

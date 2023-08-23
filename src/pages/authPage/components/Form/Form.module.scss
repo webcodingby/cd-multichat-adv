@@ -1,0 +1,21 @@
+.wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  
+  .form {
+    width: 100%;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: var(--blue_1);
+    border: 1px solid var(--blue_6);
+
+    .title {
+      text-align: center;
+    }
+    .action {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+}

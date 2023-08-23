@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+
+  .main {
+    text-align: right;
+    margin-right: 10px;
+  }
+  .avatar {
+
+  }
+  .toggle {
+    color: #fff;
+    font-size: 30px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+}

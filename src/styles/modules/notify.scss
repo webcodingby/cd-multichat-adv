@@ -1,0 +1,22 @@
+.Toastify {
+
+  .Toastify__toast {
+      overflow: hidden;
+
+      .Toastify__toast-body {
+          width: 100%;
+          overflow: hidden;
+      }
+      
+      .Toastify__toast-icon {
+          flex: 0 0 auto;
+          width: auto;
+
+      }
+
+      .Toastify__toast-icon ~ div {
+          width: 100%;
+          overflow: hidden;
+      }
+  }
+}
