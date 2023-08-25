@@ -7,12 +7,24 @@ import getClassNames from '../../../../utils/getClassNames';
 import { Cookies } from 'typescript-cookie';
 import { cookiesStorageKeys } from '@utils/storageKeys';
 import Dropdown from 'antd/es/dropdown/dropdown';
+import ProfileMenu from './components/ProdileMenu/ProfileMenu';
+import * as L from 'lodash';
+import avatar1 from '@assets/avatars/avatar-1.png'
+import avatar2 from '@assets/avatars/avatar-2.png'
+import avatar3 from '@assets/avatars/avatar-3.png'
+import avatar4 from '@assets/avatars/avatar-4.png'
+import avatar5 from '@assets/avatars/avatar-5.png'
+import avatar6 from '@assets/avatars/avatar-6.png'
+import { useAppSelector } from '@hooks/useReduxTypedHook';
+const avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
+const avatarIndex = L.random(0, avatars.length - 1);
 
 const {ADMIN} = cookiesStorageKeys
 const d = Cookies.get(ADMIN)
 const userData:any = typeof d === 'string' ? JSON.parse(d) : null
 
 const ProfileBadge:FC = () => {
+  const {socket} = useAppSelector(s => s.mainSlice)
 
   return (  
     <div className={styles.wrapper}>
@@ -23,10 +35,15 @@ const ProfileBadge:FC = () => {
       <div className={styles.avatar}>
         <Avatar
           isRound
+          image={avatars[avatarIndex]}
+          isActive
+          isOnline={socket ? true : false}
           />
       </div>
       <Dropdown
-        
+        overlay={
+          <ProfileMenu/>
+        }
         >
         <button className={getClassNames([styles.toggle, 'scale-effect-on-click'])}>
           <FiChevronDown/>

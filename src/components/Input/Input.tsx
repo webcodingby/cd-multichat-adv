@@ -9,11 +9,11 @@ const Input:FC<I> = ({
   inputProps,
   wrapperProps
 }) => {
-  const {isError, errorMessage} = wrapperProps || {}
+  const {isError, errorMessage, ...otherWrapperProps} = wrapperProps || {}
 
   return (
     <div
-      {...wrapperProps}
+      {...otherWrapperProps}
       className={getClassNames([styles.wrapper, isError && styles.error, wrapperProps?.className])}
       >
       <input 

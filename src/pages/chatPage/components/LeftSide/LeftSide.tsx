@@ -3,12 +3,19 @@ import getClassNames from '../../../../utils/getClassNames';
 import {Row, Col} from 'antd';
 import Button from '../../../../components/Button/Button';
 import LimitsPart from '../parts/LimitsPart/LimitsPart';
+import InboxPart from '../parts/InboxPart/InboxPart';
 
 
+interface I {
+  limitsList: any[],
+  inboxList:any[]
+}
 
-const LeftSide:FC<any> = () => {
+const LeftSide:FC<I> = ({
+  limitsList,
+  inboxList
+}) => {
   const [activeTab, setActiveTab] = useState<'1' | '2'>('1')
-
 
   return (
     <div className={getClassNames(['panel', 'panel-with-padding'])}>
@@ -32,7 +39,12 @@ const LeftSide:FC<any> = () => {
           </Row>
         </Col>
         <Col span={24}>
-          <LimitsPart/>
+          <LimitsPart 
+            list={limitsList}
+            isActive={activeTab === '1'}/>
+          <InboxPart 
+            list={inboxList}
+            isActive={activeTab === '2'}/>
         </Col>
       </Row>
     </div>

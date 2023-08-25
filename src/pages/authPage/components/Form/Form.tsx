@@ -7,7 +7,7 @@ import Button from '../../../../components/Button/Button';
 import { useAuthMutation } from '../../../../store/slices/apiSlice/apiSlice';
 import notify from '../../../../utils/notify';
 import { useAppDispatch } from '@hooks/useReduxTypedHook';
-import { main_addToken, main_deleteToken } from '@store/slices/mainSlice/mainSlice';
+import { main_addToken, main_deleteToken, main_updateAdminData } from '@store/slices/mainSlice/mainSlice';
 import { Cookies } from 'typescript-cookie';
 import { cookiesStorageKeys } from '@utils/storageKeys';
 
@@ -33,7 +33,8 @@ const Form:FC<any> = () => {
       Cookies.set(TOKEN, authResponseResult.data.token, {
         expires: 30
       })
-      Cookies.set(ADMIN, JSON.stringify({email: email, role: ''}))
+      Cookies.set(ADMIN, JSON.stringify({email, role: '', id: ''}))
+      dispatch(main_updateAdminData({email, role: '', id: ''}))
       dispatch(main_addToken(authResponseResult.data.token))
       navigate('/chat?chatType=CHAT')
     }

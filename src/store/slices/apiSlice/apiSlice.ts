@@ -81,14 +81,14 @@ const apiSlice = createApi({
         body: {
           id,
           page,
-          per_page
+          per_page = 20
         }
       }: {
         token: any,
         body: {
-          id: number | string,
+          id: any,
           page: number,
-          per_page: number
+          per_page?: number
         }
       }) => ({
         url: endpoints.getMessageChat + `/${id}?page=${page}&per_page=${per_page}`,
@@ -122,15 +122,15 @@ const apiSlice = createApi({
         token,
         body: {
           page,
-          per_page,
+          per_page = 10,
           search
         }
       }: {
         token:any, 
         body: {
           page: number,
-          per_page: number,
-          search: string 
+          per_page?: number,
+          search?: string 
         }
       }) => ({
         url: endpoints.getInboxList + `?page=${page}&per_page=${per_page}&search=${search}`,
@@ -349,7 +349,7 @@ const apiSlice = createApi({
         token,
         body
       }: {
-        token: AnalyserNode,
+        token: any,
         body: {
           anket_id: any, 
           man_id: any, 
@@ -357,6 +357,23 @@ const apiSlice = createApi({
         }
       }) => ({
         url: endpoints.createLetterChat,
+        method: "POST",
+        headers: setHeaderWithToken(token),
+        body: JSON.stringify(body)
+      })
+    }),
+
+    sendMessage: builder.mutation({
+      query: ({
+        token,
+        id,
+        body
+      } : {
+        token:any,
+        id:any
+        body: {text:string} 
+      }) => ({
+        url: `/api/operators/chats/${id}/send/message`,
         method: "POST",
         headers: setHeaderWithToken(token),
         body: JSON.stringify(body)
@@ -373,6 +390,10 @@ export const {
   useGetLetterChatQuery,
   useGetMessageChatQuery,
   useGetInboxListQuery,
+  useGetLimitsListQuery,
+  useGetSelfQuery,
+  useSendMessageMutation,
+  useSendMediaMessageChatMutation,
 } = apiSlice
 
 export default apiSlice;

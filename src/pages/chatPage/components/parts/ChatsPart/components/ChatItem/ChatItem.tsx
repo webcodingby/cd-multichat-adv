@@ -1,10 +1,12 @@
-import { FC, ReactNode } from 'react'
+import { ChangeEvent, FC, MouseEvent, ReactNode } from 'react'
 import styles from './ChatItem.module.scss';
 import {Row, Col} from 'antd';
 import getClassNames from '@utils/getClassNames';
 import Avatar from '@components/Avatar/Avatar';
 import UserTitle from '@components/UserTitle/UserTitle';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import CopyableText from '@components/CopyableText/CopyableText';
+import copyText from '@components/CopyableText/copyText';
 
 interface I {
   children?: ReactNode,
@@ -27,13 +29,21 @@ const ChatItem:FC<I> = ({
   updated_at
 }) => {
   const nav = useNavigate()
-  const [params, setParams] = useSearchParams()
+  const [params] = useSearchParams()
+  
+  const goToChat = (e:any) => {
+    if(!e?.target?.classList?.contains('copy-text')) {
+      nav(`/chat?chatType=${params?.get('chatType')}&chatId=${id}&selfId=${selfUser?.id}`)
+    } else {
+      copyText(e?.target?.innerText)
+    }
+    
+  }
 
   return (
     <div
-      onClick={() => nav(`/chat?chatType=${params?.get('chatType')}&chatId=${id}`)} 
+      onClick={goToChat} 
       className={getClassNames([styles.wrapper, isActive && styles.active])}>
-      {/* {children} */}
       <Row gutter={[5,5]}>
         <Col span={12}>
           <div className={getClassNames([styles.part, styles.left])}>
@@ -52,7 +62,7 @@ const ChatItem:FC<I> = ({
                     />
                 </Col>
                 <Col span={24} style={{color: 'var(--gray_1)'}}>
-                  id{selfUser?.id}
+                  id<CopyableText>{selfUser?.id}</CopyableText>
                 </Col>
               </Row>
             </div>

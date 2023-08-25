@@ -5,7 +5,8 @@ interface I {
   size?: string | number
   isOnline?: boolean,
   isRound?: boolean,
-  style?: CSSProperties
+  style?: CSSProperties,
+  isActive?: boolean
 }
 
 export default I

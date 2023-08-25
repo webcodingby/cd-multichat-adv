@@ -1,0 +1,50 @@
+.wrapper {
+  border-radius: 10px;
+  background-color: var(--blue_6);
+  min-width: 200px;
+  .list {
+    padding: 5px;
+
+    .item {
+      padding: 10px;
+      border-radius: 8px;
+      color: #fff;
+      transition: all .2s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      line-height: 18px;
+      padding-right: 30px;
+      position: relative;
+
+
+      .icon {
+        flex: 0 0 auto;
+        margin-right: 10px;
+      }
+
+      &:hover {
+        background-color: var(--blue_5);
+      }
+
+      .loading {
+        position: absolute;
+        top: calc(50% - 10px);
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+    }
+
+    .item.danger {
+      color: var(--red_1);
+    }
+  }
+}

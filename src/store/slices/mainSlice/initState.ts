@@ -8,7 +8,17 @@ const initState:MainStore = {
   adminData: Cookies.get(ADMIN) ? Cookies.get(ADMIN) : null,
   currentUser: null,
   currentOperator: null,
-  newMessageOrLetter: null
+  newMessageOrLetter: null,
+  socket: null,
+
+  chatData: {
+    currentChatId: null,
+    dialogUsers: null,
+    limits: [],
+    inbox: [],
+    chats: [],
+    messages: []
+  }
 }
 
 export default initState;

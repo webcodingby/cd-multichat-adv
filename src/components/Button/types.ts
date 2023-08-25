@@ -7,7 +7,8 @@ interface I extends HTMLProps<HTMLButtonElement> {
     children?: React.ReactNode
     variant?: buttonVariantType,
     isFill?: boolean,
-    isLoading?: boolean
+    isLoading?: boolean,
+    indicator?: number | string
 }
 
 export default I;

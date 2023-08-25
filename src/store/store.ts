@@ -10,7 +10,7 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware({
-      serializableCheck: true,
+      serializableCheck: false,
     })
     .concat(apiSlice.middleware),
   // devTools: process?.env?.NODE_ENV !== 'production',

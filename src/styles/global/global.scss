@@ -47,6 +47,7 @@ body {
     border-radius: 8px;
     border: 1px solid var(--blue_5);
     width: 100%;
+    background-color: #252548;
 }
 
 .panel.panel-with-padding {
@@ -91,4 +92,10 @@ body {
         border-radius: 4px; 
     }
 
+}
+
+.def-id {
+    color: var(--gray_1);
+    font-size: 10px;
+    line-height: 12px;
 }

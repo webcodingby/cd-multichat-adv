@@ -9,12 +9,13 @@ const Avatar:FC<I> = ({
   size = 60, 
   isOnline,
   isRound,
-  style
+  style,
+  isActive
 }) => {
   const [loaded, setLoaded] = useState(false)
   return (
     <div 
-      className={getClassNames([styles.wrapper, isRound && styles.round, isOnline && styles.online])}>
+      className={getClassNames([styles.wrapper, isRound && styles.round, isOnline && styles.online, isActive && styles.active])}>
       <div className={styles.img} style={{...style, width: size, height: size}}>
         <img 
           onLoad={() => setLoaded(true)}

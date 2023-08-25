@@ -1,5 +1,6 @@
 .wrapper {
   display: flex;
   flex-direction: column-reverse;
-  height: calc(100vh - 90px - 20px - 28px - 200px);
+  overflow-y: auto;
+  height: 100%;
 }

@@ -1,14 +1,27 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 100px - 38px);
+  // overflow: hidden;
 
   .users {
-    
+    border: 1px solid red;
+    flex-shrink: 0; 
   }
-  .chat {
-    
-  }
-  .action {
 
+  .chat {
+    overflow-y: scroll;
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    .loader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .action {
+    flex-shrink: 0;
   }
 }

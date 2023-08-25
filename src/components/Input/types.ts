@@ -6,7 +6,7 @@ interface IWrapper extends HTMLProps<HTMLDivElement>{
 }
 
 interface IInput extends HTMLProps<HTMLInputElement> {
-  
+    
 }
 
 interface I {

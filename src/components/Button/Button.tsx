@@ -24,14 +24,15 @@ const Button:FC<I> = (props) => {
 		variant = 'default',
 		isFill,
 		isLoading,
+		indicator,
 		...buttonProps
 	} = props
 
 	return (
 		<button
 			{...buttonProps}
-			className={getClassNames([styles.wrapper, 'text-ellipsis', switchVariants(variant), isFill && styles.fill, 'scale-effect-on-click', isLoading && styles.loading, props.className])}
-			>
+			className={getClassNames([styles.wrapper, 'text-ellipsis', switchVariants(variant), isFill && styles.fill, 'scale-effect-on-click', isLoading && styles.loading, props.className])}>
+			{indicator && <div className={styles.ind}>{indicator}</div>}
 			{isLoading && <div className={styles.loader}><PulseLoader color='#fff'/></div>}
 			<div className={styles.in}>{children}</div>
 		</button>
