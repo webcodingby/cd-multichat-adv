@@ -1,0 +1,22 @@
+.wrapper {
+  .body {
+    display: flex;
+    margin-left: -12px;
+    margin-right: -12px;
+    
+    .chart {
+      width: 1000px;
+      flex: 0 0 auto;
+      margin: 0 6px;
+      border-radius: 12px;
+      background: #252548;
+    }
+
+    .data {
+      width: 100%;
+      margin: 0 6px;
+      border-radius: 12px;
+      background: #252548;
+    }
+  }
+}
