@@ -8,6 +8,35 @@
     border-radius: 8px;
     padding: 2px 8px;
     position: relative;
+    // overflow: hidden;
+    font-weight: 600;
+    overflow: visible;
+
+    .ind {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 12px;
+        top: -10px;
+        right: -10px;
+        background-color: var(--red_1);
+    }
+
+    .in {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+    }
 
     .loader {
         position: absolute;
@@ -55,4 +84,5 @@
 .wrapper.dark {
     background-color: var(--blue_6);
     color: #fff;
+    color: var(--violet_2);
 }

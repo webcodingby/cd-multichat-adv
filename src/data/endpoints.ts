@@ -24,9 +24,10 @@ const endpoints = {
 
   getSelf: `${API_PATH}operators/me`,
 
-  getWork: `${API_PATH}operators/working-shifts`,
-  workStart: `${API_PATH}operators/working-shifts/start`,
-  workStop: `${API_PATH}operators/working-shifts/stop`,
+  
+  getWorkCurrentStatus: `${API_PATH}operators/working-shifts/get/current/status`,
+  workStart: `${API_PATH}operators/working-shifts/work/start`,
+  workStop: `${API_PATH}operators/working-shifts/work/stop`,
 
   getReports: `${API_PATH}operators/reports`,
   getLogs: `${API_PATH}operators/logs`,
@@ -36,7 +37,14 @@ const endpoints = {
   createLetterChat: `${API_PATH}operators/letter/store/letter`,
 
   uploadImages: `${API_PATH}operators/store/images/add`,
-  deleteImages: `${API_PATH}operators/store/image/delete`
+  deleteImages: `${API_PATH}operators/store/image/delete`,
+
+
+  //stat
+  getStatChatAvgTime: `${API_PATH}admin/statistics/operator/first/message/avg/time`,
+  getStatChatAvgTimeList: `${API_PATH}admin/statistics/operator/first/message/chat/time`,
+  getStatMessageCount: `${API_PATH}admin/statistics/operator/count/message`,
+  getStatMessageCountOperatorAnket: `${API_PATH}admin/statistics/operator/count/message/ancet`,
 }
 
 export default endpoints;

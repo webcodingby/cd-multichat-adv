@@ -2,4 +2,12 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
+
+  .loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+ 
+  }
 }

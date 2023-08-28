@@ -6,14 +6,34 @@ import UserTitle from '@components/UserTitle/UserTitle';
 import getClassNames from '@utils/getClassNames';
 import CopyableText from '@components/CopyableText/CopyableText';
 import moment from 'moment';
+import { main_updateCreateChatData, main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
+import { useAppDispatch } from '@hooks/useReduxTypedHook';
 
 const LimitItem:FC<any> = ({
   man,
   girl,
-  updated_at
+  updated_at,
+  girl_id,
+  man_id,
+  id
 }) => {
+  const dispatch = useAppDispatch()
+
+  const onClick = () => {
+    dispatch(main_updateDialogUsers({man, girl}))
+    dispatch(main_updateCreateChatData({
+      anket_id: girl_id,
+      man_id: man_id,
+      operator_chat_limit_id: id,
+      man,
+      girl
+    }))
+  }
+
   return (
-    <div className={styles.wrapper}>
+    <div 
+      onClick={onClick}
+      className={styles.wrapper}>
       <Row gutter={[10,10]}>
         <Col span={12}>
           <div className={styles.part}>

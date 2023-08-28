@@ -1,51 +1,32 @@
 import styles from './DialogPart.module.scss';
-import { FC, useState, useContext} from 'react'
-import getClassNames from '../../../../../utils/getClassNames';
+import { FC} from 'react'
 import DialogUsers from './components/DialogUsers/DialogUsers';
 import Chat from './components/Chat/Chat';
 import ChatAction from './components/ChatAction/ChatAction';
-import { ChatLoadingContext } from '@pages/chatPage/ChatPage';
-import { MoonLoader } from 'react-spinners';
+import { useAppSelector } from '@hooks/useReduxTypedHook';
 
-
-interface I {
-  list?:any[],
-  loadMore?:(...args:any[]) => any,
-  updateMessages?: (...args:any[]) => any,
-  updateChats?: (...args:any[]) => any
-}
-
-const DialogPart:FC<I> = ({
-  list = [],
-  loadMore
-}) => {
-  const isLoading = useContext(ChatLoadingContext)
+const DialogPart:FC<any> = () => {
+  const {chatData} = useAppSelector(s => s.mainSlice)
+  const {dialogUsers, currentChatId} = chatData || {}
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.users}>
-        <DialogUsers/>
+        {dialogUsers && <DialogUsers/>}
       </div>
       <div className={styles.chat}>
-        {
-          isLoading ? (
-            <div className={styles.loader}>
-              <MoonLoader/>
-            </div>
-          ) : (
-            <Chat
-              list={list}
-              loadMore={loadMore}
-              />
-          )
-        }
-
-      </div>
-      <div className={styles.action}>
-        <ChatAction
-          // updateChats={updateChats}
-          // updateMessages={updateMessages}
+        <Chat
           />
+      </div>
+      {/* {
+        currentChatId && (
+          <div className={styles.action}>
+            <ChatAction/>
+          </div>
+        )
+      } */}
+      <div className={styles.action}>
+        <ChatAction/>
       </div>
     </div>
   )

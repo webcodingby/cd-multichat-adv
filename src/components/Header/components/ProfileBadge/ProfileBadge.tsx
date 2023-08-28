@@ -36,8 +36,10 @@ const ProfileBadge:FC = () => {
         <Avatar
           isRound
           image={avatars[avatarIndex]}
-          isActive
+          isActive={socket ? true : false}
           isOnline={socket ? true : false}
+          isError={socket ? false : true}
+          
           />
       </div>
       <Dropdown

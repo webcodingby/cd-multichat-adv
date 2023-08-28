@@ -1,0 +1,12 @@
+.wrapper {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  .loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+  }
+}

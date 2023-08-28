@@ -6,15 +6,8 @@ import LimitsPart from '../parts/LimitsPart/LimitsPart';
 import InboxPart from '../parts/InboxPart/InboxPart';
 
 
-interface I {
-  limitsList: any[],
-  inboxList:any[]
-}
 
-const LeftSide:FC<I> = ({
-  limitsList,
-  inboxList
-}) => {
+const LeftSide:FC<any> = () => {
   const [activeTab, setActiveTab] = useState<'1' | '2'>('1')
 
   return (
@@ -40,10 +33,8 @@ const LeftSide:FC<I> = ({
         </Col>
         <Col span={24}>
           <LimitsPart 
-            list={limitsList}
             isActive={activeTab === '1'}/>
           <InboxPart 
-            list={inboxList}
             isActive={activeTab === '2'}/>
         </Col>
       </Row>

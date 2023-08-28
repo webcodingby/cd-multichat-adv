@@ -81,7 +81,7 @@ const apiSlice = createApi({
         body: {
           id,
           page,
-          per_page = 20
+          per_page = 10
         }
       }: {
         token: any,
@@ -102,14 +102,14 @@ const apiSlice = createApi({
         body: {
           id,
           page,
-          per_page
+          per_page = 10
         }
       }: {
         token: any,
         body: {
           id: number | string,
           page: number,
-          per_page: number
+          per_page?: number
         }
       }) => ({
         url: endpoints.getLetterChat + `/${id}?page=${page}&per_page=${per_page}`,
@@ -184,9 +184,9 @@ const apiSlice = createApi({
       })
     }),
 
-    getWork: builder.query({
+    getWorkCurrentStatus: builder.query({
       query: (token:any) => ({
-        url:endpoints.getWork,
+        url:endpoints.getWorkCurrentStatus,
         headers: setHeaderWithToken(token)
       })
     }),
@@ -378,7 +378,149 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         body: JSON.stringify(body)
       })
-    })
+    }),
+
+    sendLetter: builder.mutation({
+      query: ({
+        token,
+        id,
+        body
+      }: {
+        token:any,
+        id: number | string
+        body: {
+          text: string,
+          images?: any[]
+        }
+      }) => ({
+        url: `operators/letter/${id}/send/message`,
+        method: "POST",
+        headers: setHeaderWithToken(token),
+        body: JSON.stringify(body)
+      })
+    }),
+
+    uploadImages: builder.mutation({
+      query: ({
+        token,
+        body
+      }: {
+        token: any,
+        body: FormData
+      }) => ({
+        url: endpoints.uploadImages,
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body
+      })
+    }),
+
+    deleteImages: builder.mutation({
+      query: ({
+        token,
+        body
+      }: {
+        token: any,
+        body: {
+          image_id: any,
+          user_id: number | string,
+        }
+      }) => ({
+        url: endpoints.deleteImages,
+        method: "DELETE",
+        headers: setHeaderWithToken(token),
+        body: JSON.stringify(body)
+      })
+    }),
+
+    sendSticker: builder.mutation({
+      query: ({
+        token,
+        body: {
+          id,
+          sticker_id
+        }
+      }: {
+        token: any, 
+        body: {
+          id: string | number,
+          sticker_id: string | number
+        }
+      }) => ({
+        url: `operators/chats/${id}/send/sticker/${sticker_id}`,
+        method: "POST",
+        headers: setHeaderWithToken(token),
+      })
+    }),
+
+    sendGift: builder.mutation({
+      query: ({
+        token,
+        body: {
+          id,
+          gift_id
+        }
+      }: {
+        token:any,
+        body: {
+          id: number | string,
+          gift_id: number | string
+        }
+      }) => ({
+        url: `operators/chats/${id}/send/gift/${gift_id}`,
+        method: "POST",
+        headers: setHeaderWithToken(token)
+      })
+    }),
+
+
+
+    ///stats
+    getStatChatAvgTime: builder.query({
+      query: ({
+        token,
+      }: {
+        token:any
+      }) => ({
+        url: endpoints.getStatChatAvgTime,
+        headers: setHeaderWithToken(token)
+      })
+    }),
+
+    getStatChatAvgTimeList: builder.query({
+      query: ({
+        token,
+      }: {
+        token:any
+      }) => ({
+        url: endpoints.getStatChatAvgTimeList,
+        headers: setHeaderWithToken(token)
+      })
+    }),
+
+    getStatMessageCount: builder.query({
+      query: ({
+        token
+      }: {
+        token:any
+      }) => ({
+        url: endpoints.getStatMessageCount,
+        headers: setHeaderWithToken(token)
+      })
+    }),
+    
+    getStatMessageCountOperatorAnket: builder.query({
+      query: ({
+        token
+      }: {
+        token:any
+      }) => ({
+        url: endpoints.getStatMessageCountOperatorAnket,
+        headers: setHeaderWithToken(token)
+      })
+    }),
 
   })
 })
@@ -394,6 +536,22 @@ export const {
   useGetSelfQuery,
   useSendMessageMutation,
   useSendMediaMessageChatMutation,
+  useUploadImagesMutation,
+  useDeleteImagesMutation,
+  useSendStickerMutation,
+  useSendGiftMutation,
+  useSendLetterMutation,
+  useCreateMessageChatMutation,
+  useCreateLetterChatMutation,
+  useGetWorkCurrentStatusQuery,
+  useWorkStartMutation,
+  useWorkStopMutation,
+
+  //stat
+  useGetStatChatAvgTimeListQuery,
+  useGetStatChatAvgTimeQuery,
+  useGetStatMessageCountOperatorAnketQuery,
+  useGetStatMessageCountQuery,
 } = apiSlice
 
 export default apiSlice;

@@ -4,6 +4,7 @@ interface I {
   image?: string,
   size?: string | number
   isOnline?: boolean,
+  isError?: boolean
   isRound?: boolean,
   style?: CSSProperties,
   isActive?: boolean

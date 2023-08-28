@@ -12,13 +12,29 @@ const initState:MainStore = {
   socket: null,
 
   chatData: {
+    chatType: null,
     currentChatId: null,
     dialogUsers: null,
     limits: [],
     inbox: [],
-    chats: [],
-    messages: []
-  }
+    letterChats: [],
+    messageChats: [],
+    messagesStore: [],
+    lettersStore: [],
+    history: []
+  },
+
+  messageChatsPage: 1,
+  letterChatPage: 1,
+  inboxPage: 1,
+  historyPage: 1,
+
+  newLetter: null,
+  newMessage: null,
+  createChatData: null,
+
+  newMessagesCount: 0,
+  newLettersCount: 0,
 }
 
 export default initState;

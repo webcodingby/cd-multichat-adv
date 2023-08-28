@@ -1,0 +1,24 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  .table-row {
+
+  }
+
+  .table-row.table-headrow {
+    
+  }
+
+  .table-item {
+    border: 1px solid #454563;
+    padding: 10px;
+    font-size: 13px;
+    line-height: 130%;
+  }
+
+  .table-item.table-head {
+    color: rgba(255, 255, 255, 0.50);
+    font-weight: 700;
+  }
+}

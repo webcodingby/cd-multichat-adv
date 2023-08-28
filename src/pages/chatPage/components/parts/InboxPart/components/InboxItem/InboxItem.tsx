@@ -5,6 +5,7 @@ import UserTitle from '@components/UserTitle/UserTitle';
 import setChatIcon from '@utils/setChatIcon';
 import chatPreview from '@utils/chatPreview';
 import CopyableText from '@components/CopyableText/CopyableText';
+import { useNavigate } from 'react-router-dom';
 
 const InboxItem:FC<any> = (props) => {
   const {
@@ -25,10 +26,24 @@ const InboxItem:FC<any> = (props) => {
     deleted_by_first_user,
     deleted_by_second_user
   } = props
-  
+
+  const navigate = useNavigate()
+
+  const onClick = () => {
+    if(deleted_by_first_user === 0 && deleted_by_second_user === 0) {
+      if(type_of_model === 'chat') {
+        navigate(`/chat?chatType=CHAT?chatId=${id}&selfId=${self_user?.id}`)
+      }
+      if(type_of_model === 'letter') {
+        navigate(`/chat?chatType=MAIL?chatId=${id}&selfId=${self_user?.id}`)
+      }
+    }
+  } 
 
   return (
-    <div className={styles.wrapper}>
+    <div 
+      onClick={onClick}
+      className={styles.wrapper}>
       <div className={styles.main}>
         <div className={styles.main_top}>
           <div className={styles.avatar}>
@@ -49,7 +64,10 @@ const InboxItem:FC<any> = (props) => {
                 {setChatIcon('CHAT', {color: 'var(--violet_1)'})}
               </div>
               <div className={styles.message}>
-                {chatPreview({})}
+                {chatPreview({
+                  messageType: type_of_model === 'letter' ? 'MAIL' : 'CHAT',
+                  body: last_message
+                })}
               </div>
             </div>
           </div>

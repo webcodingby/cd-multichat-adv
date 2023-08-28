@@ -1,23 +1,21 @@
 import { FC } from 'react'
 import styles from './Chat.module.scss';
 import ChatMessages from './components/ChatMessages/ChatMessages';
+import { useAppSelector } from '@hooks/useReduxTypedHook';
 
-interface I {
-  list?:any[],
-  loadMore?: (...args:any[]) => any
-}
-
-const Chat:FC<I> = ({
-  list = [],
-  loadMore
-}) => {
+const Chat:FC<any> = () => {
+  const {chatData: {chatType}} = useAppSelector(s => s.mainSlice)
+  
 
   return (
     <div className={styles.wrapper}>
-      <ChatMessages
-        loadMore={loadMore}
-        list={list}
-        />
+      {
+        chatType === 'MAIL' && null
+      }
+      {
+        chatType === 'CHAT' && <ChatMessages/>
+      }
+      
     </div>
   )
 }

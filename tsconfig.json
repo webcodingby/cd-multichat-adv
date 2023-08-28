@@ -19,6 +19,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "downlevelIteration": true,
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],
@@ -35,7 +36,12 @@
       "@assets/*": ["assets/*"]
     }
   },
+  "typeRoots": [
+    "node_modules/@types",
+    "c_typ/"
+  ] ,
   "include": [
-    "src"
+    "src",
+    "c_typ"
   ]
 }

@@ -7,6 +7,8 @@ import UserTitle from '@components/UserTitle/UserTitle';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import CopyableText from '@components/CopyableText/CopyableText';
 import copyText from '@components/CopyableText/copyText';
+import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
+import { main_updateCurrentChatId, main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
 
 interface I {
   children?: ReactNode,
@@ -29,15 +31,16 @@ const ChatItem:FC<I> = ({
   updated_at
 }) => {
   const nav = useNavigate()
-  const [params] = useSearchParams()
-  
+  const dispatch = useAppDispatch()
+  const {chatData: {chatType}} = useAppSelector(s => s.mainSlice)
+
   const goToChat = (e:any) => {
     if(!e?.target?.classList?.contains('copy-text')) {
-      nav(`/chat?chatType=${params?.get('chatType')}&chatId=${id}&selfId=${selfUser?.id}`)
+      dispatch(main_updateDialogUsers({girl: selfUser, man: otherUser}))
+      nav(`/chat?chatType=${chatType}&chatId=${id}&selfId=${selfUser?.id}`)
     } else {
       copyText(e?.target?.innerText)
     }
-    
   }
 
   return (

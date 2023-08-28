@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import Message from '../Message/Message';
 import styles from './ChatMessages.module.scss';
 import { useInView } from 'react-intersection-observer';
-import { useGetMessageChatQuery } from '@store/slices/apiSlice/apiSlice';
+import apiSlice, { useGetMessageChatQuery } from '@store/slices/apiSlice/apiSlice';
 import { useAppSelector } from '@hooks/useReduxTypedHook';
 import { useSearchParams } from 'react-router-dom';
 
@@ -11,27 +11,60 @@ interface I {
   loadMore?:(...args:any[]) => any
 }
 
-const ChatMessages:FC<I> = ({
-  list = [],
-  loadMore
-}) => {
+const ChatMessages:FC<any> = () => {
+  const {token, chatData: {currentChatId}, newMessage} = useAppSelector(s => s.mainSlice)
+  const [getList] = apiSlice.endpoints.getMessageChat.useLazyQuery()
+  const [list, setList] = useState<any[]>([])
+  const [page, setPage] = useState(0);
   const [params] = useSearchParams()
-  const {inView, ref} = useInView()
+  const [loadMore, setLoadMore] = useState(false)
+  const {ref, inView} = useInView()
+  const [selfId, setSelfId] = useState<any>(null)
+
   useEffect(() => {
-    // (inView && loadMore) && loadMore((s:number) => s + 1)
+    if(inView && loadMore) {
+      setPage(s => s + 1)
+    }
   }, 
     [inView, loadMore]
-  )
-  const [selfId, setSelfId] = useState<any>(null)
+  ) 
+
+  
+
   useEffect(() => {
     if(params?.get('selfId')) setSelfId(params?.get('selfId'))
   }, [params?.get('selfId')])
 
+  useEffect(() => {
+    if(token && page > 0 && currentChatId) {
+      setLoadMore(false)
+      getList({token, body: {page, id: currentChatId}}).then(res => {
+        if(res.isSuccess) {
+          if(page === 1) {
+            setList(res?.data?.chat_messages?.data)
+          }
+          if(page > 1) {
+            setList(s => [...s, ...res?.data?.chat_messages?.data])
+          }
+        }
+      }).finally(() => setLoadMore(true))
+    }
+  }, [page, token])
+
+  useEffect(() => {
+    setPage(1)
+    setList([])
+  }, [currentChatId])
+
+  useEffect(() => {
+    if(newMessage && newMessage?.chatId == currentChatId) {
+      setList(s => [newMessage?.body, ...s])
+    }
+  }, [newMessage])
+
   return (
     <div className={styles.wrapper}>
-      {
-        list?.length > 0 && <div className={styles.loader} ref={ref}></div>
-      }
+      
       {
         list.map((i,index) => (
           selfId && (
@@ -49,6 +82,9 @@ const ChatMessages:FC<I> = ({
               />
           )
         ))
+      }
+      {
+        loadMore && <div className={styles.loader} ref={ref}></div>
       }
     </div>
   )

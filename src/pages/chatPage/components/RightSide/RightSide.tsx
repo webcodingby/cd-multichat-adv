@@ -2,24 +2,17 @@ import { FC } from 'react'
 import getClassNames from '../../../../utils/getClassNames';
 import {Row, Col} from 'antd';
 import Button from '../../../../components/Button/Button';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ChatsPart from '../parts/ChatsPart/ChatsPart';
+import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
+import { main_updateChatType, main_updateCurrentChatId } from '@store/slices/mainSlice/mainSlice';
+import MailsPart from '../parts/ChatsPart/MailsPart';
 
 
-interface I {
-  messageChatsList: any[],
-  letterChatsList:any[],
-  messageChatListLoadMore: (...args:any[]) => any,
-  letterChatsListLoadMore: (...args:any[]) => any
-}
-
-const RightSide:FC<I> = ({
-  messageChatsList, 
-  letterChatsList,
-  messageChatListLoadMore,
-  letterChatsListLoadMore
-}) => {
-  const [params] = useSearchParams()
+const RightSide:FC<any> = () => {
+  const dispatch = useAppDispatch()
+  const {chatData} = useAppSelector(s => s.mainSlice)
+  const {chatType} = chatData || {}
   const navigate = useNavigate()
 
   return (
@@ -29,32 +22,38 @@ const RightSide:FC<I> = ({
           <Row gutter={[10,10]}>
             <Col span={12}>
               <Button 
-                onClick={() => navigate('/chat?chatType=CHAT')}
-                variant={params?.get('chatType') === 'CHAT' ? 'default' : 'dark'}
+                
+                onClick={() => {
+                  navigate('/chat?chatType=CHAT')
+                  dispatch(main_updateChatType('CHAT'))
+                  dispatch(main_updateCurrentChatId(null))
+                }}
+                variant={chatType === 'CHAT' ? 'default' : 'dark'}
                 isFill>Чат</Button>
             </Col>
             <Col span={12}>
               <Button 
-                onClick={() => navigate('/chat?chatType=MAIL')}
-                variant={params?.get('chatType') === 'MAIL' ? 'default' : 'dark'}
+                onClick={() => {
+                  navigate('/chat?chatType=MAIL')
+                  dispatch(main_updateChatType('MAIL'))
+                  dispatch(main_updateCurrentChatId(null))
+                }}
+                variant={chatType === 'MAIL' ? 'default' : 'dark'}
                 isFill>Письма</Button>
             </Col>
           </Row>
         </Col>
         <Col span={24}>
           {
-            params?.get('chatType') === 'MAIL' && (
-              <ChatsPart
-                loadMore={letterChatsListLoadMore} list={letterChatsList}/>
+            chatType === 'CHAT' && (
+              <ChatsPart/>
             )
           }
           {
-            params?.get('chatType') === 'CHAT' && (
-              <ChatsPart
-                loadMore={messageChatListLoadMore} list={messageChatsList}/>
+            chatType === 'MAIL' && (
+              <MailsPart/>
             )
           }
-          
         </Col>
       </Row>
     </div>

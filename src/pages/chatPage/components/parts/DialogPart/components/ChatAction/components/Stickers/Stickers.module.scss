@@ -1,0 +1,33 @@
+.wrapper {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: var(--blue_6);
+  width: 300px;
+  max-height: 350px;
+  // overflow-y: auto;
+
+  .item {
+    border-radius: 8px;
+    transition: all .2s ease;
+    cursor: pointer;
+    padding: 10px;
+    
+    &:hover {
+      background-color: var(--blue_5);
+    }
+    &:active {
+      transform: scale(0.9);
+    }
+    .prev {
+      // width: 50px;
+      // height: 50px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: flex;
+      }
+    }
+  }
+}

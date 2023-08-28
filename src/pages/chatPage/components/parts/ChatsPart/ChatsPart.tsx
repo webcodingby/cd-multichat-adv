@@ -1,35 +1,38 @@
 import styles from './ChatsPart.module.scss';
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer';
 import ChatItem from './components/ChatItem/ChatItem';
 import getClassNames from '@utils/getClassNames';
-import { useSearchParams } from 'react-router-dom';
-import { PulseLoader } from 'react-spinners';
+import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
+import { main_incMessageChatsPage } from '@store/slices/mainSlice/mainSlice';
 
-interface I {
-  list:any[],
-  loadMore: (...args:any[]) => any
-}
 
-const ChatsPart:FC<I> = ({
-  loadMore,
-  list
-}) => {
+
+const ChatsPart:FC<any> = () => {
+  const dispatch = useAppDispatch()
+  const {chatData} = useAppSelector(s => s.mainSlice)
+  const {messageChats, currentChatId, chatType} = chatData || {}
+  const [loadMore, setLoadMore] = useState(false)
   const {inView, ref} = useInView()
-  const [params] = useSearchParams()
 
   useEffect(() => {
-    inView && loadMore((s:number) => s + 1)
+    if(messageChats?.length > 0) setLoadMore(true)
+  }, [messageChats])
+
+  useEffect(() => {
+    (inView && loadMore) && dispatch(main_incMessageChatsPage())
   }, 
     [inView, loadMore]
   )
 
+  
+
   return (
     <div className={getClassNames([styles.wrapper, 'custom-scroll'])}>
       {
-        list.map((i, index) => (
+        messageChats.map((i, index) => (
           <ChatItem 
-            isActive={params.get('chatId') == i.id}
+            isActive={currentChatId == i.id && chatType === 'CHAT'}
             id={i.id}
             created_at={i.created_at}
             updated_at={i.updated_at}
@@ -43,7 +46,7 @@ const ChatsPart:FC<I> = ({
         ))
       }
       {
-        list?.length > 0 && <div className={styles.loader} ref={ref}>
+        messageChats?.length > 0 && <div className={styles.loader} ref={ref}>
           {/* <PulseLoader color={"var(--violet_1)"}/> */}
           </div>
       }

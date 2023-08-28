@@ -1,6 +1,17 @@
 .wrapper {
   height: calc(100vh - 90px - 20px - 24px - 36px - 14px);
   display: none;
+
+  .action {
+    padding: 3px 3px 0 3px;
+  }
+
+  .loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+  }
 }
 
 .wrapper.active {
