@@ -1,3 +1,48 @@
 .wrapper {
+  background-color: var(--blue_3);
+  border-radius: 8px;
+  margin-bottom: 5px;
+  padding: 7px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .2s ease;
+
+  &:hover {
+    border-color: var(--violet_2);
+  }
+
+  .part {
+    flex: 0 0 auto;
+    .title {
+
+    }
+    .avatar {
+
+    }
+    .id {
+      color: var(--gray_1);
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+
+  .body {
+    padding: 0 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .message {
+
+    }
+
+    .operator {
+      margin-top: 5px;
+      color: var(--violet_1);
+      font-size: 600px;
+    }
+  }
   
 }
