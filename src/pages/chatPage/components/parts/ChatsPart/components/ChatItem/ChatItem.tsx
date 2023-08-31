@@ -1,27 +1,27 @@
-import { ChangeEvent, FC, MouseEvent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import styles from './ChatItem.module.scss';
-import {Row, Col} from 'antd';
+import { Row, Col } from 'antd';
 import getClassNames from '@utils/getClassNames';
 import Avatar from '@components/Avatar/Avatar';
 import UserTitle from '@components/UserTitle/UserTitle';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CopyableText from '@components/CopyableText/CopyableText';
 import copyText from '@components/CopyableText/copyText';
 import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
-import { main_updateCurrentChatId, main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
+import { main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
 
 interface I {
   children?: ReactNode,
   isActive?: boolean
   id?: any,
-  selfUser?:any,
-  otherUser?:any,
-  limits?: {avialable_limit: any, max_limit:any} | null,
-  created_at?:any,
-  updated_at?:any,
+  selfUser?: any,
+  otherUser?: any,
+  limits?: { avialable_limit: any, max_limit: any } | null,
+  created_at?: any,
+  updated_at?: any,
 }
 
-const ChatItem:FC<I> = ({
+const ChatItem: FC<I> = ({
   isActive,
   id,
   selfUser,
@@ -32,11 +32,11 @@ const ChatItem:FC<I> = ({
 }) => {
   const nav = useNavigate()
   const dispatch = useAppDispatch()
-  const {chatData: {chatType}} = useAppSelector(s => s.mainSlice)
+  const { chatData: { chatType } } = useAppSelector(s => s.mainSlice)
 
-  const goToChat = (e:any) => {
-    if(!e?.target?.classList?.contains('copy-text')) {
-      dispatch(main_updateDialogUsers({girl: selfUser, man: otherUser}))
+  const goToChat = (e: any) => {
+    if (!e?.target?.classList?.contains('copy-text')) {
+      dispatch(main_updateDialogUsers({ girl: selfUser, man: otherUser }))
       nav(`/chat?chatType=${chatType}&chatId=${id}&selfId=${selfUser?.id}`)
     } else {
       copyText(e?.target?.innerText)
@@ -45,27 +45,30 @@ const ChatItem:FC<I> = ({
 
   return (
     <div
-      onClick={goToChat} 
+      onClick={goToChat}
       className={getClassNames([styles.wrapper, isActive && styles.active])}>
-      <Row gutter={[5,5]}>
+      <Row gutter={[12,12]}>
         <Col span={12}>
           <div className={getClassNames([styles.part, styles.left])}>
             <div className={styles.avatar}>
               <Avatar
                 image={selfUser?.user_thumbnail_url}
                 size={60}
-                />
+              />
             </div>
             <div className={styles.main}>
-              <Row gutter={[5,5]}>
+              <Row gutter={[5, 5]}>
                 <Col span={24}>
                   <UserTitle
-                    name={selfUser?.name}
+                    name={selfUser?.name || 'Username'}
                     age={20}
-                    />
+                  />
                 </Col>
-                <Col span={24} style={{color: 'var(--gray_1)'}}>
-                  id<CopyableText>{selfUser?.id}</CopyableText>
+                <Col span={24} style={{ color: 'var(--gray_1)' }}>
+                  id<CopyableText>{selfUser?.id || 999}</CopyableText>
+                </Col>
+                <Col span={24}>
+                  {/* timer */}
                 </Col>
               </Row>
             </div>
@@ -74,23 +77,22 @@ const ChatItem:FC<I> = ({
         <Col span={12}>
           <div className={getClassNames([styles.part, styles.right])}>
             <div className={styles.main}>
-              <Row gutter={[5,5]}>
+              <Row gutter={[5, 5]}>
                 {
                   limits && (
                     <Col span={24}>
                       <div className={styles.limits}>
-                        {limits?.avialable_limit || 0}/{limits?.max_limit || 0}        
+                        {limits?.avialable_limit || 0}/{limits?.max_limit || 0}
                       </div>
                     </Col>
                   )
                 }
                 <Col span={24}>
                   <UserTitle
-                    // style={{mainStyle: {textAlign: 'right'}}}
-                    style={{wrapperStyle: {textAlign: 'right'}}}
-                    name={otherUser?.name}
+                    style={{ wrapperStyle: { textAlign: 'right' } }}
+                    name={otherUser?.name || 'Username'}
                     age={20}
-                    />
+                  />
                 </Col>
               </Row>
             </div>
@@ -98,11 +100,14 @@ const ChatItem:FC<I> = ({
               <Avatar
                 image={otherUser?.user_thumbnail_url}
                 size={60}
-                />
+              />
             </div>
           </div>
         </Col>
       </Row>
+      
+     
+      
     </div>
   )
 }

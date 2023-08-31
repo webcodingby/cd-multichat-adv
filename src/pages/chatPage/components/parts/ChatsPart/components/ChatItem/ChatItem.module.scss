@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
+    
 
     .main {
       padding: 0 5px;
@@ -30,6 +31,17 @@
       }
     }
   }
+
+  // .timer {
+  //   font-weight: 700;
+  //   font-size: 18px;
+  //   line-height: 18px;
+  //   border-radius: 8px;
+  //   background-color: var(--blue_5);
+  //   display: flex;
+  //   align-items: center;
+  //   padding: 3px;
+  // }
 
   .part.left {
     justify-content: flex-start;

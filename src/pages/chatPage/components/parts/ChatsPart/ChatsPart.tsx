@@ -45,6 +45,7 @@ const ChatsPart:FC<any> = () => {
             key={index}/>
         ))
       }
+
       {
         messageChats?.length > 0 && <div className={styles.loader} ref={ref}>
           {/* <PulseLoader color={"var(--violet_1)"}/> */}

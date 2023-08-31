@@ -29,7 +29,7 @@ ChartJS.register(
   Legend
 );
 
-const labels = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+const labels = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
 interface I {
   title?: string,
@@ -43,38 +43,46 @@ const LineChart:FC<I> = ({
   return (
     <div className={styles.wrapper}>
       <Line
-        options={{
-          responsive: false,
-          plugins: {
-            legend: {
-              position: 'top',
+          className={styles.chart}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false
+              },
+              title: {
+                display: true,
+                text: title,
+                color: '#fff',
+                font: {
+                  size: 20,
+                },
+              },
             },
-            title: {
-              display: true,
-              text: title
-            }
-          }
-        }}
-        data={{
-          labels,
-          datasets: [
-            {
-              fill: true,
-              label: 'Dataset 1',
-              data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-              borderColor: 'rgb(53, 162, 235)',
-              backgroundColor: 'rgba(53, 162, 235, 0.5)',
-            },
-            {
-              fill: true,
-              label: 'Dataset 2',
-              data: labels.map(() => faker.datatype.number({ min: 0, max: 700 })),
-              borderColor: 'red',
-              backgroundColor: 'rgba(red, 0.5)',
-            }
-          ]
-        }}
-        />
+          }}
+          data={{
+            labels,
+            datasets: [
+              {
+                fill: true,
+                label: 'Dataset 2',
+                data: labels.map(() => faker.number.int({min: 400, max: 700})),
+                borderColor: 'rgb(255,202,66)',
+                backgroundColor: 'rgba(255,202,66, .5)',
+                showLine: true,
+                tension: 0.4,
+              },
+              {
+                fill: true,
+                label: 'Dataset 1',
+                data: labels.map(() => faker.number.int({min: 500, max: 1000})),
+                borderColor: 'rgb(85, 222, 169)',
+                backgroundColor: 'rgba(85, 222, 169, .5)',
+                tension: 0.4
+              },
+            ]
+          }}
+          />
     </div>
   )
 }

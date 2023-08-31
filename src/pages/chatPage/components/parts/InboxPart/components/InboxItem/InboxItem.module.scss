@@ -8,7 +8,7 @@
   border: 1px solid transparent;
   transition: all .2s ease;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
 
   &:hover {
@@ -39,7 +39,16 @@
       }
     }
     .main_ex {
+      font-size: 10px;
+      line-height: 12px;
+      margin-bottom: 2px;
+      color: var(--gray_1);
+      margin-top: 2px;
 
+      span {
+        color: var(--violet_1);
+        font-weight: 600;
+      }
     }
   }
 

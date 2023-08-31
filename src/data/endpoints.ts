@@ -1,7 +1,7 @@
 export const BASE_DOMAIN = 'https://api.cooldreamy.com/'
-export const TEST_DOMAIN = 'https://newapi.soultri.site/'
+export const TEST_DOMAIN = 'http://admin.soultri.site/'
 
-export const TEST_WS_DOMAIN = `newapi.soultri.site`
+export const TEST_WS_DOMAIN = `admin.soultri.site`
 export const BASE_WS_DOMAIN = 'api.cooldreamy.com'
 
 export const API_PATH = `${BASE_DOMAIN}api/`
@@ -23,7 +23,6 @@ const endpoints = {
   getGifts: `${API_PATH}get_gifts`,
 
   getSelf: `${API_PATH}operators/me`,
-
   
   getWorkCurrentStatus: `${API_PATH}operators/working-shifts/get/current/status`,
   workStart: `${API_PATH}operators/working-shifts/work/start`,
@@ -38,7 +37,6 @@ const endpoints = {
 
   uploadImages: `${API_PATH}operators/store/images/add`,
   deleteImages: `${API_PATH}operators/store/image/delete`,
-
 
   //stat
   getStatChatAvgTime: `${API_PATH}admin/statistics/operator/first/message/avg/time`,

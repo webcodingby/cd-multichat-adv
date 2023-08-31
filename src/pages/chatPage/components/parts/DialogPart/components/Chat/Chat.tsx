@@ -1,21 +1,17 @@
-import { FC } from 'react'
+import {FC} from 'react'
 import styles from './Chat.module.scss';
 import ChatMessages from './components/ChatMessages/ChatMessages';
-import { useAppSelector } from '@hooks/useReduxTypedHook';
+import ChatLetters
+  from "@pages/chatPage/components/parts/DialogPart/components/Chat/components/ChatLetters/ChatLetters";
+import {useAppSelector} from '@hooks/useReduxTypedHook';
 
-const Chat:FC<any> = () => {
+const Chat: FC<any> = () => {
   const {chatData: {chatType}} = useAppSelector(s => s.mainSlice)
-  
 
   return (
     <div className={styles.wrapper}>
-      {
-        chatType === 'MAIL' && null
-      }
-      {
-        chatType === 'CHAT' && <ChatMessages/>
-      }
-      
+      {chatType === 'MAIL' && <ChatLetters/>}
+      {chatType === 'CHAT' && <ChatMessages/>}
     </div>
   )
 }

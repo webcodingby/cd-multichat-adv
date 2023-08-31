@@ -3,9 +3,12 @@ import { Cookies } from "typescript-cookie";
 import { cookiesStorageKeys } from "@utils/storageKeys";
 const {TOKEN, ADMIN} = cookiesStorageKeys
 
+const userData = Cookies.get(ADMIN)
+const parsedUserData = (userData && typeof userData === 'string') ? JSON.parse(userData) : null
+
 const initState:MainStore = {
   token: Cookies.get(TOKEN) ? Cookies.get(TOKEN) : null,
-  adminData: Cookies.get(ADMIN) ? Cookies.get(ADMIN) : null,
+  adminData: parsedUserData,
   currentUser: null,
   currentOperator: null,
   newMessageOrLetter: null,

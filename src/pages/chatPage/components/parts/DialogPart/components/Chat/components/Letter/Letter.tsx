@@ -5,6 +5,8 @@ import moment from 'moment';
 import UserTitle from '@components/UserTitle/UserTitle';
 import { MS_LETTER_TYPES, letterType } from '@data/messageTypes';
 import I from './types';
+import img from '@assets/avatar-placeholder.png';
+import FancyboxWrapper from "@components/FancyboxWrapper/FancyboxWrapper";
 
 const Letter:FC<I> = ({
   id,
@@ -51,14 +53,36 @@ const Letter:FC<I> = ({
         <div className={styles.top}>
           <div className={styles.user}>
             <UserTitle
-              name={name}
-              age={age}
+              name={name || 'Username'}
+              age={age || 20}
               />
           </div>
-          <div className={styles.time}>{moment(Date.now()).format('DD-MM-YYYY hh:mm')}</div>
+          <div className={styles.ex}>
+            <div className={styles.status}></div>
+            <div className={styles.time}>{moment(Date.now()).format('DD-MM-YYYY hh:mm')}</div>
+          </div>
         </div>
-        <div className={styles.main}>
-          {letterDepType(type)}
+        <div className={styles.body}>
+          {/*{letterDepType(type)}*/}
+          <div className={styles.text}>
+            <div className={styles.images}>
+              <div className={styles.image}>
+                <img src={img} alt="" />
+              </div>
+              <div className={styles.image}>
+                <img src={img} alt="" />
+              </div>
+              <div className={styles.image}>
+                <img src={img} alt="" />
+              </div>
+              <div className={styles.image}>
+                <img src={img} alt="" />
+              </div>
+              <div className={styles.image}>
+                <img src={img} alt="" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

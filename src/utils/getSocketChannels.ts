@@ -1,24 +1,7 @@
-import Pusher from 'pusher-js';
+import Pusher, {Options} from 'pusher-js';
 import Echo from 'laravel-echo';
 
-export type pusherConfigType = {
-    key: string,
-    cluster: string,
-    authEndpoint: string,
-    wsHost: string,
-    encrypted: boolean,
-    forceTLS: boolean,
-    wsPort: number,
-    wssPort: number,
-    disableStats: boolean,
-    enabledTransports: any,
-    auth: {
-        headers: {
-            Authorization: string
-        }
-    }
-}
-
+export type pusherConfigType = Options & { key: string, encrypted: boolean }
 const getSocketChannels = (pusherConfig: pusherConfigType) => {
     const client = new Pusher(pusherConfig.key, pusherConfig)
   

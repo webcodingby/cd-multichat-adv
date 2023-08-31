@@ -102,6 +102,7 @@ const Media:FC<I> = (props) => {
       getMedia({token, body: {page, id: selfId}}).then(res => {
         const {isSuccess, data} = res
         if(data && isSuccess) {
+          console.log(data)
           if(page === 1) {
             setMediaList(data)
           }

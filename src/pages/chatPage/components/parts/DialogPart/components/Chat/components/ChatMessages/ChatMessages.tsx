@@ -5,6 +5,7 @@ import { useInView } from 'react-intersection-observer';
 import apiSlice, { useGetMessageChatQuery } from '@store/slices/apiSlice/apiSlice';
 import { useAppSelector } from '@hooks/useReduxTypedHook';
 import { useSearchParams } from 'react-router-dom';
+import Loader from '@components/Loader/Loader';
 
 interface I {
   list?:any[],
@@ -20,26 +21,33 @@ const ChatMessages:FC<any> = () => {
   const [loadMore, setLoadMore] = useState(false)
   const {ref, inView} = useInView()
   const [selfId, setSelfId] = useState<any>(null)
+  const [isEnd, setIsEnd] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if(inView && loadMore) {
+    if(inView && loadMore && !isEnd) {
       setPage(s => s + 1)
     }
   }, 
-    [inView, loadMore]
-  ) 
-
-  
+    [inView, loadMore, isEnd]
+  )
 
   useEffect(() => {
+    setPage(1)
     if(params?.get('selfId')) setSelfId(params?.get('selfId'))
   }, [params?.get('selfId')])
 
-  useEffect(() => {
+  const getListFunc = () => {
     if(token && page > 0 && currentChatId) {
-      setLoadMore(false)
+      page === 1 && setIsLoading(true)
       getList({token, body: {page, id: currentChatId}}).then(res => {
+        if(res?.isLoading && page === 1) {
+          setIsLoading(true)
+        }
         if(res.isSuccess) {
+          if(res?.data?.chat_messages?.data?.length === 0) {
+            setIsEnd(true)
+          } else setIsEnd(false)
           if(page === 1) {
             setList(res?.data?.chat_messages?.data)
           }
@@ -47,11 +55,22 @@ const ChatMessages:FC<any> = () => {
             setList(s => [...s, ...res?.data?.chat_messages?.data])
           }
         }
-      }).finally(() => setLoadMore(true))
+      }).finally(() => {
+        setLoadMore(true)
+        setIsLoading((false))
+      })
     }
+  }
+
+  useEffect(() => {
+    getListFunc()
   }, [page, token])
 
   useEffect(() => {
+    if(page === 1) {
+      console.log('get list')
+      getListFunc()
+    }
     setPage(1)
     setList([])
   }, [currentChatId])
@@ -64,7 +83,7 @@ const ChatMessages:FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
-      
+      {isLoading && <Loader/>}
       {
         list.map((i,index) => (
           selfId && (

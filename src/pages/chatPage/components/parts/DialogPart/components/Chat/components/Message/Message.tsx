@@ -8,6 +8,7 @@ import FancyboxWrapper from '@components/FancyboxWrapper/FancyboxWrapper';
 import placeholder from '@assets/avatars/avatar-1.png'
 import moment from 'moment';
 import {BsCheck, BsCheckAll} from 'react-icons/bs'
+import {FaSmileWink} from 'react-icons/fa';
 
 const Message:FC<I> = ({
   avatar,
@@ -37,29 +38,54 @@ const Message:FC<I> = ({
           </div>
         )
       case MS_MESSAGE_TYPES.messageWink:
-        return
+        return (
+          <div className={styles.bubble_in}>
+            <div className={styles.wink}>
+              <FaSmileWink/>
+            </div>
+            <div className={styles.time}>{moment(updatedAt).format('hh:mm')}</div>
+          </div>
+        )
       case MS_MESSAGE_TYPES.messageGift:
-        return
+        return (
+          <div className={styles.bubble_in}>
+            <div className={styles.gifts}>
+              {
+                body?.gifts?.map((i:any, index: number) => (
+                  <div className={styles.gift}>
+                    <img src={i?.picture_url} alt=""/>
+                  </div>
+                ))
+              }
+            </div>
+            <div className={styles.time}>{moment(updatedAt).format('hh:mm')}</div>
+          </div>
+        )
       case MS_MESSAGE_TYPES.messageSticker:
-        return
+        return (
+          <div className={styles.bubble_in}>
+            <div className={styles.gifts}>
+              <div className={styles.gift}>
+                <img src={body?.sticker?.picture_url} alt=""/>
+              </div>
+            </div>
+            <div className={styles.time}>{moment(updatedAt).format('hh:mm')}</div>
+          </div>
+        )
       case MS_MESSAGE_TYPES.messageImage:
         return (
-          <div className={styles.media}>
-                <FancyboxWrapper>
-                    {/* <div className={styles.body}>
-                        <a data-fancybox="gallery" href={images[0].image} className={styles.item}>
-                            <img src={images[0].thumbnail} alt="" width={100} height={100}/>
-                        </a>
-                    </div> */}
-                    <div className={styles.img}>
-                        <a data-fancybox="gallery" href={placeholder} className={styles.item}>
-                            <img src={placeholder} alt="" width={100} height={100}/>
-                        </a>
-                    </div>
-                </FancyboxWrapper>
-                
-                {/* <div className={styles.time}>{moment(updatedAt).format('hh:mm')}</div> */}
+          <div className={styles.bubble_in}>
+            <div className={styles.media}>
+              <FancyboxWrapper>
+                <div className={styles.img}>
+                  <a data-fancybox="gallery" href={body?.image_url} className={styles.item}>
+                    <img src={body?.thumbnail_url} alt="" width={100} height={100}/>
+                  </a>
+                </div>
+              </FancyboxWrapper>
             </div>
+            <div className={styles.time}>{moment(updatedAt).format('hh:mm')}</div>
+          </div>
         )
       default:
         return null;
