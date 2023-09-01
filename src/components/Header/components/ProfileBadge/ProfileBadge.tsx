@@ -16,6 +16,7 @@ import avatar4 from '@assets/avatars/avatar-4.png'
 import avatar5 from '@assets/avatars/avatar-5.png'
 import avatar6 from '@assets/avatars/avatar-6.png'
 import { useAppSelector } from '@hooks/useReduxTypedHook';
+import CopyableText from "@components/CopyableText/CopyableText";
 const avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
 const avatarIndex = L.random(0, avatars.length - 1);
 
@@ -29,8 +30,13 @@ const ProfileBadge:FC = () => {
   return (  
     <div className={styles.wrapper}>
       <div className={styles.main}>
-        <div className={styles.email}>{userData?.email}</div>
-        <div className={styles.role}>{userData?.role}</div>
+        <div className={styles.name}>{userData?.name}</div>
+        <div className={styles.role}>
+          role: <span>{userData?.role}</span>
+        </div>
+        <div className={styles.id}>
+          id<CopyableText>{userData?.id}</CopyableText>
+        </div>
       </div> 
       <div className={styles.avatar}>
         <Avatar
@@ -39,7 +45,6 @@ const ProfileBadge:FC = () => {
           isActive={socket ? true : false}
           isOnline={socket ? true : false}
           isError={socket ? false : true}
-          
           />
       </div>
       <Dropdown

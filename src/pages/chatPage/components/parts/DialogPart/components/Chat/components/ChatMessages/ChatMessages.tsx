@@ -57,7 +57,7 @@ const ChatMessages:FC<any> = () => {
         }
       }).finally(() => {
         setLoadMore(true)
-        setIsLoading((false))
+        setIsLoading(false)
       })
     }
   }
@@ -68,7 +68,6 @@ const ChatMessages:FC<any> = () => {
 
   useEffect(() => {
     if(page === 1) {
-      console.log('get list')
       getListFunc()
     }
     setPage(1)

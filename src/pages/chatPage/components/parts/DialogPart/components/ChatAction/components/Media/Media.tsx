@@ -13,6 +13,7 @@ import {BsPlus} from 'react-icons/bs'
 import { useInView } from 'react-intersection-observer';
 import {MoonLoader} from 'react-spinners'
 import * as L from 'lodash'
+import Loader from "@components/Loader/Loader";
 
 interface I extends ModalFuncProps {
   onSendMedia?: (...args:any[]) => any,
@@ -23,16 +24,6 @@ const tabs = [
   {value: '3', label: 'Контент', icon: <BsImages/>},
   {value: '4', label: '18+', icon: <BsImages/>},
   // {value: '5', label: 'Паблик', icon: <BsImages/>},
-]
-
-const mock = [
-  {id: 1},
-  {id: 2},
-  {id: 3},
-  {id: 4},
-  {id: 5},
-  {id: 6},
-  {id: 7}
 ]
 
 const Media:FC<I> = (props) => {
@@ -57,10 +48,16 @@ const Media:FC<I> = (props) => {
   const [loadMore, setLoadMore] = useState(false)
   const [uploadLoad, setUploadLoad] = useState(false)
   const [deleteLoad, setDeleteLoad] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
+  useEffect(() => {
+    if(open && selfId) setActiveTab('2')
+  }, [selfId, open]);
 
   const onClose = () => {
     setSelectedList([])
+    setActiveTab(null)
+    setMediaList([])
     onCancel && onCancel()
   }
 
@@ -99,27 +96,38 @@ const Media:FC<I> = (props) => {
   const getMediaFunc = () => {
     if(girl && open && activeTab && token && page && selfId) {
       setLoadMore(false)
-      getMedia({token, body: {page, id: selfId}}).then(res => {
+      // if(page) setIsLoading(true)
+      getMedia({token, body:
+          {
+            page:page,
+            id: selfId,
+            category_id:activeTab
+          }
+      }).then(res => {
         const {isSuccess, data} = res
         if(data && isSuccess) {
-          console.log(data)
+          if(data?.data?.length === 0) setLoadMore(false)
+          if(data?.data?.length > 0) setLoadMore(true)
           if(page === 1) {
-            setMediaList(data)
+            setMediaList(data?.data)
           }
           if(page > 1) {
-            setMediaList(s => [...s, ...data])
+            setMediaList(s => [...s, ...data?.data])
           }
         }
-      }).finally(() => setLoadMore(false))
+      }).finally(() => {
+        setIsLoading(false)
+      })
     }
   }
   
   //получение медиафайлов
   useEffect(() => {
     getMediaFunc()
-  }, [girl, open, page, selfId])
+  }, [girl, open, page, selfId, activeTab])
 
   useEffect(() => {
+    setLoadMore(false)
     setPage(1) 
     if(page === 1) {
       getMediaFunc()
@@ -179,12 +187,14 @@ const Media:FC<I> = (props) => {
         <div className={styles.action_part}>
           {
             selectedList?.length > 0 && (
-              <Button
-                onClick={() => setSelectedList([])}
-                variant={'danger'}
-                >
-                Отменить выбор
-              </Button>
+              <div className={styles.action_item}>
+                <Button
+                  onClick={() => setSelectedList([])}
+                  variant={'danger'}
+                  >
+                  Отменить выбор
+                </Button>
+              </div>
             )
           }
           {
@@ -201,23 +211,27 @@ const Media:FC<I> = (props) => {
             )
           }
           {
-            selectedList?.length < mock?.length && (
+            selectedList?.length < mediaList?.length && (
               <div className={styles.action_item}>
                 <Button
-                  onClick={() => setSelectedList(mock?.map(i => i?.id))}
+                  onClick={() => setSelectedList(mediaList?.map(i => i?.id))}
                   >
                   Выбрать все
                 </Button>
               </div>
             )
           }
-          <div className={styles.action_item}>
-            <Button 
-              onClick={() => onSendMedia && onSendMedia(selectedList)}
-              disabled={selectedList.length === 0}>
-              Отправить{selectedList.length > 0 ? ':' + selectedList.length : ''}
-            </Button>
-          </div>
+          {
+            !(chatType === 'CHAT' && selectedList?.length === mediaList?.length) && (
+              <div className={styles.action_item}>
+                <Button
+                  onClick={() => onSendMedia && onSendMedia(selectedList)}
+                  disabled={selectedList.length === 0}>
+                  Отправить{selectedList.length > 0 ? ':' + selectedList.length : ''}
+                </Button>
+              </div>
+            )
+          }
         </div>
       </div>
       <div className={styles.tabs}>
@@ -236,38 +250,54 @@ const Media:FC<I> = (props) => {
         }
       </div>
       <div className={styles.body}>
-        <Row gutter={[10,10]}>
-          <Col span={6}>
-            <div className={styles.add}>
-              <input 
-                onChange={onUploadMedia} 
-                value={''} 
-                type="file" 
-                multiple 
-                id='upload-media'/>
-              <label 
-                htmlFor="upload-media" 
-                className={getClassNames([styles.upload, uploadLoad && styles.disable])}>
-                {uploadLoad ? <MoonLoader/> : <BsPlus/>}
-              </label>
-            </div>
-          </Col>
-          {
-            mock?.map(i => (
-              <Col
-                span={6}
-                key={i?.id}
-                >
-                <Item
-                  id={i?.id}
-                  onSelect={() => onSelect(i?.id)}
-                  isActive={selectedList?.find(f => f == i?.id)}
-                  />
-              </Col>
-            ))
-          }
-        </Row>
-        {loadMore && <div className={styles.load}></div>}
+        {
+          isLoading ? (
+            <Loader/>
+          ) : (
+            <>
+              <Row gutter={[10,10]}>
+                {
+                  (selfId && activeTab) && (
+                    <Col span={6}>
+                      <div className={styles.add}>
+                        <input
+                          onChange={onUploadMedia}
+                          value={''}
+                          type="file"
+                          multiple
+                          id='upload-media'
+                          accept={['.png', '.jpg', '.webp', ',jpeg'].join(',')}
+                        />
+                        <label
+                          htmlFor="upload-media"
+                          className={getClassNames([styles.upload, uploadLoad && styles.disable])}>
+                          {uploadLoad ? <MoonLoader/> : <BsPlus/>}
+                        </label>
+                      </div>
+                    </Col>
+                  )
+                }
+                {
+                  mediaList?.map(i => (
+                    <Col
+                      span={6}
+                      key={i?.id}
+                    >
+                      <Item
+                        id={i?.id}
+                        img={i?.image_url}
+                        onSelect={() => onSelect(i?.id)}
+                        isActive={selectedList?.find(f => f == i?.id)}
+                      />
+                    </Col>
+                  ))
+                }
+              </Row>
+              {loadMore && <div ref={ref} className={styles.load}><Loader/></div>}
+            </>
+          )
+        }
+
       </div>
     </Modal>
   )

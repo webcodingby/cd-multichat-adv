@@ -55,8 +55,6 @@ const ChatLetters:FC<any> = () => {
           <Letter {...i} key={index}/>
         ))
       }
-      <Letter/>
-      <Letter/>
       {/*{*/}
       {/*  loadMore && <div className={styles.loader} ref={ref}></div>*/}
       {/*}*/}

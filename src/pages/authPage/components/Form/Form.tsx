@@ -33,8 +33,6 @@ const Form:FC<any> = () => {
       Cookies.set(TOKEN, authResponseResult.data.token, {
         expires: 30
       })
-      Cookies.set(ADMIN, JSON.stringify({email, role: 'admin', id: ''}))
-      dispatch(main_updateAdminData({email, role: 'admin', id: ''}))
       dispatch(main_addToken(authResponseResult.data.token))
       navigate('/chat?chatType=CHAT')
     }

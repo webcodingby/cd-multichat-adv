@@ -9,6 +9,7 @@ import placeholder from '@assets/avatars/avatar-1.png'
 import moment from 'moment';
 import {BsCheck, BsCheckAll} from 'react-icons/bs'
 import {FaSmileWink} from 'react-icons/fa';
+import MessageStatus from "@components/MessageStatus/MessageStatus";
 
 const Message:FC<I> = ({
   avatar,
@@ -98,7 +99,10 @@ const Message:FC<I> = ({
         <div className={styles.in}>
           <div className={styles.body}>
             <div className={styles.status}>
-              {isRead ? <BsCheckAll color='var(--violet_1)'/> : <BsCheck color='var(--gray_1)'/>}
+              <MessageStatus
+              status={isRead ? 'READ' : 'UNREAD'}
+              />
+              {/*{isRead ? <BsCheckAll color='var(--violet_1)'/> : <BsCheck color='var(--gray_1)'/>}*/}
             </div>
             <div className={styles.bubble}>
               {messageDepType(type)}

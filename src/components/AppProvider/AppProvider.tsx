@@ -219,15 +219,18 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
       })
       getUserData(token).then(res => {
         const {isSuccess, data} = res
+        console.log(res?.data)
         const d = Cookies.get(ADMIN)
         const userData: any = typeof d === 'string' ? JSON.parse(d) : null
         if (data !== null && isSuccess) {
-          const p = {
-            ...userData,
-            id: data
+          const userD = {
+            id: res?.data?.id,
+            role: res?.data?.roles[0]?.name,
+            email: res?.data?.email,
+            name: res?.data?.name
           }
-          Cookies.set(ADMIN, JSON.stringify(p))
-          dispatch(main_updateAdminData(p))
+          Cookies.set(ADMIN, JSON.stringify(userD))
+          dispatch(main_updateAdminData(userD))
         }
       })
       getStatAnkets({token}).then(res => {

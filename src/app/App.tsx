@@ -21,11 +21,8 @@ const App:FC = () => {
         <MainLayout>
           <Routes>
             <Route path={ROUTES.authPage} element={<AuthPage/>}/>
-
-            {/* <Route path='/' element={<PrivateRoute><ChatPage/></PrivateRoute>}/>
-            <Route path={ROUTES.chatPage} element={<PrivateRoute><ChatPage/></PrivateRoute>}/> */}
-            <Route path='/' element={<ChatPage/>}/>
-            <Route path={ROUTES.chatPage} element={<ChatPage/>}/>
+            <Route path='/' element={<PrivateRoute><ChatPage/></PrivateRoute>}/>
+            <Route path={ROUTES.chatPage} element={<PrivateRoute><ChatPage/></PrivateRoute>}/>
             <Route path={ROUTES.statPage} element={<PrivateRoute><StatPage/></PrivateRoute>}/>
           </Routes>
         </MainLayout>

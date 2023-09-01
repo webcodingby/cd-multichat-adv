@@ -1,14 +1,10 @@
-const checkFetchAuthorization = (res: Response) => {
-  
-  let pr = new Promise((resolve, reject) => {
-    if(res.status === 401) {
-      window.location.replace(window.location.origin + '/auth')
-      reject()
-    } else {
-      resolve(res)
-    }
-  })  
-  return pr;
+import {type FetchBaseQueryError} from "@reduxjs/toolkit/query";
+import kickOut from "@utils/kickOut";
+const checkFetchAuthorization = ({status}: FetchBaseQueryError, ...args:any[]) => {
+  if(status === 401) {
+    kickOut()
+    window.location.reload()
+    window.location.replace('/auth')
+  }
 }
-
 export default checkFetchAuthorization;

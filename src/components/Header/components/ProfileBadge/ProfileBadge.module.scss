@@ -5,6 +5,35 @@
   .main {
     text-align: right;
     margin-right: 10px;
+
+    .name {
+      color: var(--violet_1);
+      transition: all .2s ease;
+
+      &:hover {
+        color: #9691E2FF;
+      }
+
+    }
+
+    .role {
+      color: var(--green_1);
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 25px;
+
+      span {
+        color: #fff;
+        font-weight: 400;
+        font-size: 18px;
+
+      }
+    }
+    .id {
+      font-size: 12px;
+      line-height: 20px;
+      color: var(--gray_1);
+    }
   }
   .avatar {
 

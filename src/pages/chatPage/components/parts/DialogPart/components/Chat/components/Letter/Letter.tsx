@@ -6,6 +6,7 @@ import UserTitle from '@components/UserTitle/UserTitle';
 import { MS_LETTER_TYPES, letterType } from '@data/messageTypes';
 import I from './types';
 import img from '@assets/avatar-placeholder.png';
+import MessageStatus from "@components/MessageStatus/MessageStatus";
 import FancyboxWrapper from "@components/FancyboxWrapper/FancyboxWrapper";
 
 const Letter:FC<I> = ({
@@ -58,7 +59,9 @@ const Letter:FC<I> = ({
               />
           </div>
           <div className={styles.ex}>
-            <div className={styles.status}></div>
+            <div className={styles.status}>
+              <MessageStatus/>
+            </div>
             <div className={styles.time}>{moment(Date.now()).format('DD-MM-YYYY hh:mm')}</div>
           </div>
         </div>

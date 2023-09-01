@@ -1,5 +1,6 @@
 .wrapper {
   transition: all .2s ease;
+  cursor: pointer;
   
   &:hover {
     text-decoration: underline;
