@@ -231,6 +231,7 @@ const ChatAction:FC<any> = () => {
                         onOutsideClick={() => setStickerPopup(false)}
                         >
                         <Stickers
+                          isOpen={stickerPopup}
                           onSend={onSendSticker}
                           onClose={() => setStickerPopup(false)}
                           />
@@ -249,6 +250,7 @@ const ChatAction:FC<any> = () => {
                         onOutsideClick={() => setGiftPopup(false)}
                         >
                         <Gifts
+                          isOpen={giftPopup}
                           onSend={onSendGift}
                           onClose={() => setStickerPopup(false)}
                           />

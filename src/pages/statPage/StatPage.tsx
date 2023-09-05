@@ -10,7 +10,10 @@ const StatPage:FC<any> = () => {
   const [isOperator, setIsOperator] = useState(false)
 
   useEffect(() => {
-    if(adminData) setIsAdmin(adminData?.role === 'admin')
+    if(adminData) {
+      setIsAdmin(adminData?.role === 'admin')
+      setIsOperator(adminData?.role === 'operator')
+    }
   }, [adminData])
 
   return (

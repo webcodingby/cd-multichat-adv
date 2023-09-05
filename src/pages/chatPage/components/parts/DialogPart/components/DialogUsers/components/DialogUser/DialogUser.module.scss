@@ -7,4 +7,17 @@
     display: flex;
     align-items: center;
   }
+  .body {
+    color: var(--gray_1);
+    span {
+      color: var(--green_1);
+      font-weight: 600;
+    }
+    .descr {
+      border-radius: 10px;
+      border: 1px solid var(--gray_1);
+      background-color: var(--blue_3);
+      padding: 10px;
+    }
+  }
 }

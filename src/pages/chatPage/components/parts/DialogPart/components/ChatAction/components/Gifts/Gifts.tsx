@@ -11,15 +11,17 @@ interface I {
   onClose?: (...args:any[]) => any,
   // list: any[],
   // setList: (...args:any[]) => any,
-  onSend?: (...args:any[]) => any
+  onSend?: (...args:any[]) => any,
+  isOpen?: boolean
 }
 
 const Gifts:FC<I> = ({
   onSend,
-  onClose
+  onClose,
+  isOpen
 }) => {
   const {token} = useAppSelector(s => s.mainSlice)
-  const [getGifts, giftsRes] = apiSlice.endpoints.getGifts.useLazyQuery()
+  const [getGifts] = apiSlice.endpoints.getGifts.useLazyQuery()
   const [list, setList] = useState<any[]>([])
   const [load, setLoad] = useState(false)
 
@@ -29,19 +31,20 @@ const Gifts:FC<I> = ({
     onClose && onClose()
   }
 
-  useEffect(() => {
-    if(token) {
-      getGifts({token})
+  const getGiftsFunc = () => {
+    if(token && isOpen) {
+      setLoad(true)
+      getGifts({token}).then(res => {
+        if(res?.data) setList(res?.data)
+      }).finally(() => setLoad(false))
     }
-  }, [token])
+  }
 
   useEffect(() => {
-    const {data, isLoading, isSuccess} = giftsRes
-    setLoad(isLoading)
-    if(data && !isLoading && isSuccess) {
-      //
-    }
-  }, [giftsRes])
+    getGiftsFunc()
+  }, [token, isOpen])
+
+  
 
   return (
     <div className={getClassNames([styles.wrapper, 'custom-scroll'])}>
@@ -53,7 +56,7 @@ const Gifts:FC<I> = ({
                 onClick={() => onSelect(i?.id)}
                 className={styles.item}>
                 <div className={styles.prev}>
-                  <img src={placeholder} alt="" />
+                  <img src={i?.picture_url || placeholder} alt="" />
                 </div>
               </div>
             </Col>

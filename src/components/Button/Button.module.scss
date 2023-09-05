@@ -83,6 +83,11 @@
 
 .wrapper.dark {
     background-color: var(--blue_6);
-    color: #fff;
+    // color: #fff;
     color: var(--violet_2);
+}
+
+.wrapper.yellow {
+    background-color: var(--yellow_2);
+    color: var(--blue_1)
 }

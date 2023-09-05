@@ -20,22 +20,18 @@ import CopyableText from "@components/CopyableText/CopyableText";
 const avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
 const avatarIndex = L.random(0, avatars.length - 1);
 
-const {ADMIN} = cookiesStorageKeys
-const d = Cookies.get(ADMIN)
-const userData:any = typeof d === 'string' ? JSON.parse(d) : null
-
 const ProfileBadge:FC = () => {
-  const {socket} = useAppSelector(s => s.mainSlice)
+  const {socket, adminData} = useAppSelector(s => s.mainSlice)
 
   return (  
     <div className={styles.wrapper}>
       <div className={styles.main}>
-        <div className={styles.name}>{userData?.name}</div>
+        <div className={styles.name}>{adminData?.name}</div>
         <div className={styles.role}>
-          role: <span>{userData?.role}</span>
+          role: <span>{adminData?.role}</span>
         </div>
         <div className={styles.id}>
-          id<CopyableText>{userData?.id}</CopyableText>
+          id<CopyableText>{adminData?.id}</CopyableText>
         </div>
       </div> 
       <div className={styles.avatar}>

@@ -7,6 +7,7 @@
   justify-content: space-between;
   min-width: 350px;
   background-color: var(--blue_4);
+  transition: all .3s ease;
 
   .main {
     .item {
@@ -16,9 +17,22 @@
           font-weight: 700;
         }
       }
+
+      .date {
+        color: var(--gray_1);
+        font-weight: 400 !important;
+        font-size: 12px;
+        line-height: 12px;
+      }
+
+      .time {
+        color: var(--green_1);
+        font-weight: 600;
+      }
     }
   }
   .action {
+    padding-left: 10px;
     display: flex;
     align-items: center;
     margin-left: -4px;
@@ -28,4 +42,11 @@
       margin: 0 4px;
     }
   }
+}
+
+.wrapper.loading {
+  opacity: .7;
+  filter: grayscale(1);
+  pointer-events: none;
+  touch-action: none;
 }

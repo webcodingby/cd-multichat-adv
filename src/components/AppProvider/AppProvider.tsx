@@ -233,14 +233,14 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
           dispatch(main_updateAdminData(userD))
         }
       })
-      getStatAnkets({token}).then(res => {
-        const {data, isSuccess} = res
-        console.log(data)
-      })
-      getStatMessages({token}).then(res => {
-        const {data, isSuccess} = res
-        console.log(data)
-      })
+      // getStatAnkets({token}).then(res => {
+      //   const {data, isSuccess} = res
+        
+      // })
+      // getStatMessages({token}).then(res => {
+      //   const {data, isSuccess} = res
+      //   console.log(data)
+      // })
     }
   }, [token])
 

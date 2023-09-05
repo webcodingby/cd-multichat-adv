@@ -200,6 +200,14 @@ const apiSlice = createApi({
       }),
       transformErrorResponse: checkFetchAuthorization
     }),
+    
+    getWorkStatusList: builder.query({
+      query: (token:any) => ({
+        url: endpoints.getWorkStatusList,
+        headers: setHeaderWithToken(token)
+      }),
+      transformErrorResponse: checkFetchAuthorization
+    }),
 
     workStart: builder.mutation({
       query: (token:any) => ({
@@ -215,6 +223,24 @@ const apiSlice = createApi({
         method: "POST",
         url:endpoints.workStop,
         headers: setHeaderWithToken(token),
+      }),
+      transformErrorResponse: checkFetchAuthorization
+    }),
+
+    workPausedStart: builder.mutation({
+      query: (token:any) => ({
+        method: "POST",
+        url: endpoints.workPausedStart,
+        headers: setHeaderWithToken(token)
+      }),
+      transformErrorResponse: checkFetchAuthorization
+    }),
+
+    workPausedStop: builder.mutation({
+      query: (token:any) => ({
+        method: "POST",
+        url: endpoints.workPausedStop,
+        headers: setHeaderWithToken(token)
       }),
       transformErrorResponse: checkFetchAuthorization
     }),
@@ -544,16 +570,27 @@ const apiSlice = createApi({
     
     getStatMessageCountOperatorAnket: builder.query({
       query: ({
-        token
+        token,
+        page
       }: {
-        token:any
+        token:any,
+        page: number
       }) => ({
-        url: endpoints.getStatMessageCountOperatorAnket,
+        url: endpoints.getStatMessageCountOperatorAnket + `?page=${page}`,
         headers: setHeaderWithToken(token)
       }),
       transformErrorResponse: checkFetchAuthorization
     }),
 
+    getStatAnketCount: builder.query({
+      query: ({
+        token
+      }: {token:any}) => ({
+        url: endpoints.getStatAnketCount,
+        headers: setHeaderWithToken(token)
+      }),
+      transformErrorResponse: checkFetchAuthorization
+    })
   })
 })
 
@@ -576,14 +613,18 @@ export const {
   useCreateMessageChatMutation,
   useCreateLetterChatMutation,
   useGetWorkCurrentStatusQuery,
+  useGetWorkStatusListQuery,
   useWorkStartMutation,
   useWorkStopMutation,
+  useWorkPausedStartMutation,
+  useWorkPausedStopMutation,
 
   //stat
   useGetStatChatAvgTimeListQuery,
   useGetStatChatAvgTimeQuery,
   useGetStatMessageCountOperatorAnketQuery,
   useGetStatMessageCountQuery,
+  useGetStatAnketCountQuery
 } = apiSlice
 
 export default apiSlice;

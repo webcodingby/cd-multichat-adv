@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import styles from './Message.module.scss';
 import I from './types';
 import getClassNames from '@utils/getClassNames';
@@ -11,7 +11,7 @@ import {BsCheck, BsCheckAll} from 'react-icons/bs'
 import {FaSmileWink} from 'react-icons/fa';
 import MessageStatus from "@components/MessageStatus/MessageStatus";
 
-const Message:FC<I> = ({
+const MessageComponent:FC<I> = ({
   avatar,
   body,
   type,
@@ -152,5 +152,5 @@ const Message:FC<I> = ({
 
   return null
 }
-
+const Message = memo(MessageComponent)
 export default Message;

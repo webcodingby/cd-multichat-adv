@@ -1,5 +1,5 @@
 import styles from './InboxItem.module.scss';
-import { FC, useState } from 'react'
+import { FC, useState, memo } from 'react'
 import Avatar from '@components/Avatar/Avatar';
 import UserTitle from '@components/UserTitle/UserTitle';
 import setChatIcon from '@utils/setChatIcon';
@@ -8,7 +8,7 @@ import CopyableText from '@components/CopyableText/CopyableText';
 import { useNavigate } from 'react-router-dom';
 import Countdown from 'react-countdown';
 
-const InboxItem:FC<any> = (props) => {
+const InboxItemComponent:FC<any> = (props) => {
   const {
     name,
     age,
@@ -121,4 +121,6 @@ const InboxItem:FC<any> = (props) => {
   )
 }
 
+
+const InboxItem = memo(InboxItemComponent)
 export default InboxItem;

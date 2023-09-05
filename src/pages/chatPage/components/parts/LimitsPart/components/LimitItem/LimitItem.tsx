@@ -1,7 +1,7 @@
 import styles from './LimitItem.module.scss';
 import {Row, Col} from 'antd';
 import Avatar from '@components/Avatar/Avatar';
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import UserTitle from '@components/UserTitle/UserTitle';
 import getClassNames from '@utils/getClassNames';
 import CopyableText from '@components/CopyableText/CopyableText';
@@ -9,7 +9,7 @@ import moment from 'moment';
 import { main_updateCreateChatData, main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
 import { useAppDispatch } from '@hooks/useReduxTypedHook';
 
-const LimitItem:FC<any> = ({
+const LimitItemComponent:FC<any> = ({
   man,
   girl,
   updated_at,
@@ -96,4 +96,5 @@ const LimitItem:FC<any> = ({
   )
 }
 
+const LimitItem = memo(LimitItemComponent)
 export default LimitItem;

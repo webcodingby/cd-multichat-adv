@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import styles from './DialogUser.module.scss';
-import getClassNames from '../../../../../../../../../utils/getClassNames';
+import getClassNames from '@utils/getClassNames';
 import {Row, Col} from 'antd';
-import UserTitle from '../../../../../../../../../components/UserTitle/UserTitle';
-import Avatar from '../../../../../../../../../components/Avatar/Avatar';
+import UserTitle from '@components/UserTitle/UserTitle';
+import Avatar from '@components/Avatar/Avatar';
 
 interface I {
   data?: any,
@@ -36,6 +36,8 @@ const DialogUser:FC<I> = ({
     last_online,
     online,
     timezone,
+    credits,
+    prompt_target_id
   } = data || {}
   if(type === 'man') {
     return (
@@ -50,6 +52,21 @@ const DialogUser:FC<I> = ({
                   />
               </div>
               <UserTitle name={name} age={age} state={state} country={country}/>
+            </div>
+          </Col>
+          <Col span={24}>
+            <div className={styles.body}>
+              <Row gutter={[5,5]}>
+                <Col span={24}>id: <span>{id}</span></Col>
+                <Col span={24}>Цель: <span>{prompt_target_id}</span></Col>
+                <Col span={24}>Фото: </Col>
+                <Col span={24}>Кредиты: <span>{credits}</span></Col>
+                <Col span={24}>Чаты: </Col>
+                <Col span={24}>Письма: </Col>
+                <Col span={24}>
+                  <div className={styles.descr}>{about_self}</div>
+                </Col>
+              </Row>
             </div>
           </Col>
         </Row>
@@ -69,6 +86,21 @@ const DialogUser:FC<I> = ({
                   />
               </div>
               <UserTitle name={name} age={age} state={state} country={country}/>
+            </div>
+          </Col>
+          <Col span={24}>
+            <div className={styles.body}>
+              <Row gutter={[5,5]}>
+                <Col span={24}>id: <span>{id}</span></Col>
+                <Col span={24}>Цель: <span>{prompt_target_id}</span></Col>
+                <Col span={24}>Фото: </Col>
+                <Col span={24}>Обычные:</Col>
+                <Col span={24}>Видео:</Col>
+                <Col span={24}>18+:</Col>
+                <Col span={24}>
+                  <div className={styles.descr}>{about_self}</div>
+                </Col>
+              </Row>
             </div>
           </Col>
         </Row>

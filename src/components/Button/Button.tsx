@@ -14,6 +14,8 @@ const switchVariants = (variant: buttonVariantType) => {
 			return styles.green
 		case 'dark':
 			return styles.dark
+		case 'yellow':
+			return styles.yellow
 	}
 }
 

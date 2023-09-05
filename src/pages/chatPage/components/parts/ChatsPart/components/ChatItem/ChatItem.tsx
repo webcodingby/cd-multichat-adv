@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, memo } from 'react'
 import styles from './ChatItem.module.scss';
 import { Row, Col } from 'antd';
 import getClassNames from '@utils/getClassNames';
@@ -21,7 +21,7 @@ interface I {
   updated_at?: any,
 }
 
-const ChatItem: FC<I> = ({
+const ChatItemComponent: FC<I> = ({
   isActive,
   id,
   selfUser,
@@ -111,5 +111,5 @@ const ChatItem: FC<I> = ({
     </div>
   )
 }
-
+const ChatItem = memo(ChatItemComponent);
 export default ChatItem;

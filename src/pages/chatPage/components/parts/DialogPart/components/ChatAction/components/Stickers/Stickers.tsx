@@ -9,15 +9,17 @@ import Empty from '@components/Empty/Empty';
 
 interface I {
   onClose?: (...args:any[]) => any,
-  onSend?: (...args:any[]) => any
+  onSend?: (...args:any[]) => any,
+  isOpen?: boolean
 }
 
 const Stickers:FC<I> = ({
   onClose,
-  onSend
+  onSend,
+  isOpen
 }) => {
   const {token} = useAppSelector(s => s.mainSlice)
-  const [getStickers, stickersRes] = apiSlice.endpoints.getStickers.useLazyQuery()
+  const [getStickers] = apiSlice.endpoints.getStickers.useLazyQuery()
   const [list, setList] = useState<any[]>([])
   const [load, setLoad] = useState(false)
 
@@ -26,19 +28,21 @@ const Stickers:FC<I> = ({
     onClose && onClose()
   }
 
-  useEffect(() => {
-    if(token) {
-      getStickers({token})
+  const getStickersFunc = () => {
+    if(token && isOpen) {
+      setLoad(true)
+      getStickers({token}).then(res => {
+        if(res?.data) setList(res?.data)
+        console.log(res?.data[0])
+      }).finally(() => setLoad(false))
     }
-  }, [token])
+  }
 
   useEffect(() => {
-    const {data, isLoading, isSuccess} = stickersRes
-    setLoad(isLoading)
-    if(data && !isLoading && isSuccess) {
-      //
-    }
-  }, [stickersRes])
+    getStickersFunc()
+  }, [token, isOpen])
+
+  
 
   return (
     <div className={getClassNames([styles.wrapper, 'custom-scroll'])}>
@@ -50,7 +54,7 @@ const Stickers:FC<I> = ({
                 onClick={() => onSelect(i?.id)}
                 className={styles.item}>
                 <div className={styles.prev}>
-                  <img src={placeholder} alt="" />
+                  <img src={i?.picture_url || placeholder} alt="" />
                 </div>
               </div>
             </Col>

@@ -1,6 +1,6 @@
 import styles from './Letter.module.scss';
 import Avatar from '@components/Avatar/Avatar';
-import { FC } from 'react'
+import { FC, memo} from 'react'
 import moment from 'moment';
 import UserTitle from '@components/UserTitle/UserTitle';
 import { MS_LETTER_TYPES, letterType } from '@data/messageTypes';
@@ -9,7 +9,7 @@ import img from '@assets/avatar-placeholder.png';
 import MessageStatus from "@components/MessageStatus/MessageStatus";
 import FancyboxWrapper from "@components/FancyboxWrapper/FancyboxWrapper";
 
-const Letter:FC<I> = ({
+const LetterComponent:FC<I> = ({
   id,
   type,
   name,
@@ -92,4 +92,5 @@ const Letter:FC<I> = ({
   )
 }
 
+const Letter = memo(LetterComponent);
 export default Letter;

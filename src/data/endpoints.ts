@@ -25,8 +25,11 @@ const endpoints = {
   getSelf: `${API_PATH}operators/me`,
   
   getWorkCurrentStatus: `${API_PATH}operators/working-shifts/get/current/status`,
+  getWorkStatusList: `${API_PATH}operators/working-shifts/get/status/list`,
   workStart: `${API_PATH}operators/working-shifts/work/start`,
   workStop: `${API_PATH}operators/working-shifts/work/stop`,
+  workPausedStart: `${API_PATH}operators/working-shifts/paused/start`,
+  workPausedStop: `${API_PATH}operators/working-shifts/paused/stop`,
 
   getReports: `${API_PATH}operators/reports`,
   getLogs: `${API_PATH}operators/logs`,
@@ -39,10 +42,20 @@ const endpoints = {
   deleteImages: `${API_PATH}operators/store/image/delete`,
 
   //stat
+
+  //средне время ответа на сообщение по операторам 
   getStatChatAvgTime: `${API_PATH}admin/statistics/operator/first/message/avg/time`,
+
+  //средне время ответа на сообщение по чатам операторам
   getStatChatAvgTimeList: `${API_PATH}admin/statistics/operator/first/message/chat/time`,
+
+  //общее количество сообщений по операторам 
   getStatMessageCount: `${API_PATH}admin/statistics/operator/count/message`,
+
+  //общее количество сообщений по анкетам  оператора
   getStatMessageCountOperatorAnket: `${API_PATH}admin/statistics/operator/count/message/ancet`,
+
+  getStatAnketCount: `${API_PATH}admin/statistics/operator/count/anket`
 }
 
 export default endpoints;

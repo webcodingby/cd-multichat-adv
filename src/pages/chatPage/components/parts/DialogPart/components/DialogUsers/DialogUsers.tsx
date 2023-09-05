@@ -8,6 +8,7 @@ const DialogUsers:FC<any> = () => {
   const {chatData: {dialogUsers}} = useAppSelector(s => s.mainSlice)
   const {man, girl} = dialogUsers || {}
 
+
   return (
     <div className={styles.wrapper}>
       <Row gutter={[5,5]}>
