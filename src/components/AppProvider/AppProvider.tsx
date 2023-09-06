@@ -258,6 +258,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
   useEffect(() => {
     let tm:any;
     if(token) {
+      getLimitsFunc()
       tm = setInterval(getLimitsFunc, 15000)
     }
     return () => {
