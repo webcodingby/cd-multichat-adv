@@ -82,7 +82,10 @@ const ChatAction:FC<any> = ({
                   text
                 }
               })
-              .finally(() => setLoading(false))
+              .finally(() => {
+                setLoading(false)
+                setText('')
+              })
             }
           })
         }
@@ -95,7 +98,10 @@ const ChatAction:FC<any> = ({
               text
             }
           })
-          .finally(() => setLoading(false))
+          .finally(() => {
+            setLoading(false)
+            setText('')
+          })
         } 
       }
     }

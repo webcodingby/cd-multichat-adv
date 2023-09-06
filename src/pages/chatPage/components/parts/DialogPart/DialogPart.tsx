@@ -31,7 +31,7 @@ const DialogPart:FC<any> = () => {
       //НОВОЕ СООБЩЕНИЕ
       if(newMessage?.type === 'NEW') {
         if(currentChatId == newMessage?.chatId) {
-          setMessagesList(s => [...s, newMessage?.body])
+          setMessagesList(s => [newMessage?.body, ...s])
         }
       }
       //ОБНОВЛЕНИЕ СТАРОГО

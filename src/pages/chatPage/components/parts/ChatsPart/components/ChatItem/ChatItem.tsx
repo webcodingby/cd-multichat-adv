@@ -61,7 +61,7 @@ const ChatItemComponent: FC<I> = ({
                 <Col span={24}>
                   <UserTitle
                     name={selfUser?.name || 'Username'}
-                    age={20}
+                    age={selfUser?.age}
                   />
                 </Col>
                 <Col span={24} style={{ color: 'var(--gray_1)' }}>
