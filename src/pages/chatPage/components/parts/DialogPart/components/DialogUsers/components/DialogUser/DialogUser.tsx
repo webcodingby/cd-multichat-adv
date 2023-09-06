@@ -71,9 +71,13 @@ const DialogUser:FC<I> = ({
                     <Col span={24}>Письма: </Col>
                   </Row>
                 </Col>
-                <Col span={24}>
-                  <div className={styles.descr}>{about_self}</div>
-                </Col>
+                {
+                  about_self && (
+                    <Col span={24}>
+                      <div className={styles.descr}>{about_self}</div>
+                    </Col>
+                  )
+                }
               </Row>
             </div>
           </Col>
@@ -113,9 +117,14 @@ const DialogUser:FC<I> = ({
                     <Col span={24}>18+:</Col>
                   </Row>
                 </Col>
-                <Col span={24}>
-                  <div className={styles.descr}>{about_self}</div>
-                </Col>
+                {
+                  about_self && (
+                    <Col span={24}>
+                      <div className={styles.descr}>{about_self}</div>
+                    </Col>
+                  )
+                }
+                
               </Row>
             </div>
           </Col>

@@ -59,9 +59,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
 
   const [getMessageChats] = apiSlice.endpoints.getMessageChats.useLazyQuery()
   const [getLetterChats] = apiSlice.endpoints.getLetterChats.useLazyQuery()
-  const [getLimits, limitsRes] = apiSlice.endpoints.getLimitsList.useLazyQuery(
-    // {pollingInterval: 10000}
-  )
+  const [getLimits, limitsRes] = apiSlice.endpoints.getLimitsList.useLazyQuery()
   const [getInbox] = apiSlice.endpoints.getInboxList.useLazyQuery()
 
   //
@@ -203,14 +201,14 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
           dispatch(main_initChatDataLetterChats(data?.data))
         }
       })
-      getLimits({token, body: {page: 1}}).then(res => {
-        const {isSuccess, data} = res;
-        if(data && isSuccess) {
-          console.log(data)
-          // setOldLimits(data?.data?.map((i:any) => i?.id))
-          // dispatch(main_initChatDataLimits(data?.data))
-        }
-      })
+      // getLimits({token, body: {page: 1}}).then(res => {
+      //   const {isSuccess, data} = res;
+      //   if(data && isSuccess) {
+      //     console.log(data)
+      //     // setOldLimits(data?.data?.map((i:any) => i?.id))
+      //     // dispatch(main_initChatDataLimits(data?.data))
+      //   }
+      // })
       getInbox({token, body: {page: 1}}).then(res => {
         const {isSuccess, data} = res
         console.log(data)
@@ -245,14 +243,36 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     }
   }, [token])
 
-  useEffect(() => {
-    if (limits?.length > 0) {
-      const dif = L.difference(limits?.map(i => i?.id), oldLimits)
-      if (dif?.length > 0 && limitRef?.current) {
-        limitRef?.current?.play()
-      }
+  const getLimitsFunc = () => {
+    if(token) {
+      getLimits({token, body: {page: 1}}).then(res => {
+        const {data, isLoading, isSuccess} = res
+        if(data && !isLoading && isSuccess) {
+          setOldLimits(data?.data?.map((i:any) => i?.id))
+          dispatch(main_initChatDataLimits(data?.data))
+        }
+      })
     }
-  }, [limits])
+  }
+
+  useEffect(() => {
+    let tm:any;
+    if(token) {
+      tm = setInterval(getLimitsFunc, 15000)
+    }
+    return () => {
+      clearInterval(tm)
+    }
+  }, [token])
+
+  // useEffect(() => {
+  //   if (limits?.length > 0) {
+  //     const dif = L.difference(limits?.map(i => i?.id), oldLimits)
+  //     if (dif?.length > 0 && limitRef?.current) {
+  //       limitRef?.current?.play()
+  //     }
+  //   }
+  // }, [limits])
 
   useEffect(() => {
     if (messageChatsPage > 1 && token) {

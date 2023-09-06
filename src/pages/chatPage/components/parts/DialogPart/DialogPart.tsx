@@ -60,8 +60,7 @@ const DialogPart:FC<any> = () => {
       {
         currentChatId && (
           <div className={styles.action}>
-            <ChatAction
-              />
+            <ChatAction/>
           </div>
         )
       }

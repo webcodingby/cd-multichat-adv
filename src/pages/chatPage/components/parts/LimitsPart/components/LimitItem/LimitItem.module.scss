@@ -24,6 +24,11 @@
       width: 100%;
       overflow: hidden;
       padding: 0 5px;
+
+      .item.date {
+        font-weight: 600;
+        color: var(--violet_1);
+      }
     }
   }
 

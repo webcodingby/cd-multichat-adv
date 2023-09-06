@@ -288,8 +288,6 @@ const mainSlice = createSlice({
 
 
 
-
-
     main_incNewMessagesCount: (state) => {state.newMessagesCount = state.newMessagesCount + 1},
     main_decNewMessagesCount: (state) => {state.newMessagesCount = (state.newMessagesCount - 1) > 0 ? state.newMessagesCount - 1 : 0},
 
