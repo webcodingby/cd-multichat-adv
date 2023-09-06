@@ -18,6 +18,7 @@ export const ChatLoadingContext = createContext(false)
 const ChatPage: FC<any> = () => {
   const dispatch = useAppDispatch()
   const {token, chatData} = useAppSelector(s => s.mainSlice)
+  const {currentChatId} = chatData || {}
   const {pathname} = useLocation()
   const [params] = useSearchParams()
   const navigate = useNavigate()
@@ -43,6 +44,8 @@ const ChatPage: FC<any> = () => {
       dispatch(main_updateCurrentChatId(null))
     }
   }, [params?.get('chatId')])
+
+  useEffect(() => console.log('CURRENT CHAT', currentChatId), [currentChatId])
 
   return (
     <Layout

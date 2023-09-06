@@ -24,7 +24,8 @@ import {
   main_updateChatDataLetterChats,
   main_updateNewLetter,
   main_updateNewMessage,
-  main_removeChatDataLimits
+  main_removeChatDataLimits,
+  main_updateCreateChatData
 } from '@store/slices/mainSlice/mainSlice';
 
 
@@ -244,6 +245,7 @@ const ChatAction:FC<any> = ({
         const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
 
         navigate(`/chat?chatType=CHAT&chatId=${dialogBody?.id}&selfId=${dialogBody?.self_user?.id}`)
+        dispatch(main_updateCreateChatData(null))
 
         if(type === 'CHAT') {
           dispatch(main_updateChatDataMessageChats(dialogBody))

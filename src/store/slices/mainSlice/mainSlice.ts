@@ -297,7 +297,12 @@ const mainSlice = createSlice({
     main_updateNewMessage: (state, action) => {state.newMessage = action.payload},
     main_updateNewLetter: (state, action) => {state.newLetter = action.payload},
 
-    main_updateCreateChatData: (state, action) => {state.createChatData = action.payload}
+    main_updateCreateChatData: (state, action) => {state.createChatData = action.payload},
+
+
+    main_deleteLimitItem: (state, action) => {
+      
+    }
   }
 })
 
