@@ -24,8 +24,10 @@
         font-weight: 600;
         font-size: 12px;
         line-height: 12px;
-        top: -10px;
-        right: -10px;
+        // top: -10px;
+        // right: -10px;
+        right: 10px;
+        top: calc(50% - 15px);
         background-color: var(--red_1);
     }
 

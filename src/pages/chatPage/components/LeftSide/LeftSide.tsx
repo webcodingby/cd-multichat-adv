@@ -4,10 +4,13 @@ import {Row, Col} from 'antd';
 import Button from '../../../../components/Button/Button';
 import LimitsPart from '../parts/LimitsPart/LimitsPart';
 import InboxPart from '../parts/InboxPart/InboxPart';
+import { useAppSelector } from '@hooks/useReduxTypedHook';
 
 
 
 const LeftSide:FC<any> = () => {
+  const {chatData} = useAppSelector(s => s.mainSlice)
+  const {limits} = chatData || {}
   const [activeTab, setActiveTab] = useState<'1' | '2'>('1')
 
   return (
@@ -19,7 +22,9 @@ const LeftSide:FC<any> = () => {
               <Button 
                 variant={activeTab === '1' ? 'default' : 'dark'}
                 onClick={() => setActiveTab('1')}
-                isFill>
+                isFill
+                indicator={limits?.length}
+                >
                 Лимиты</Button>
             </Col>
             <Col span={12}>
