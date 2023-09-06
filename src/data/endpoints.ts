@@ -1,8 +1,8 @@
-export const BASE_DOMAIN = 'https://api.cooldreamy.com/'
+export const BASE_DOMAIN = 'https://api2.cooldreamy.com/'
 export const TEST_DOMAIN = 'http://admin.soultri.site/'
 
 export const TEST_WS_DOMAIN = `admin.soultri.site`
-export const BASE_WS_DOMAIN = 'api.cooldreamy.com'
+export const BASE_WS_DOMAIN = 'api2.cooldreamy.com'
 
 export const API_PATH = `${BASE_DOMAIN}api/`
 

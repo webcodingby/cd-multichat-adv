@@ -35,8 +35,8 @@ import * as L from 'lodash';
 const {ADMIN} = cookiesStorageKeys;
 
 const AppProvider: FC<{ children?: React.ReactNode }> = ({
-                                                           children
-                                                         }) => {
+  children
+}) => {
   const dispatch = useAppDispatch()
   const {
     token,
@@ -203,13 +203,14 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
           dispatch(main_initChatDataLetterChats(data?.data))
         }
       })
-      // getLimits({token, body: {page: 1}}).then(res => {
-      //   const {isSuccess, data} = res;
-      //   if(data && isSuccess) {
-      //     // setOldLimits(data?.data?.map((i:any) => i?.id))
-      //     dispatch(main_initChatDataLimits(data?.data))
-      //   }
-      // })
+      getLimits({token, body: {page: 1}}).then(res => {
+        const {isSuccess, data} = res;
+        if(data && isSuccess) {
+          console.log(data)
+          // setOldLimits(data?.data?.map((i:any) => i?.id))
+          // dispatch(main_initChatDataLimits(data?.data))
+        }
+      })
       getInbox({token, body: {page: 1}}).then(res => {
         const {isSuccess, data} = res
         console.log(data)

@@ -158,28 +158,40 @@ const ChatAction:FC<any> = () => {
   useEffect(() => {
     const {data, isSuccess, isLoading} = sendStickerRes
     if(!isLoading && data && isSuccess) {
-      //
+      console.log(
+        'STICKER',
+        data
+        )
     }
   }, [sendStickerRes])
 
   useEffect(() => {
     const {data, isSuccess, isLoading} = sendGiftRes
     if(!isLoading && data && isSuccess) {
-      //
+      console.log(
+        'GIFT',
+        data
+      )
     }
   }, [sendGiftRes])
 
   useEffect(() => {
     const {data, isSuccess, isLoading} = sendMediaRes
     if(data && isSuccess && !isLoading) {
-      //
+      console.log(
+        'MEDIA',
+        data
+      )
     }
   }, [sendMediaRes])
 
   useEffect(() => {
     const {data, isLoading, isSuccess } = sendMessageRes
     if(data && isSuccess && !isLoading) {
-      //
+      console.log(
+        'MESSAGE',
+        data
+      )
     }
   }, [sendMessageRes])
 
