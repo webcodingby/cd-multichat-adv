@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import styles from './ChatAction.module.scss';
 import Button from '@components/Button/Button';
 import TextareaAutosize from 'react-textarea-autosize';
+import { useNavigate } from 'react-router-dom';
 import {AiOutlineSmile, AiOutlineGift, AiOutlineCamera} from 'react-icons/ai';
 import apiSlice, { 
   useSendMediaMessageChatMutation, 
@@ -16,13 +17,14 @@ import getClassNames from '@utils/getClassNames';
 import Gifts from './components/Gifts/Gifts';
 import Stickers from './components/Stickers/Stickers';
 import Media from './components/Media/Media';
-import { Dropdown } from 'antd';
+import { Dropdown, message } from 'antd';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { 
   main_updateChatDataMessageChats, 
   main_updateChatDataLetterChats,
   main_updateNewLetter,
-  main_updateNewMessage
+  main_updateNewMessage,
+  main_removeChatDataLimits
 } from '@store/slices/mainSlice/mainSlice';
 
 
@@ -34,6 +36,7 @@ import {
 const ChatAction:FC<any> = ({
   onUpdateMessage
 }) => {
+  const navigate = useNavigate()
   const {chatData: {currentChatId, chatType}, createChatData} = useAppSelector(s => s.mainSlice)
   const {token} = useAppSelector(s => s.mainSlice)
   const dispatch = useAppDispatch()
@@ -46,6 +49,7 @@ const ChatAction:FC<any> = ({
   const [sendLetter, sendLetterRes] = useSendLetterMutation()
 
 
+
   const [mediaModal, setMediaModal] = useState(false)
   const [text, setText] = useState('')
   const [isFocused, setIsFocused] = useState(false)
@@ -56,48 +60,53 @@ const ChatAction:FC<any> = ({
 
   const [loading, setLoading] = useState(false) 
 
-
   const onSendMessage = () => {
-    if(currentChatId && token && text) {
+    if(token && text) {
       if(chatType === 'MAIL') {
-        sendLetter({
-          token,
-          id: currentChatId,
-          body: {
-            text
-          }
-        })
+        //ОТПРАВКА ПИСЬМА
       }
       if(chatType === 'CHAT') {
-        if(createChatData) {
-          //
-        } else {
+        if(createChatData && !currentChatId) {
           setLoading(true)
-          if(createChatData) {
-            // createMessageChat({
-            //   token,
-            //   body: createChatData
-            // })
-          } else {
-            sendMessage({
-              token,
-              id: currentChatId,
-              body: {
-                text
-              }
-            })
-            .finally(() => setLoading(false))
-          }
+          createMessageChat({
+            token,
+            body: createChatData
+          }).then((res:any) => {
+            if(res?.data?.id) {
+              dispatch(main_removeChatDataLimits({id: createChatData?.operator_chat_limit_id}))
+              sendMessage({
+                token,
+                id: res?.data?.id,
+                body: {
+                  text
+                }
+              })
+              .finally(() => setLoading(false))
+            }
+          })
         }
+        if(currentChatId) {
+          setLoading(true)
+          sendMessage({
+            token,
+            id: currentChatId,
+            body: {
+              text
+            }
+          })
+          .finally(() => setLoading(false))
+        } 
       }
     }
   }
+
+  
 
   const onSendSticker = (sticker: string | number) => {
     if(token && currentChatId) {
       if(chatType === 'CHAT') {
         if(createChatData) {
-          //
+          setLoading(true)
         } else {
           setLoading(true)
           sendSticker({
@@ -165,41 +174,6 @@ const ChatAction:FC<any> = ({
   useEffect(() => {
     const {data, isSuccess, isLoading} = sendStickerRes
     if(!isLoading && data && isSuccess) {
-      console.log(
-        'STICKER',
-        data
-        )
-    }
-  }, [sendStickerRes])
-
-  useEffect(() => {
-    const {data, isSuccess, isLoading} = sendGiftRes
-    if(!isLoading && data && isSuccess) {
-      console.log(
-        'GIFT',
-        data
-      )
-    }
-  }, [sendGiftRes])
-
-  useEffect(() => {
-    const {data, isSuccess, isLoading} = sendMediaRes
-    if(data && isSuccess && !isLoading) {
-      console.log(
-        'MEDIA',
-        data
-      )
-    }
-  }, [sendMediaRes])
-
-  useEffect(() => {
-    const {data, isLoading, isSuccess } = sendMessageRes
-    if(data && isSuccess && !isLoading) {
-      console.log(
-        'MESSAGE',
-        data
-      )
-
       const messageBody = data?.last_message
       const dialogBody = data
       const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
@@ -215,6 +189,78 @@ const ChatAction:FC<any> = ({
       if(type === 'MAIL') {
 
       }
+    }
+  }, [sendStickerRes])
+
+  useEffect(() => {
+    const {data, isSuccess, isLoading} = sendGiftRes
+    if(!isLoading && data && isSuccess) {
+      
+      const messageBody = data?.last_message
+      const dialogBody = data
+      const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
+
+      if(type === 'CHAT') {
+        dispatch(main_updateChatDataMessageChats(dialogBody))
+        dispatch(main_updateNewMessage({
+          chatId: dialogBody?.id, 
+          body: messageBody,
+          type: 'NEW'
+        }))
+      }
+      if(type === 'MAIL') {
+
+      }
+    }
+  }, [sendGiftRes])
+
+  useEffect(() => {
+    const {data, isSuccess, isLoading} = sendMediaRes
+    if(data && isSuccess && !isLoading) {
+      const messageBody = data?.last_message
+      const dialogBody = data
+      const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
+
+      if(type === 'CHAT') {
+        dispatch(main_updateChatDataMessageChats(dialogBody))
+        dispatch(main_updateNewMessage({
+          chatId: dialogBody?.id, 
+          body: messageBody,
+          type: 'NEW'
+        }))
+      }
+      if(type === 'MAIL') {
+
+      }
+    }
+  }, [sendMediaRes])
+
+  useEffect(() => {
+    const {data, isLoading, isSuccess } = sendMessageRes
+    if(data && isSuccess && !isLoading) {
+      if(data?.id) {
+        const messageBody = data?.last_message
+        const dialogBody = data
+        const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
+
+        navigate(`/chat?chatType=CHAT&chatId=${dialogBody?.id}&selfId=${dialogBody?.self_user?.id}`)
+
+        if(type === 'CHAT') {
+          dispatch(main_updateChatDataMessageChats(dialogBody))
+          dispatch(main_updateNewMessage({
+            chatId: dialogBody?.id, 
+            body: messageBody,
+            type: 'NEW'
+          }))
+        }
+        if(type === 'MAIL') {
+
+        }
+      } 
+      if(data?.error === 'NO_LIMIT') {
+        message.error('У вас недостаточно лимита')
+      }
+      
     }
   }, [sendMessageRes])
 
@@ -306,7 +352,7 @@ const ChatAction:FC<any> = ({
         </div>
         <div className={styles.action}>
           <Button
-            disabled={!(text && currentChatId)}
+            disabled={!(text)}
             onClick={onSendMessage}
             isLoading={loading}
             >

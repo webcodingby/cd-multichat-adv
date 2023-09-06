@@ -8,6 +8,7 @@ import CopyableText from '@components/CopyableText/CopyableText';
 import moment from 'moment';
 import { main_updateCreateChatData, main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
 import { useAppDispatch } from '@hooks/useReduxTypedHook';
+import { useNavigate } from 'react-router-dom';
 
 const LimitItemComponent:FC<any> = ({
   man,
@@ -17,9 +18,13 @@ const LimitItemComponent:FC<any> = ({
   man_id,
   id
 }) => {
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const onClick = () => {
+
+    navigate('/chat?chatType=CHAT')
+    
     dispatch(main_updateDialogUsers({man, girl}))
     dispatch(main_updateCreateChatData({
       anket_id: girl_id,
@@ -28,6 +33,7 @@ const LimitItemComponent:FC<any> = ({
       man,
       girl
     }))
+
   }
 
   return (

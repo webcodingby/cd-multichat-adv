@@ -24,7 +24,7 @@ import {
   main_updateChatDataLetterChats,
   main_updateChatDataMessageChats,
   main_updateNewMessage,
-  main_updateSocket
+  main_updateSocket,
 } from '@store/slices/mainSlice/mainSlice';
 import WS_EVENTS from '@data/socketEvents';
 import notify from '@utils/notify';

@@ -31,14 +31,17 @@ const ChatPage: FC<any> = () => {
       const type = params?.get('chatType')
       dispatch(main_updateChatType(type))
       dispatch(main_updateDialogUsers(null))
+    } else {
+      dispatch(main_updateChatType(null))
     }
   }, [params?.get('chatType')])
 
   useEffect(() => {
     if (params?.get('chatId') && typeof params?.get('chatId') === 'string') {
       dispatch(main_updateCurrentChatId(params?.get('chatId')))
+    } else {
+      dispatch(main_updateCurrentChatId(null))
     }
-    dispatch(main_updateCreateChatData(null))
   }, [params?.get('chatId')])
 
   return (

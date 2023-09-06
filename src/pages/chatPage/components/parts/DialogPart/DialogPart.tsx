@@ -5,10 +5,13 @@ import Chat from './components/Chat/Chat';
 import ChatAction from './components/ChatAction/ChatAction';
 import { useAppSelector, useAppDispatch } from '@hooks/useReduxTypedHook';
 import { main_updateNewMessage } from '@store/slices/mainSlice/mainSlice';
+import { useNavigate } from 'react-router-dom';
+
 
 const DialogPart:FC<any> = () => {
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const {chatData, newMessage} = useAppSelector(s => s.mainSlice)
+  const {chatData, newMessage, createChatData} = useAppSelector(s => s.mainSlice)
   const {dialogUsers, currentChatId} = chatData || {}
   
   const [messagesList, setMessagesList] = useState<any[]>([])
@@ -16,7 +19,14 @@ const DialogPart:FC<any> = () => {
 
 
   useEffect(() => {
-    console.log('INFINITE LOOP')
+    if(createChatData) {
+      setMessagesList([])
+      setLettersList([])
+    }
+  }, [createChatData])
+
+
+  useEffect(() => {
     if(newMessage !== null) {
       //НОВОЕ СООБЩЕНИЕ
       if(newMessage?.type === 'NEW') {
@@ -50,20 +60,20 @@ const DialogPart:FC<any> = () => {
         {dialogUsers && <DialogUsers/>}
       </div>
       <div className={styles.chat}>
-        <Chat
-          messagesList={messagesList}
-          lettersList={lettersList}
-          setMessagesList={setMessagesList}
-          setLettersList={setLettersList}
-          />
+        {
+          !createChatData && (
+            <Chat
+              messagesList={messagesList}
+              lettersList={lettersList}
+              setMessagesList={setMessagesList}
+              setLettersList={setLettersList}
+              />
+          )
+        }
       </div>
-      {
-        currentChatId && (
-          <div className={styles.action}>
-            <ChatAction/>
-          </div>
-        )
-      }
+      <div className={styles.action}>
+        <ChatAction/>
+      </div>
     </div>
   )
 }

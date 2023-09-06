@@ -16,8 +16,8 @@ const ChatMessages:FC<I> = ({
   list,
   setList
 }) => {
-  const {token, chatData: {currentChatId}, newMessage} = useAppSelector(s => s.mainSlice)
-  const [getList] = apiSlice.endpoints.getMessageChat.useLazyQuery()
+  const {token, chatData: {currentChatId}, newMessage, createChatData} = useAppSelector(s => s.mainSlice)
+  const [getList, getListRes] = apiSlice.endpoints.getMessageChat.useLazyQuery()
   const [page, setPage] = useState(0);
   const [params] = useSearchParams()
   const [loadMore, setLoadMore] = useState(false)
@@ -75,12 +75,6 @@ const ChatMessages:FC<I> = ({
     setPage(1)
     setList([])
   }, [currentChatId])
-
-  useEffect(() => {
-    if(newMessage && newMessage?.chatId == currentChatId) {
-      setList((s:any) => [newMessage?.body, ...s])
-    }
-  }, [newMessage])
 
   return (
     <div className={styles.wrapper}>
