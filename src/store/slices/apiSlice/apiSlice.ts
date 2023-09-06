@@ -137,7 +137,7 @@ const apiSlice = createApi({
           search?: string 
         }
       }) => ({
-        url: endpoints.getInboxList + `?page=${page}&per_page=${per_page}&search=${search}`,
+        url: endpoints.getInboxList + `?page=${page}&per_page=${per_page}`,
         headers: setHeaderWithToken(token)
       }),
       transformErrorResponse: checkFetchAuthorization

@@ -8,14 +8,16 @@ import { useSearchParams } from 'react-router-dom';
 import Loader from '@components/Loader/Loader';
 
 interface I {
-  list?:any[],
-  loadMore?:(...args:any[]) => any
+  list:any[],
+  setList:(...args:any[]) => any
 }
 
-const ChatMessages:FC<any> = () => {
+const ChatMessages:FC<I> = ({
+  list,
+  setList
+}) => {
   const {token, chatData: {currentChatId}, newMessage} = useAppSelector(s => s.mainSlice)
   const [getList] = apiSlice.endpoints.getMessageChat.useLazyQuery()
-  const [list, setList] = useState<any[]>([])
   const [page, setPage] = useState(0);
   const [params] = useSearchParams()
   const [loadMore, setLoadMore] = useState(false)
@@ -52,7 +54,7 @@ const ChatMessages:FC<any> = () => {
             setList(res?.data?.chat_messages?.data)
           }
           if(page > 1) {
-            setList(s => [...s, ...res?.data?.chat_messages?.data])
+            setList((s:any) => [...s, ...res?.data?.chat_messages?.data])
           }
         }
       }).finally(() => {
@@ -76,7 +78,7 @@ const ChatMessages:FC<any> = () => {
 
   useEffect(() => {
     if(newMessage && newMessage?.chatId == currentChatId) {
-      setList(s => [newMessage?.body, ...s])
+      setList((s:any) => [newMessage?.body, ...s])
     }
   }, [newMessage])
 

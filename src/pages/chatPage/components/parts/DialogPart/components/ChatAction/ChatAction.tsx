@@ -11,7 +11,7 @@ import apiSlice, {
   useSendLetterMutation,
   useCreateMessageChatMutation
 } from '@store/slices/apiSlice/apiSlice';
-import { useAppSelector } from '@hooks/useReduxTypedHook';
+import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
 import getClassNames from '@utils/getClassNames';
 import Gifts from './components/Gifts/Gifts';
 import Stickers from './components/Stickers/Stickers';
@@ -26,10 +26,17 @@ import {
 } from '@store/slices/mainSlice/mainSlice';
 
 
+// interface I {
+//   onUpdateMessage: (type: 'SEND' | 'READ' | 'GET') => any
+// }
 
-const ChatAction:FC<any> = () => {
+
+const ChatAction:FC<any> = ({
+  onUpdateMessage
+}) => {
   const {chatData: {currentChatId, chatType}, createChatData} = useAppSelector(s => s.mainSlice)
   const {token} = useAppSelector(s => s.mainSlice)
+  const dispatch = useAppDispatch()
 
   const [createMessageChat, createdChat] = useCreateMessageChatMutation()
   const [sendMessage, sendMessageRes] = useSendMessageMutation()
@@ -192,6 +199,22 @@ const ChatAction:FC<any> = () => {
         'MESSAGE',
         data
       )
+
+      const messageBody = data?.last_message
+      const dialogBody = data
+      const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
+
+      if(type === 'CHAT') {
+        dispatch(main_updateChatDataMessageChats(dialogBody))
+        dispatch(main_updateNewMessage({
+          chatId: dialogBody?.id, 
+          body: messageBody,
+          type: 'NEW'
+        }))
+      }
+      if(type === 'MAIL') {
+
+      }
     }
   }, [sendMessageRes])
 

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import initState from "./initState";
 import {sortingDialogList, sortingChatList, sortingMailChatList} from '@utils/chatSorting';
 
@@ -164,11 +164,18 @@ const mainSlice = createSlice({
     main_updateChatDataMessageChats: (state, action) => {
       const chatId = action.payload?.id
       const find = state.chatData.messageChats.find(i => i.id == chatId)
-      const findIndex = state.chatData.messageChats.find(i => i.id == chatId)
+      const findIndex = state.chatData.messageChats.findIndex(i => i.id == chatId)
 
       if(find) {
+        
         const m = state.chatData.messageChats
-        const rm = m.splice(findIndex, 1, action.payload)
+        const rm = m.splice(findIndex, 1, 
+          {
+            ...find, 
+            ...action.payload,
+            available_limit: find?.available_limit > 0 ? find?.available_limit - 1 : 0,
+          }
+        )
         state.chatData = {
           ...state.chatData,
           messageChats: sortingDialogList([...m])

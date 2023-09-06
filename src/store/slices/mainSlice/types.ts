@@ -42,7 +42,8 @@ interface MainStore {
 
   newMessage: {
     chatId: number | string, 
-    body: any 
+    body: any,
+    type: 'UPDATE' | 'NEW'
   } | null,
 
   newLetter: {

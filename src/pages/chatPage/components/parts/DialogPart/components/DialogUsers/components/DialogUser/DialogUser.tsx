@@ -57,12 +57,20 @@ const DialogUser:FC<I> = ({
           <Col span={24}>
             <div className={styles.body}>
               <Row gutter={[5,5]}>
-                <Col span={24}>id: <span>{id}</span></Col>
-                <Col span={24}>Цель: <span>{prompt_target_id}</span></Col>
-                <Col span={24}>Фото: </Col>
-                <Col span={24}>Кредиты: <span>{credits}</span></Col>
-                <Col span={24}>Чаты: </Col>
-                <Col span={24}>Письма: </Col>
+                <Col span={12}>
+                  <Row gutter={[5,5]}>
+                    <Col span={24}>id: <span>{id}</span></Col>
+                    <Col span={24}>Цель: <span>{prompt_target_id}</span></Col>
+                    <Col span={24}>Фото: </Col>    
+                  </Row>
+                </Col>
+                <Col span={12}>
+                  <Row gutter={[5,5]}>
+                    <Col span={24}>Кредиты: <span>{credits}</span></Col>
+                    <Col span={24}>Чаты: </Col>
+                    <Col span={24}>Письма: </Col>
+                  </Row>
+                </Col>
                 <Col span={24}>
                   <div className={styles.descr}>{about_self}</div>
                 </Col>
@@ -91,12 +99,20 @@ const DialogUser:FC<I> = ({
           <Col span={24}>
             <div className={styles.body}>
               <Row gutter={[5,5]}>
-                <Col span={24}>id: <span>{id}</span></Col>
-                <Col span={24}>Цель: <span>{prompt_target_id}</span></Col>
-                <Col span={24}>Фото: </Col>
-                <Col span={24}>Обычные:</Col>
-                <Col span={24}>Видео:</Col>
-                <Col span={24}>18+:</Col>
+                <Col span={12}>
+                  <Row gutter={[5,5]}>
+                    <Col span={24}>id: <span>{id}</span></Col>
+                    <Col span={24}>Цель: <span>{prompt_target_id}</span></Col>
+                    <Col span={24}>Фото: </Col>
+                  </Row>
+                </Col>
+                <Col span={12}>
+                  <Row gutter={[5,5]}>
+                    <Col span={24}>Обычные:</Col>
+                    <Col span={24}>Видео:</Col>
+                    <Col span={24}>18+:</Col>
+                  </Row>
+                </Col>
                 <Col span={24}>
                   <div className={styles.descr}>{about_self}</div>
                 </Col>
