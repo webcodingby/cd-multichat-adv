@@ -522,7 +522,7 @@ const apiSlice = createApi({
           gift_id: number | string
         }
       }) => ({
-        url: `operators/chats/${id}/send/gift/${gift_id}`,
+        url: `${API_PATH}operators/chats/${id}/send/gift/${gift_id}`,
         method: "POST",
         headers: setHeaderWithToken(token)
       }),

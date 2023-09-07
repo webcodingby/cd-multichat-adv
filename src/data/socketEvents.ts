@@ -4,7 +4,6 @@ const WS_EVENTS = {
 
   readChatMessage: '.chat-operator-message-read-event',
   
-
   deleteInbox: '.message-event',
   newInbox: '.new-chat-message-event',
 }
