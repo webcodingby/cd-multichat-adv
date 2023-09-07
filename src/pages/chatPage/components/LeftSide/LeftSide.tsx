@@ -9,7 +9,7 @@ import { useAppSelector } from '@hooks/useReduxTypedHook';
 
 
 const LeftSide:FC<any> = () => {
-  const {chatData} = useAppSelector(s => s.mainSlice)
+  const {chatData, totalInboxCount} = useAppSelector(s => s.mainSlice)
   const {limits} = chatData || {}
   const [activeTab, setActiveTab] = useState<'1' | '2'>('2')
 
@@ -20,6 +20,7 @@ const LeftSide:FC<any> = () => {
           <Row gutter={[10,10]}>
             <Col span={12}>
               <Button 
+                indicator={totalInboxCount}
                 variant={activeTab === '2' ? 'default' : 'dark'}
                 onClick={() => setActiveTab('2')}
                 isFill>

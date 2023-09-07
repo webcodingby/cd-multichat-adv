@@ -289,7 +289,7 @@ const mainSlice = createSlice({
     main_updateDialogUsers: (state, action: {payload: {man: any, girl: any} | null}) => {state.chatData = {...state.chatData, dialogUsers: action.payload}},
     main_updateChatType: (state, action: {payload: string | null}) => {state.chatData = {...state.chatData, chatType: action.payload}},
 
-
+    main_initInboxTotalCount: (state, action) => {state.totalInboxCount = action.payload},
 
     main_incNewMessagesCount: (state) => {state.newMessagesCount = state.newMessagesCount + 1},
     main_decNewMessagesCount: (state) => {state.newMessagesCount = (state.newMessagesCount - 1) > 0 ? state.newMessagesCount - 1 : 0},
@@ -328,6 +328,7 @@ export const {
   main_removeChatDataLimits,
   main_updateChatDataInbox,
   main_updateChatDataLetterChats,
+  main_initInboxTotalCount,
 
   // main_updateChatDataMessagesStore,
   // main_updateChatDataLetterStore,

@@ -6,8 +6,6 @@ import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
 import { useInView } from 'react-intersection-observer';
 import { main_incInboxPage } from '@store/slices/mainSlice/mainSlice';
 import {Row, Col} from 'antd'
-import Input from '@components/Input/Input';
-import apiSlice from '@store/slices/apiSlice/apiSlice';
 
 interface I {
   isActive?: boolean,
@@ -22,13 +20,11 @@ const InboxPart:FC<I> = ({
   const {ref, inView} = useInView()
   const dispatch = useAppDispatch()
 
-
   useEffect(() => {
     if(inView && loadMore && !isEndInbox) {
       dispatch(main_incInboxPage())
     }
   }, [loadMore, inView, isEndInbox])
-
 
   useEffect(() => {
     setLoadMore(true)

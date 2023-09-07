@@ -20,10 +20,12 @@ const Avatar:FC<I> = ({
       <div className={styles.img} style={{...style, width: size, height: size}}>
         <img 
           onLoad={() => setLoaded(true)}
-          src={image ?? placeholder} 
+          src={(image && !image.includes('cooldremy')) ? image : placeholder} 
           alt="Avatar"/>
         {
-          !loaded && <div className={styles.skeleton}></div>
+          !loaded && <div className={styles.skeleton}>
+            <img src={placeholder} alt="" />
+          </div>
         }
         
       </div>

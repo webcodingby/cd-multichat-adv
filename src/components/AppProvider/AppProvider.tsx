@@ -20,6 +20,7 @@ import {
   main_initChatDataLetterChats,
   main_initChatDataLimits,
   main_initChatDataMessageChats,
+  main_initInboxTotalCount,
   main_removeChatDataInbox,
   main_updateAdminData,
   main_updateChatDataInbox,
@@ -53,11 +54,17 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     inboxPage,
     historyPage
   } = useAppSelector(s => s.mainSlice)
-  const {currentChatId, limits, inbox} = chatData || {}
+  const {
+    currentChatId, 
+    limits, 
+    inbox, 
+    messageChats,
+  } = chatData || {}
   const [pusherConfig, setPusherConfig] = useState<pusherConfigType | null>(null)
   const pushRef = useRef<HTMLAudioElement>(null)
   const limitRef = useRef<HTMLAudioElement>(null)
   const [oldLimits, setOldLimits] = useState<any[]>([])
+  const [oldInbox, setOldInbox] = useState<any[]>([])
 
   const [getUserData] = apiSlice.endpoints.getSelf.useLazyQuery()
 
@@ -74,30 +81,34 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     setOldLimits(limits?.map(i => i?.id))
   }, [limits])
 
-  //create pusher config (ws)
   useEffect(() => {
-      if (token) {
-        setPusherConfig({
-          key: 's3cr3t',
-          wsHost: BASE_WS_DOMAIN,
-          authEndpoint: BASE_DOMAIN + 'broadcasting/auth',
-          cluster: 'mt1',
-          encrypted: true,
-          forceTLS: false,
-          wsPort: 6001,
-          wssPort: 6001,
-          disableStats: true,
-          enabledTransports: ['ws', 'wss'],
-          auth: {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            }
-          }
-        })
-      }
-    },
-    [token]
-  )
+    setOldInbox(inbox?.map(i => i?.id))
+  }, [inbox])
+
+  //create pusher config (ws)
+  // useEffect(() => {
+  //     if (token) {
+  //       setPusherConfig({
+  //         key: 's3cr3t',
+  //         wsHost: BASE_WS_DOMAIN,
+  //         authEndpoint: BASE_DOMAIN + 'broadcasting/auth',
+  //         cluster: 'mt1',
+  //         encrypted: true,
+  //         forceTLS: false,
+  //         wsPort: 6001,
+  //         wssPort: 6001,
+  //         disableStats: true,
+  //         enabledTransports: ['ws', 'wss'],
+  //         auth: {
+  //           headers: {
+  //             Authorization: 'Bearer ' + token,
+  //           }
+  //         }
+  //       })
+  //     }
+  //   },
+  //   [token]
+  // )
 
   //create connection to ws
   useEffect(() => {
@@ -119,58 +130,58 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
   )
 
   //listen ws after connection
-  useEffect(() => {
-    if (socket) {
-      socket.listen(WS_EVENTS.newChatMessage, (data: any) => {
-        pushRef?.current && pushRef?.current?.play()
-        //тело сообщения
-        const message: any = data?.chat_message;
+  // useEffect(() => {
+  //   if (socket) {
+  //     socket.listen(WS_EVENTS.newChatMessage, (data: any) => {
+  //       pushRef?.current && pushRef?.current?.play()
+  //       //тело сообщения
+  //       const message: any = data?.chat_message;
 
-        //элемент в чатлисте
-        const chat: any = {...data?.chat_list_item, other_user: data?.chat_message?.sender_user, self_user: data?.chat_message?.recepient_user}
+  //       //элемент в чатлисте
+  //       const chat: any = {...data?.chat_list_item, other_user: data?.chat_message?.sender_user, self_user: data?.chat_message?.recepient_user}
 
-        dispatch(main_updateChatDataMessageChats(chat))
-        dispatch(main_updateNewMessage({chatId: chat?.id, body: message, type: 'NEW'}))
-        dispatch(main_updateChatDataMessageChats(chat))
-        dispatch(main_updateChatDataInbox(data))
-      })
+  //       dispatch(main_updateChatDataMessageChats(chat))
+  //       dispatch(main_updateNewMessage({chatId: chat?.id, body: message, type: 'NEW'}))
+  //       dispatch(main_updateChatDataMessageChats(chat))
+  //       dispatch(main_updateChatDataInbox(data))
+  //     })
 
-      // socket.listen(WS_EVENTS.newChatLetter, (data: any) => {
-      //   pushRef?.current && pushRef?.current?.play()
-      //   //тело сообщения
-      //   const message: any = {}
+  //     // socket.listen(WS_EVENTS.newChatLetter, (data: any) => {
+  //     //   pushRef?.current && pushRef?.current?.play()
+  //     //   //тело сообщения
+  //     //   const message: any = {}
 
-      //   //элемент в чатлисте
-      //   const chat: any = {}
+  //     //   //элемент в чатлисте
+  //     //   const chat: any = {}
 
-      //   // dispatch(main_updateChatDataLetterChats(chat))
-      // })
+  //     //   // dispatch(main_updateChatDataLetterChats(chat))
+  //     // })
 
-      socket.listen(WS_EVENTS.readChatMessage, (data: any) => {
-        //тело сообщения
-        const message: any = data?.chat_message
+  //     socket.listen(WS_EVENTS.readChatMessage, (data: any) => {
+  //       //тело сообщения
+  //       const message: any = data?.chat_message
 
-        //элемент в чатлисте
-        const chat: any = {...data?.chat_list_item, other_user: data?.chat_message?.sender_user, self_user: data?.chat_message?.recepient_user}
+  //       //элемент в чатлисте
+  //       const chat: any = {...data?.chat_list_item, other_user: data?.chat_message?.sender_user, self_user: data?.chat_message?.recepient_user}
 
-        dispatch(main_updateNewMessage({
-          chatId: chat?.id, 
-          body: message,
-          type: 'UPDATE'
-        }))
-      })
+  //       dispatch(main_updateNewMessage({
+  //         chatId: chat?.id, 
+  //         body: message,
+  //         type: 'UPDATE'
+  //       }))
+  //     })
 
-      socket.listen(WS_EVENTS.deleteInbox, (data:any) => {
-        dispatch(main_removeChatDataInbox({id: data?.id, type: data?.type_of_model}))
-      })
-    }
+  //     socket.listen(WS_EVENTS.deleteInbox, (data:any) => {
+  //       dispatch(main_removeChatDataInbox({id: data?.id, type: data?.type_of_model}))
+  //     })
+  //   }
 
-    return () => {
-      socket?.stopListening(WS_EVENTS.newChatMessage)
-      socket?.stopListening(WS_EVENTS.newChatLetter)
-      socket?.stopListening(WS_EVENTS.readChatMessage)
-    }
-  }, [socket])
+  //   return () => {
+  //     socket?.stopListening(WS_EVENTS.newChatMessage)
+  //     socket?.stopListening(WS_EVENTS.newChatLetter)
+  //     socket?.stopListening(WS_EVENTS.readChatMessage)
+  //   }
+  // }, [socket])
 
   //get chat data
   useEffect(() => {
@@ -199,6 +210,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
         const {isSuccess, data} = res
         console.log(data)
         if (data && isSuccess) {
+          dispatch(main_initInboxTotalCount(data?.total))
           dispatch(main_initChatDataInbox(data?.data))
         }
       })
@@ -228,6 +240,51 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     }
   }, [token])
 
+
+  const updateMessageChats = () => {
+    if(token) {
+      getMessageChats({token, body: {page: 1, per_page: messageChats?.length}}).then(res => {
+        const {isSuccess, data} = res;
+        if (data && isSuccess) {
+          dispatch(main_initChatDataMessageChats(data?.data))
+        }
+      })
+    }
+  }
+
+  const updateInbox = () => {
+    if(token) {
+      getInbox({token, body: {page: 1, per_page: inbox?.length}}).then(res => {
+        const {isSuccess, data} = res
+        if(data && isSuccess) {
+          dispatch(main_initInboxTotalCount(data?.total))
+          dispatch(main_initChatDataInbox(data?.data))
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    let tm:any
+    if(token) {
+      tm = setInterval(updateMessageChats, 4000)
+    }
+    return () => {
+      if(tm) clearInterval(tm)
+    }
+  }, [token, messageChats?.length])
+
+  useEffect(() => {
+    let tm:any
+    if(token) {
+      tm = setInterval(updateInbox, 4000)
+    }
+    return () => {
+      if(tm) clearInterval(tm)
+    }
+  }, [token, inbox?.length])
+
+
   const getLimitsFunc = () => {
     if(token) {
       getLimits({token, body: {page: 1}}).then(res => {
@@ -251,14 +308,24 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     }
   }, [token])
 
+  useEffect(() => {
+    if (limits?.length > 0) {
+      const dif = L.difference(limits?.map(i => i?.id), oldLimits)
+      if (dif?.length > 0 && limitRef?.current) {
+        limitRef?.current?.play().catch(() => console.log('interracte with document before play media'))
+      }
+    }
+  }, [limits])
+
   // useEffect(() => {
-  //   if (limits?.length > 0) {
-  //     const dif = L.difference(limits?.map(i => i?.id), oldLimits)
-  //     if (dif?.length > 0 && limitRef?.current) {
-  //       limitRef?.current?.play()
+  //   if(inbox?.length > 0) {
+  //     const dif = L.difference(inbox?.map(i => i?.id), oldInbox)
+  //     if(dif?.length > 0 && pushRef?.current) {
+  //       console.log('NEW MESSAGE')
+  //       pushRef?.current?.play().catch(() => console.log('interracte with document before play media'))
   //     }
   //   }
-  // }, [limits])
+  // }, [inbox])
 
   useEffect(() => {
     if (messageChatsPage > 1 && token) {
@@ -289,6 +356,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
         const {isSuccess, data} = res
         if (data && data?.data?.length && isSuccess) {
           dispatch(main_addChatDataInbox(data?.data))
+          dispatch(main_initInboxTotalCount(data?.total))
         }
         if(data?.data?.length === 0) {
           dispatch(main_updateIsEndInbox(true))

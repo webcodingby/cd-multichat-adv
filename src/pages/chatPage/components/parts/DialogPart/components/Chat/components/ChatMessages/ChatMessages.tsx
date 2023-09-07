@@ -64,6 +64,27 @@ const ChatMessages:FC<I> = ({
     }
   }
 
+  const updateList = () => {
+    if(token && currentChatId) {
+      getList({token, body: {page: 1, id: currentChatId, per_page: list?.length}}).then(res => {
+        const {isSuccess, data} = res
+        if(isSuccess && data) {
+          setList(res?.data?.chat_messages?.data)
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    let tm:any;
+    if(token && currentChatId) {
+      tm = setInterval(updateList, 4000)
+    }
+    return () => {
+      if(tm) clearInterval(tm)
+    }
+  }, [token, currentChatId, list?.length])
+
   useEffect(() => {
     getListFunc()
   }, [page, token])

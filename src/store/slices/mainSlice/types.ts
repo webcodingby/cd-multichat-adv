@@ -58,7 +58,7 @@ interface MainStore {
 
   newMessagesCount: number,
   newLettersCount: number,
-
+  totalInboxCount: number
   
 }
 

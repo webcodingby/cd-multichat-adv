@@ -41,6 +41,8 @@ const initState:MainStore = {
 
   newMessagesCount: 0,
   newLettersCount: 0,
+
+  totalInboxCount: 0,
 }
 
 export default initState;

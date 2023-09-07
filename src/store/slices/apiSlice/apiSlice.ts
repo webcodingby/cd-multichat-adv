@@ -147,15 +147,17 @@ const apiSlice = createApi({
       query: ({
         token,
         body: {
-          page
+          page,
+          per_page = 100
         }
       }: {
         token:any,
         body: {
-          page: number
+          page: number,
+          per_page?: number
         }
       }) => ({
-        url: endpoints.getLimitList + `?page=${page}`,
+        url: endpoints.getLimitList + `?page=${page}&per_page=${per_page}`,
         headers: setHeaderWithToken(token)
       }),
       // transformErrorResponse: checkFetchAuthorization
@@ -611,7 +613,10 @@ const apiSlice = createApi({
         method: "POST"
       }),
       // transformErrorResponse: checkFetchAuthorization,
-    })
+    }),
+    // getIndicators: builder.query({
+
+    // })
   }),
 })
 
