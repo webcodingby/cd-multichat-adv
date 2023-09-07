@@ -7,7 +7,8 @@ import chatPreview from '@utils/chatPreview';
 import CopyableText from '@components/CopyableText/CopyableText';
 import { useNavigate } from 'react-router-dom';
 import Countdown from 'react-countdown';
-
+import { useAppDispatch } from '@hooks/useReduxTypedHook';
+import { main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
 const InboxItemComponent:FC<any> = (props) => {
   const {
     name,
@@ -27,6 +28,7 @@ const InboxItemComponent:FC<any> = (props) => {
     deleted_by_first_user,
     deleted_by_second_user
   } = props
+  const dispatch = useAppDispatch()
   const [isTimeEnd, setIsTimeEnd] = useState(false)
   const navigate = useNavigate()
 
@@ -38,6 +40,10 @@ const InboxItemComponent:FC<any> = (props) => {
       if(type_of_model === 'letter') {
         // navigate(`/chat?chatType=MAIL&chatId=${id}&selfId=${self_user?.id}`)
       }
+      dispatch(main_updateDialogUsers({
+        man: props?.other_user,
+        girl: self_user
+      }))
     }
   } 
 

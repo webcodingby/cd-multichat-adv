@@ -6,5 +6,6 @@ const checkFetchAuthorization = ({status}: FetchBaseQueryError, ...args:any[]) =
     window.location.reload()
     window.location.replace('/auth')
   }
+  console.log(...args)
 }
 export default checkFetchAuthorization;

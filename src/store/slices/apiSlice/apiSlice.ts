@@ -426,7 +426,7 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         body: JSON.stringify(body)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      transformErrorResponse: checkFetchAuthorization,
     }),
 
     sendLetter: builder.mutation({
@@ -610,7 +610,7 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         method: "POST"
       }),
-      transformErrorResponse: checkFetchAuthorization
+      transformErrorResponse: checkFetchAuthorization,
     })
   }),
 })

@@ -251,7 +251,8 @@ const ChatAction:FC<any> = ({
   }
 
   useEffect(() => {
-    const {data, isLoading, isSuccess } = sendMessageRes
+    const {data, isLoading, isSuccess, error, isError } = sendMessageRes
+    console.log('MESSAGE SEND')
     if(data && isSuccess && !isLoading) {
       if(data?.id) {
         const messageBody = data?.last_message
@@ -274,10 +275,9 @@ const ChatAction:FC<any> = ({
 
         }
       } 
-      if(data?.error === 'NO_LIMIT') {
-        message.error('У вас недостаточно лимита')
-      }
-      
+    }
+    if(!isLoading && isError) {
+      message.error('У вас недостаточно лимита')
     }
   }, [sendMessageRes])
 
