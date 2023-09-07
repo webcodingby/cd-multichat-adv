@@ -65,13 +65,13 @@ const StatTable:FC<any> = () => {
     }
   }
 
-  const getStatMessageCountOperatorAnketFunc = () => {
-    if(token) {
-      getStatMessageCountOperatorAnket({token}).then(res => {
-        console.log(res)
-      })
-    }
-  }
+  // const getStatMessageCountOperatorAnketFunc = () => {
+  //   if(token) {
+  //     getStatMessageCountOperatorAnket({token}).then(res => {
+  //       console.log(res)
+  //     })
+  //   }
+  // }
 
   const getStatAnketCountFunc = () => {
     if(token) {
