@@ -132,6 +132,8 @@ const Media:FC<I> = (props) => {
     if(page === 1) {
       getMediaFunc()
     }
+
+    setSelectedList([])
   }, [activeTab, token])
 
   useEffect(() => {
@@ -156,6 +158,7 @@ const Media:FC<I> = (props) => {
   useEffect(() => {
     const {data, isSuccess, isLoading} = uploadImagesRes
     if(!isLoading && data && isSuccess) {
+      console.log(data)
       if(data?.length > 0) setMediaList(s => [...data?.map((i: any) => ({...i?.original})), ...s])
     }
   }, [uploadImagesRes])
@@ -222,16 +225,16 @@ const Media:FC<I> = (props) => {
             )
           }
           {
-            !(chatType === 'CHAT' && selectedList?.length === mediaList?.length) && (
+            (chatType === 'CHAT' && selectedList?.length === 1) && (
               <div className={styles.action_item}>
                 <Button
-                  onClick={() => onSendMedia && onSendMedia(selectedList)}
-                  disabled={selectedList.length === 0}>
+                  onClick={() => onSendMedia && onSendMedia(selectedList)}>
                   Отправить{selectedList.length > 0 ? ':' + selectedList.length : ''}
                 </Button>
               </div>
             )
           }
+          
         </div>
       </div>
       <div className={styles.tabs}>

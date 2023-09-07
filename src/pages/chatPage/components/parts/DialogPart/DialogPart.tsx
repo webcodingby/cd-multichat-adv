@@ -41,11 +41,10 @@ const DialogPart:FC<any> = () => {
       if(newMessage?.type === 'UPDATE') {
         if(currentChatId == newMessage?.chatId) {
           setMessagesList(s => {
-            const m = s;
+            const m = [...s];
             const find = m?.find(i => i?.id == newMessage?.body?.id)
             const findIndex = m?.findIndex(i => i?.id == newMessage?.body?.id)
             if(findIndex !== -1 && findIndex >= 0 && find) {
-              const m = s;
               const rm = m.splice(findIndex, 1, newMessage?.body)
               return [...m]
             } 
