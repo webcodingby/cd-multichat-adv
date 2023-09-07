@@ -93,6 +93,7 @@ const ChatMessages:FC<I> = ({
               isSelf={i?.sender_user?.id == selfId ? 1 : 0}
               isShowAvatar={i.sender_user?.id !== list[index - 1]?.sender_user?.id}
               key={index}
+              pureBody={i}
               />
           )
         ))

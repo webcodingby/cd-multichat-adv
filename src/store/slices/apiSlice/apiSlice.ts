@@ -590,8 +590,29 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token)
       }),
       transformErrorResponse: checkFetchAuthorization
+    }),
+
+    readMessage: builder.mutation({
+      query: ({
+        token,
+        body: {
+          chatId,
+          messageId
+        }
+      }: {
+        token:any,
+        body: {
+          chatId: any,
+          messageId:any
+        }
+      }) => ({
+        url: `${API_PATH}operators/chats/${chatId}/read/${messageId}`,
+        headers: setHeaderWithToken(token),
+        method: "POST"
+      }),
+      transformErrorResponse: checkFetchAuthorization
     })
-  })
+  }),
 })
 
 export const {
@@ -618,6 +639,7 @@ export const {
   useWorkStopMutation,
   useWorkPausedStartMutation,
   useWorkPausedStopMutation,
+  useReadMessageMutation,
 
   //stat
   useGetStatChatAvgTimeListQuery,

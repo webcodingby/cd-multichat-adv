@@ -1,4 +1,4 @@
-import { FC, memo } from 'react'
+import { FC, memo, useEffect } from 'react'
 import styles from './Message.module.scss';
 import I from './types';
 import getClassNames from '@utils/getClassNames';
@@ -10,6 +10,10 @@ import moment from 'moment';
 import {BsCheck, BsCheckAll} from 'react-icons/bs'
 import {FaSmileWink} from 'react-icons/fa';
 import MessageStatus from "@components/MessageStatus/MessageStatus";
+import { useInView } from 'react-intersection-observer';
+import { useReadMessageMutation } from '@store/slices/apiSlice/apiSlice';
+import { useAppSelector, useAppDispatch } from '@hooks/useReduxTypedHook';
+import { main_updateNewMessage } from '@store/slices/mainSlice/mainSlice';
 
 const MessageComponent:FC<I> = ({
   avatar,
@@ -22,8 +26,33 @@ const MessageComponent:FC<I> = ({
   id,
   updatedAt,
   createdAt,
-  isShowAvatar
+  isShowAvatar,
+
+  pureBody
 }) => {
+  const {token, chatData} = useAppSelector(s => s.mainSlice)
+  const {currentChatId} = chatData || {}
+  const {inView, ref} = useInView({triggerOnce: true})
+  const [readMessage, readMessageRes] = useReadMessageMutation()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if(!isRead && inView && token && currentChatId && id) {
+      readMessage({token, body: {chatId: currentChatId, messageId: id}})
+    }
+  }, [inView, isRead, token, currentChatId, id])
+
+  useEffect(() => {
+    const {data, isLoading, isSuccess} = readMessageRes
+    if(isSuccess) {
+      dispatch(main_updateNewMessage({
+        chatId: currentChatId,
+        body: {...pureBody, is_read_by_recepient: 1},
+        type: 'UPDATE'
+      }))
+    }
+  }, [readMessageRes])
+
 
   const messageDepType = (type: messageType) => {
     switch(type) {
@@ -125,7 +154,7 @@ const MessageComponent:FC<I> = ({
 
   if(isSelf === 0) {
     return (
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} ref={ref}>
         <div className={styles.in}>
           <div className={styles.avatar}>
             {isShowAvatar && (

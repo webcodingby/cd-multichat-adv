@@ -268,8 +268,6 @@ const ChatAction:FC<any> = ({
             body: messageBody,
             type: 'NEW'
           }))
-          console.log('ID', dialogBody?.id)
-          console.log('TYPE', 'chat')
           dispatch(main_removeChatDataInbox({id: dialogBody?.id, type: 'chat'}))
         }
         if(type === 'MAIL') {

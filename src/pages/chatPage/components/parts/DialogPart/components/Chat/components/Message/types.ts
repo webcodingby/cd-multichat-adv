@@ -9,7 +9,9 @@ interface I {
   id?:any,
   updatedAt?:any,
   createdAt?:any,
-  isShowAvatar?: boolean
+  isShowAvatar?: boolean,
+
+  pureBody?:any
 }
 
 export default I;
