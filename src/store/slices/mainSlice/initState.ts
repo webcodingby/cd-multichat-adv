@@ -24,7 +24,10 @@ const initState:MainStore = {
     messageChats: [],
     messagesStore: [],
     lettersStore: [],
-    history: []
+    history: [],
+
+    isEndInbox: false,
+    isEndMessageChats: false
   },
 
   messageChatsPage: 1,

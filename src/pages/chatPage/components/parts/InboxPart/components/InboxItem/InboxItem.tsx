@@ -1,5 +1,5 @@
 import styles from './InboxItem.module.scss';
-import { FC, useState, memo } from 'react'
+import { FC, useState, memo, useEffect } from 'react'
 import Avatar from '@components/Avatar/Avatar';
 import UserTitle from '@components/UserTitle/UserTitle';
 import setChatIcon from '@utils/setChatIcon';
@@ -33,10 +33,10 @@ const InboxItemComponent:FC<any> = (props) => {
   const onClick = () => {
     if(deleted_by_first_user === 0 && deleted_by_second_user === 0) {
       if(type_of_model === 'chat') {
-        navigate(`/chat?chatType=CHAT?chatId=${id}&selfId=${self_user?.id}`)
+        navigate(`/chat?chatType=CHAT&chatId=${id}&selfId=${self_user?.id}`)
       }
       if(type_of_model === 'letter') {
-        navigate(`/chat?chatType=MAIL?chatId=${id}&selfId=${self_user?.id}`)
+        // navigate(`/chat?chatType=MAIL&chatId=${id}&selfId=${self_user?.id}`)
       }
     }
   } 
@@ -51,6 +51,7 @@ const InboxItemComponent:FC<any> = (props) => {
             <Avatar
               size={60}
               image={user_thumbnail_url}
+              isOnline={online == 1}
               />
           </div>
           <div className={styles.body}>
@@ -66,7 +67,7 @@ const InboxItemComponent:FC<any> = (props) => {
               </div>
               <div className={styles.message}>
                 {chatPreview({
-                  messageType: type_of_model === 'letter' ? 'MAIL' : 'CHAT',
+                  messageType: last_message?.chat_messageable_type,
                   body: last_message
                 })}
               </div>
@@ -93,7 +94,7 @@ const InboxItemComponent:FC<any> = (props) => {
               />
           </div>
           <div className={styles.ex_item}>
-            <Countdown 
+            {/* <Countdown 
               date={Date.now() + 10000}
               renderer={({hours,minutes,seconds, completed}) => {
                 if(completed) {
@@ -110,7 +111,7 @@ const InboxItemComponent:FC<any> = (props) => {
                 
               }}
 
-              />
+              /> */}
             </div>
           <div className={styles.ex_item}>
             id{<CopyableText>{self_user?.id}</CopyableText>}

@@ -20,6 +20,22 @@
       padding: 5px;
       font-size: 12px;
       line-height: 17px;
+      position: relative;
+      padding-right: 25px;
+
+      .toggle {
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+        line-height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        position: absolute;
+        top: 3px;
+        right: 0;
+      }
     }
   }
 }

@@ -53,7 +53,8 @@
         width: 100%;
         content: '';
         background-color: #fff;
-        animation: sk-pr-loading 1s linear infinite;
+        // animation: sk-pr-loading 1s linear infinite;
+        opacity: .5;
       }
 
       @keyframes sk-pr-loading {

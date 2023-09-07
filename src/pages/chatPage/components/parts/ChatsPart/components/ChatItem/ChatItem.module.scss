@@ -1,6 +1,6 @@
 .wrapper {
   // height: 100px;
-  background-color: var(--blue_3);
+  background-color: var(--blue_4);
   border-radius: 8px;
   margin-bottom: 5px;
   padding: 7px;
@@ -28,6 +28,13 @@
         font-size: 20px;
         line-height: 20px;
         color: var(--green_1);
+      }
+
+      .time {
+        color: var(--yellow_1);
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 16px;
       }
     }
   }

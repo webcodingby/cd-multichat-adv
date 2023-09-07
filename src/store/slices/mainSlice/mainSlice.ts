@@ -159,6 +159,9 @@ const mainSlice = createSlice({
     main_addChatDataLetterChats: (state, action) => {
       state.chatData.letterChats = sortingDialogList([...state.chatData.letterChats, ...action.payload])
     },
+    main_addChatDataInbox: (state, action) => {
+      state.chatData.inbox = [...state.chatData.inbox, ...action.payload]
+    },
 
 
     main_updateChatDataMessageChats: (state, action) => {
@@ -236,7 +239,7 @@ const mainSlice = createSlice({
       const find = state.chatData.inbox.find(i => i?.id == id && i?.type_of_model == type)
       const findIndex = state.chatData.inbox.findIndex(i => i?.id == id && i?.type_of_model == type)
 
-      if(find) {
+      if(find && findIndex !== -1) {
         const m = state.chatData.inbox
         const rm = m.splice(findIndex, 1)
         state.chatData = {
@@ -299,10 +302,8 @@ const mainSlice = createSlice({
 
     main_updateCreateChatData: (state, action) => {state.createChatData = action.payload},
 
-
-    main_deleteLimitItem: (state, action) => {
-      
-    }
+    main_updateIsEndInbox: (state, action) => {state.chatData.isEndInbox = action.payload},
+    main_updateIsEndMessageChats: (state, action) => {state.chatData.isEndMessageChats = action.payload},
   }
 })
 
@@ -345,7 +346,7 @@ export const {
   main_incMessageChatsPage,
   main_incLetterChatsPage,
   main_incInboxPage,
-
+  main_addChatDataInbox,
 
   main_decNewLettersCount,
   main_decNewMessagesCount,
@@ -353,6 +354,9 @@ export const {
   main_incNewMessagesCount,
   main_updateNewLetter,
   main_updateNewMessage,
-  main_updateCreateChatData
+  main_updateCreateChatData,
+
+  main_updateIsEndInbox,
+  main_updateIsEndMessageChats
 } = actions
 export default reducer;

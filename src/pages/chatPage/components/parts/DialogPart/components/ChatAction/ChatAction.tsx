@@ -25,7 +25,8 @@ import {
   main_updateNewLetter,
   main_updateNewMessage,
   main_removeChatDataLimits,
-  main_updateCreateChatData
+  main_updateCreateChatData,
+  main_removeChatDataInbox
 } from '@store/slices/mainSlice/mainSlice';
 
 
@@ -112,9 +113,29 @@ const ChatAction:FC<any> = ({
   const onSendSticker = (sticker: string | number) => {
     if(token && currentChatId) {
       if(chatType === 'CHAT') {
-        if(createChatData) {
+        if(createChatData && !currentChatId) {
           setLoading(true)
-        } else {
+          createMessageChat({
+            token,
+            body: createChatData
+          }).then((res:any) => {
+            if(res?.data?.id) {
+              dispatch(main_removeChatDataLimits({id: createChatData?.operator_chat_limit_id}))
+              sendSticker({
+                token, 
+                body: {
+                  id: res?.data?.id, 
+                  sticker_id: sticker
+                }
+              })
+              .finally(() => {
+                setLoading(false)
+                setText('')
+              })
+            }
+          })
+        }
+        if(currentChatId) {
           setLoading(true)
           sendSticker({
             token, 
@@ -123,7 +144,10 @@ const ChatAction:FC<any> = ({
               sticker_id: sticker
             }
           })
-          .finally(() => setLoading(false))
+          .finally(() => {
+            setLoading(false)
+            setText('')
+          })
         }
       }  
     }
@@ -132,9 +156,29 @@ const ChatAction:FC<any> = ({
   const onSendGift = (gift: number | string) => {
     if(token && currentChatId) {
       if(chatType === 'CHAT') {
-        if(createChatData) {
-          
-        } else {
+        if(createChatData && !currentChatId) {
+          setLoading(true)
+          createMessageChat({
+            token,
+            body: createChatData
+          }).then((res:any) => {
+            if(res?.data?.id) {
+              dispatch(main_removeChatDataLimits({id: createChatData?.operator_chat_limit_id}))
+              sendGift({
+                token,
+                body: {
+                  id: res?.data?.id,
+                  gift_id: gift
+                }
+              })
+              .finally(() => {
+                setLoading(false)
+                setText('')
+              })
+            }
+          })
+        }
+        if(currentChatId) {
           setLoading(true)
           sendGift({
             token,
@@ -143,7 +187,10 @@ const ChatAction:FC<any> = ({
               gift_id: gift
             }
           })
-          .finally(() => setLoading(false))
+          .finally(() => {
+            setLoading(false)
+            setText('')
+          })
         }
       }
     }
@@ -152,9 +199,31 @@ const ChatAction:FC<any> = ({
   const onSendMedia = (selected: any[]) => {
     if(token && currentChatId && selected?.length > 0) {
       if(chatType === 'CHAT') {
-        if(createChatData) {
-          
-        } else {
+        if(createChatData && !currentChatId) {
+          setLoading(true)
+          createMessageChat({
+            token,
+            body: createChatData
+          }).then((res:any) => {
+            if(res?.data?.id) {
+              dispatch(main_removeChatDataLimits({id: createChatData?.operator_chat_limit_id}))
+              sendMedia({
+                token,
+                id: res?.data?.id,
+                body: {
+                  thumbnail_url: selected[0]?.image_url,
+                  image_url: selected[0]?.image_url
+                }
+              })
+              .finally(() => {
+                setLoading(false)
+                setText('')
+              })
+            }
+          })
+        }
+        if(currentChatId) {
+          setLoading(true)
           sendMedia({
             token,
             id: currentChatId,
@@ -162,85 +231,24 @@ const ChatAction:FC<any> = ({
               thumbnail_url: selected[0]?.image_url,
               image_url: selected[0]?.image_url
             }
+          }).finally(() => {
+            setLoading(false)
+            setText('')
           })
         }
       }
       if(chatType === 'MAIL') {
-        sendLetter({
-          token,
-          id: currentChatId,
-          body: {
-            text,
-            images: selected?.map(i => i?.id)
-          }
-        })
+        // sendLetter({
+        //   token,
+        //   id: currentChatId,
+        //   body: {
+        //     text,
+        //     images: selected?.map(i => i?.id)
+        //   }
+        // })
       }
     } 
   }
-
-  useEffect(() => {
-    const {data, isSuccess, isLoading} = sendStickerRes
-    if(!isLoading && data && isSuccess) {
-      const messageBody = data?.last_message
-      const dialogBody = data
-      const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
-
-      if(type === 'CHAT') {
-        dispatch(main_updateChatDataMessageChats(dialogBody))
-        dispatch(main_updateNewMessage({
-          chatId: dialogBody?.id, 
-          body: messageBody,
-          type: 'NEW'
-        }))
-      }
-      if(type === 'MAIL') {
-
-      }
-    }
-  }, [sendStickerRes])
-
-  useEffect(() => {
-    const {data, isSuccess, isLoading} = sendGiftRes
-    if(!isLoading && data && isSuccess) {
-      
-      const messageBody = data?.last_message
-      const dialogBody = data
-      const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
-
-      if(type === 'CHAT') {
-        dispatch(main_updateChatDataMessageChats(dialogBody))
-        dispatch(main_updateNewMessage({
-          chatId: dialogBody?.id, 
-          body: messageBody,
-          type: 'NEW'
-        }))
-      }
-      if(type === 'MAIL') {
-
-      }
-    }
-  }, [sendGiftRes])
-
-  useEffect(() => {
-    const {data, isSuccess, isLoading} = sendMediaRes
-    if(data && isSuccess && !isLoading) {
-      const messageBody = data?.last_message
-      const dialogBody = data
-      const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
-
-      if(type === 'CHAT') {
-        dispatch(main_updateChatDataMessageChats(dialogBody))
-        dispatch(main_updateNewMessage({
-          chatId: dialogBody?.id, 
-          body: messageBody,
-          type: 'NEW'
-        }))
-      }
-      if(type === 'MAIL') {
-
-      }
-    }
-  }, [sendMediaRes])
 
   useEffect(() => {
     const {data, isLoading, isSuccess } = sendMessageRes
@@ -260,6 +268,9 @@ const ChatAction:FC<any> = ({
             body: messageBody,
             type: 'NEW'
           }))
+          console.log('ID', dialogBody?.id)
+          console.log('TYPE', 'chat')
+          dispatch(main_removeChatDataInbox({id: dialogBody?.id, type: 'chat'}))
         }
         if(type === 'MAIL') {
 
@@ -271,6 +282,99 @@ const ChatAction:FC<any> = ({
       
     }
   }, [sendMessageRes])
+
+  useEffect(() => {
+    const {data, isSuccess, isLoading} = sendStickerRes
+    if(!isLoading && data && isSuccess) {
+      if(data?.id) {
+        const messageBody = data?.last_message
+        const dialogBody = data
+        const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
+
+        navigate(`/chat?chatType=CHAT&chatId=${dialogBody?.id}&selfId=${dialogBody?.self_user?.id}`)
+        dispatch(main_updateCreateChatData(null))
+
+        if(type === 'CHAT') {
+          dispatch(main_updateChatDataMessageChats(dialogBody))
+          dispatch(main_updateNewMessage({
+            chatId: dialogBody?.id, 
+            body: messageBody,
+            type: 'NEW'
+          }))
+          dispatch(main_removeChatDataInbox({id: dialogBody?.id, type: 'chat'}))
+        }
+        if(type === 'MAIL') {
+
+        }
+      }
+      if(data?.error === 'NO_LIMIT') {
+        message.error('У вас недостаточно лимита')
+      }
+    }
+  }, [sendStickerRes])
+
+  useEffect(() => {
+    const {data, isSuccess, isLoading} = sendGiftRes
+    if(!isLoading && data && isSuccess) {
+      
+      if(data?.id) {
+        const messageBody = data?.last_message
+        const dialogBody = data
+        const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
+
+        navigate(`/chat?chatType=CHAT&chatId=${dialogBody?.id}&selfId=${dialogBody?.self_user?.id}`)
+        dispatch(main_updateCreateChatData(null))
+
+        if(type === 'CHAT') {
+          dispatch(main_updateChatDataMessageChats(dialogBody))
+          dispatch(main_updateNewMessage({
+            chatId: dialogBody?.id, 
+            body: messageBody,
+            type: 'NEW'
+          }))
+          dispatch(main_removeChatDataInbox({id: dialogBody?.id, type: 'chat'}))
+        }
+        if(type === 'MAIL') {
+
+        }
+      }
+      if(data?.error === 'NO_LIMIT') {
+        message.error('У вас недостаточно лимита')
+      }
+    }
+  }, [sendGiftRes])
+
+  useEffect(() => {
+    const {data, isSuccess, isLoading} = sendMediaRes
+    if(data && isSuccess && !isLoading) {
+      if(data?.id) {
+        const messageBody = data?.last_message
+        const dialogBody = data
+        const type = data?.model_type == 'chat' ? 'CHAT' : 'MAIL'
+
+        navigate(`/chat?chatType=CHAT&chatId=${dialogBody?.id}&selfId=${dialogBody?.self_user?.id}`)
+        dispatch(main_updateCreateChatData(null))
+
+        if(type === 'CHAT') {
+          dispatch(main_updateChatDataMessageChats(dialogBody))
+          dispatch(main_updateNewMessage({
+            chatId: dialogBody?.id, 
+            body: messageBody,
+            type: 'NEW'
+          }))
+          dispatch(main_removeChatDataInbox({id: dialogBody?.id, type: 'chat'}))
+        }
+        if(type === 'MAIL') {
+
+        }
+      }
+      if(data?.error === 'NO_LIMIT') {
+        message.error('У вас недостаточно лимита')
+      }
+    }
+  }, [sendMediaRes])
+
+  
 
   useEffect(() => {
     const {data, isLoading, isSuccess} = sendLetterRes

@@ -41,7 +41,7 @@ const apiSlice = createApi({
           filter_type?: any
         }
       }) => ({
-        url: endpoints.getMessageChats + `?page=${page}&per_page=${per_page}&search=${search}&filter_type=${filter_type}`,
+        url: endpoints.getMessageChats + `?page=${page}&per_page=${per_page}`,
         headers: setHeaderWithToken(token)
       }),
       transformErrorResponse: checkFetchAuthorization

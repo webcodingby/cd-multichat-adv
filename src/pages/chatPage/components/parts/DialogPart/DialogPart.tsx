@@ -26,6 +26,9 @@ const DialogPart:FC<any> = () => {
   }, [createChatData])
 
 
+  
+
+
   useEffect(() => {
     if(newMessage !== null) {
       //НОВОЕ СООБЩЕНИЕ

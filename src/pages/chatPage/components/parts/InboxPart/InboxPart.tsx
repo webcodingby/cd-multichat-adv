@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { main_incInboxPage } from '@store/slices/mainSlice/mainSlice';
 import {Row, Col} from 'antd'
 import Input from '@components/Input/Input';
+import apiSlice from '@store/slices/apiSlice/apiSlice';
 
 interface I {
   isActive?: boolean,
@@ -16,28 +17,23 @@ const InboxPart:FC<I> = ({
   isActive,
 }) => {
   const {chatData} = useAppSelector(s => s.mainSlice)
-  const {inbox} = chatData || {}
+  const {inbox, isEndInbox} = chatData || {}
   const [loadMore, setLoadMore] = useState(false)
   const {ref, inView} = useInView()
   const dispatch = useAppDispatch()
 
 
   useEffect(() => {
-    if(inbox?.length > 0) setLoadMore(true)
-  }, [inbox])
-
-  useEffect(() => {
-    if(inView && loadMore) {
+    if(inView && loadMore && !isEndInbox) {
       dispatch(main_incInboxPage())
-      setLoadMore(false)
     }
-  }, [loadMore, inView])
+  }, [loadMore, inView, isEndInbox])
+
 
   useEffect(() => {
     setLoadMore(true)
-  }, [inbox]) 
+  }, [inbox])
   
-
   
   return (
     <div 

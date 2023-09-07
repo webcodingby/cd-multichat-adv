@@ -20,6 +20,13 @@ const LeftSide:FC<any> = () => {
           <Row gutter={[10,10]}>
             <Col span={12}>
               <Button 
+                variant={activeTab === '2' ? 'default' : 'dark'}
+                onClick={() => setActiveTab('2')}
+                isFill>
+                Новые сообщения</Button>
+            </Col>
+            <Col span={12}>
+              <Button 
                 variant={activeTab === '1' ? 'default' : 'dark'}
                 onClick={() => setActiveTab('1')}
                 isFill
@@ -27,13 +34,7 @@ const LeftSide:FC<any> = () => {
                 >
                 Лимиты</Button>
             </Col>
-            <Col span={12}>
-              <Button 
-                variant={activeTab === '2' ? 'default' : 'dark'}
-                onClick={() => setActiveTab('2')}
-                isFill>
-                Новые сообщения</Button>
-            </Col>
+            
           </Row>
         </Col>
         <Col span={24}>

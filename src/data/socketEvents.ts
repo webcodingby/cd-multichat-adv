@@ -2,10 +2,11 @@ const WS_EVENTS = {
   newChatMessage: '.new-operator-chat-message-event',
   newChatLetter: '.operator-new-letter-message-event',
 
-  readChatMessage: '.new-operator-chat-message-event',
+  readChatMessage: '.chat-operator-message-read-event',
+  
 
-  // eventDeleteInbox: '.message-event',
-  // eventNewInbox: '.new-chat-message-event',
+  deleteInbox: '.message-event',
+  newInbox: '.new-chat-message-event',
 }
 
 export default WS_EVENTS;

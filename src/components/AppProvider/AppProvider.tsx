@@ -13,16 +13,20 @@ import apiSlice, {
 import {Cookies} from 'typescript-cookie';
 import {cookiesStorageKeys} from '@utils/storageKeys';
 import {
+  main_addChatDataInbox,
   main_addChatDataLetterChats,
   main_addChatDataMessageChats,
   main_initChatDataInbox,
   main_initChatDataLetterChats,
   main_initChatDataLimits,
   main_initChatDataMessageChats,
+  main_removeChatDataInbox,
   main_updateAdminData,
   main_updateChatDataInbox,
   main_updateChatDataLetterChats,
   main_updateChatDataMessageChats,
+  main_updateIsEndInbox,
+  main_updateIsEndMessageChats,
   main_updateNewMessage,
   main_updateSocket,
 } from '@store/slices/mainSlice/mainSlice';
@@ -49,7 +53,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     inboxPage,
     historyPage
   } = useAppSelector(s => s.mainSlice)
-  const {currentChatId, limits} = chatData || {}
+  const {currentChatId, limits, inbox} = chatData || {}
   const [pusherConfig, setPusherConfig] = useState<pusherConfigType | null>(null)
   const pushRef = useRef<HTMLAudioElement>(null)
   const limitRef = useRef<HTMLAudioElement>(null)
@@ -118,65 +122,47 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
   useEffect(() => {
     if (socket) {
       socket.listen(WS_EVENTS.newChatMessage, (data: any) => {
-        notify('[WS]: New Message', 'INFO')
         pushRef?.current && pushRef?.current?.play()
         //тело сообщения
-        const message: any = {}
+        const message: any = data?.chat_message;
 
         //элемент в чатлисте
-        const chat: any = {}
+        const chat: any = {...data?.chat_list_item, other_user: data?.chat_message?.sender_user, self_user: data?.chat_message?.recepient_user}
 
         dispatch(main_updateChatDataMessageChats(chat))
-        // dispatch(main_updateChatDataMessagesStoreElement({
-        //   id: chat?.id,
-        //   message: message
-        // }))
-        dispatch(main_updateNewMessage({chatId: chat?.id, body: message}))
+        dispatch(main_updateNewMessage({chatId: chat?.id, body: message, type: 'NEW'}))
+        dispatch(main_updateChatDataMessageChats(chat))
+        dispatch(main_updateChatDataInbox(data))
       })
 
-      socket.listen(WS_EVENTS.newChatLetter, (data: any) => {
-        notify('[WS]: New Letter', 'INFO')
-        pushRef?.current && pushRef?.current?.play()
-        //тело сообщения
-        const message: any = {}
+      // socket.listen(WS_EVENTS.newChatLetter, (data: any) => {
+      //   pushRef?.current && pushRef?.current?.play()
+      //   //тело сообщения
+      //   const message: any = {}
 
-        //элемент в чатлисте
-        const chat: any = {}
+      //   //элемент в чатлисте
+      //   const chat: any = {}
 
-        dispatch(main_updateChatDataLetterChats(chat))
-        // dispatch(main_updateChatDataLettersStoreElement({
-        //   id: chat?.id,
-        //   message: message
-        // }))
-      })
+      //   // dispatch(main_updateChatDataLetterChats(chat))
+      // })
 
       socket.listen(WS_EVENTS.readChatMessage, (data: any) => {
-        notify('[WS]: Message Read', 'INFO')
-        const type: 'MAIL' | 'CHAT' | null = null
-
         //тело сообщения
-        const message: any = {}
+        const message: any = data?.chat_message
 
         //элемент в чатлисте
-        const chat: any = {}
+        const chat: any = {...data?.chat_list_item, other_user: data?.chat_message?.sender_user, self_user: data?.chat_message?.recepient_user}
 
-        if (type === 'CHAT') {
-          dispatch(main_updateChatDataMessageChats(chat))
-          // dispatch(main_updateChatDataMessagesStoreElement({
-          //   id: chat?.id,
-          //   message: message
-          // }))
-        }
-        if (type === 'MAIL') {
-          dispatch(main_updateChatDataLetterChats(chat))
-          // dispatch(main_updateChatDataLettersStoreElement({
-          //   id: chat?.id,
-          //   message: message
-          // }))
-        }
-
+        dispatch(main_updateNewMessage({
+          chatId: chat?.id, 
+          body: message,
+          type: 'UPDATE'
+        }))
       })
 
+      socket.listen(WS_EVENTS.deleteInbox, (data:any) => {
+        dispatch(main_removeChatDataInbox({id: data?.id, type: data?.type_of_model}))
+      })
     }
 
     return () => {
@@ -218,7 +204,6 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
       })
       getUserData(token).then(res => {
         const {isSuccess, data} = res
-        console.log(res?.data)
         const d = Cookies.get(ADMIN)
         const userData: any = typeof d === 'string' ? JSON.parse(d) : null
         if (data !== null && isSuccess) {
@@ -281,6 +266,9 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
         if (res?.data?.data?.length > 0) {
           dispatch(main_addChatDataMessageChats(res?.data?.data))
         }
+        if(res?.data?.data?.length === 0) {
+          dispatch(main_updateIsEndMessageChats(true))
+        } else dispatch(main_updateIsEndMessageChats(false))
       })
     }
   }, [messageChatsPage, token])
@@ -294,6 +282,21 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
       })
     }
   }, [letterChatPage, token])
+
+  useEffect(() => {
+    if(inboxPage > 1) {
+      getInbox({token, body: {page: inboxPage}}).then(res => {
+        const {isSuccess, data} = res
+        if (data && data?.data?.length && isSuccess) {
+          dispatch(main_addChatDataInbox(data?.data))
+        }
+        if(data?.data?.length === 0) {
+          dispatch(main_updateIsEndInbox(true))
+        } else dispatch(main_updateIsEndInbox(false))
+      })
+    }
+  }, [inboxPage, token])
+
 
   return (
     <>

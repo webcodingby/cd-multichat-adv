@@ -40,12 +40,12 @@ const ChatPage: FC<any> = () => {
   useEffect(() => {
     if (params?.get('chatId') && typeof params?.get('chatId') === 'string') {
       dispatch(main_updateCurrentChatId(params?.get('chatId')))
+      dispatch(main_updateCreateChatData(null))
     } else {
       dispatch(main_updateCurrentChatId(null))
     }
   }, [params?.get('chatId')])
 
-  useEffect(() => console.log('CURRENT CHAT', currentChatId), [currentChatId])
 
   return (
     <Layout

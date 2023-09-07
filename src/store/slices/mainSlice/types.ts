@@ -33,6 +33,10 @@ interface MainStore {
     letterChats: any[],
     inbox: any[]
     history:any[],
+
+
+    isEndInbox: boolean,
+    isEndMessageChats: boolean,
   },
 
   messageChatsPage: number,

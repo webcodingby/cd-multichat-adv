@@ -1,10 +1,11 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styles from './DialogUser.module.scss';
 import getClassNames from '@utils/getClassNames';
 import {Row, Col} from 'antd';
 import UserTitle from '@components/UserTitle/UserTitle';
 import Avatar from '@components/Avatar/Avatar';
-
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import { useAppSelector } from '@hooks/useReduxTypedHook';
 interface I {
   data?: any,
   type?: 'man' | 'girl'
@@ -16,7 +17,7 @@ const DialogUser:FC<I> = ({
 }) => {
   const {
     id,
-    about_self,
+    about_self = '',
     ace_count,
     user_thumbnail_url,
     state,
@@ -39,6 +40,14 @@ const DialogUser:FC<I> = ({
     credits,
     prompt_target_id
   } = data || {}
+  const {chatData} = useAppSelector(s => s.mainSlice)
+  const {dialogUsers} = chatData || {}
+  const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    setIsOpen(false)
+  }, [dialogUsers])
+
   if(type === 'man') {
     return (
       <div className={getClassNames([styles.wrapper, 'custom-scroll'])}>
@@ -74,7 +83,22 @@ const DialogUser:FC<I> = ({
                 {
                   about_self && (
                     <Col span={24}>
-                      <div className={styles.descr}>{about_self}</div>
+                      <div className={styles.descr}>
+                        {
+                          !isOpen ? (
+                            about_self?.length > 38 ? about_self?.slice(0,35) + '...' : about_self
+                          ) : (
+                            about_self
+                          )
+                        }
+                        {
+                          about_self?.length > 38 && (
+                            <button className={styles.toggle} onClick={() => setIsOpen(s => !s)}>
+                              {isOpen ? <BiChevronUp/> : <BiChevronDown/>}
+                            </button>
+                          )
+                        }
+                      </div>
                     </Col>
                   )
                 }
@@ -120,7 +144,22 @@ const DialogUser:FC<I> = ({
                 {
                   about_self && (
                     <Col span={24}>
-                      <div className={styles.descr}>{about_self}</div>
+                      <div className={styles.descr}>
+                        {
+                          !isOpen ? (
+                            about_self?.length > 38 ? about_self?.slice(0,35) + '...' : about_self
+                          ) : (
+                            about_self
+                          )
+                        }
+                        {
+                          about_self?.length > 38 && (
+                            <button className={styles.toggle} onClick={() => setIsOpen(s => !s)}>
+                              {isOpen ? <BiChevronUp/> : <BiChevronDown/>}
+                            </button>
+                          )
+                        }
+                      </div>
                     </Col>
                   )
                 }

@@ -235,7 +235,7 @@ const WorkPanel:FC<any> = () => {
             >
             СТАРТ</Button>
         </div>
-        <div className={styles.btn}>
+        {/* <div className={styles.btn}>
           <Button
             variant={'yellow'}
             style={{fontWeight: 700}}
@@ -255,7 +255,7 @@ const WorkPanel:FC<any> = () => {
             >
             ПРОДОЛЖИТЬ
           </Button>
-        </div>
+        </div> */}
         <div className={styles.btn}>
           <Button
             variant={'danger'}

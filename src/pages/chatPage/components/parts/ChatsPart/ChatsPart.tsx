@@ -11,20 +11,22 @@ import { main_incMessageChatsPage } from '@store/slices/mainSlice/mainSlice';
 const ChatsPart:FC<any> = () => {
   const dispatch = useAppDispatch()
   const {chatData} = useAppSelector(s => s.mainSlice)
-  const {messageChats, currentChatId, chatType} = chatData || {}
+  const {messageChats, currentChatId, chatType, isEndMessageChats} = chatData || {}
   const [loadMore, setLoadMore] = useState(false)
   const {inView, ref} = useInView()
-
+  const [local, setLocal] = useState(0)
+  
   useEffect(() => {
-    if(messageChats?.length > 0) setLoadMore(true)
-  }, [messageChats])
-
-  useEffect(() => {
-    (inView && loadMore) && dispatch(main_incMessageChatsPage())
+    if (inView && loadMore && !isEndMessageChats) {
+      dispatch(main_incMessageChatsPage())
+    }
   }, 
-    [inView, loadMore]
+    [inView, loadMore, isEndMessageChats]
   )
 
+  useEffect(() => {
+    setLoadMore(true)
+  }, [messageChats])
   
 
   return (
@@ -47,9 +49,7 @@ const ChatsPart:FC<any> = () => {
       }
 
       {
-        messageChats?.length > 0 && <div className={styles.loader} ref={ref}>
-          {/* <PulseLoader color={"var(--violet_1)"}/> */}
-          </div>
+        (loadMore && messageChats?.length > 0) && <div className={styles.loader} ref={ref}></div>
       }
       
     </div>

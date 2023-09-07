@@ -1,9 +1,9 @@
 .wrapper {
-  background-color: var(--blue_3);
+  background-color: var(--blue_4);
   border-radius: 8px;
   margin-bottom: 5px;
   padding: 7px;
-  overflow: hidden;
+  // overflow: hidden;
   cursor: pointer;
   border: 1px solid transparent;
   transition: all .2s ease;
@@ -17,16 +17,22 @@
 
   .main {
     width: 100%;
-    overflow: hidden;
+    // overflow: hidden;
     .main_top {
       display: flex;
-      overflow: hidden;
+      // overflow: hidden;
       .body {
         padding: 0 10px;
         overflow: hidden;
         .item {
           display: flex;
           align-items: flex-start;
+          margin-bottom: 5px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
           .type {
             margin-right: 5px;
           }

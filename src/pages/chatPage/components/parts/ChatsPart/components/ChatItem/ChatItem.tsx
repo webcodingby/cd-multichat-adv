@@ -1,4 +1,4 @@
-import { FC, ReactNode, memo } from 'react'
+import { FC, ReactNode, memo, useEffect, useState } from 'react'
 import styles from './ChatItem.module.scss';
 import { Row, Col } from 'antd';
 import getClassNames from '@utils/getClassNames';
@@ -9,6 +9,7 @@ import CopyableText from '@components/CopyableText/CopyableText';
 import copyText from '@components/CopyableText/copyText';
 import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
 import { main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
+import moment from 'moment';
 
 interface I {
   children?: ReactNode,
@@ -33,6 +34,7 @@ const ChatItemComponent: FC<I> = ({
   const nav = useNavigate()
   const dispatch = useAppDispatch()
   const { chatData: { chatType } } = useAppSelector(s => s.mainSlice)
+  const [ago, setAgo] = useState('')
 
   const goToChat = (e: any) => {
     if (!e?.target?.classList?.contains('copy-text')) {
@@ -42,6 +44,22 @@ const ChatItemComponent: FC<I> = ({
       copyText(e?.target?.innerText)
     }
   }
+
+  useEffect(() => {
+    const dateFrom = moment.utc(updated_at)
+    const dateNow = moment.utc()
+
+    const diff = dateNow.diff(dateFrom)
+    const start = moment.utc(diff).valueOf()
+    // console.log(moment.utc(start).get('hours'))
+    if(moment.utc(start).get('hours') >= 24) {
+      setAgo(`${Math.floor(moment.utc(start).get('hours') / 24).toString()}д`)
+    } else {
+      setAgo(moment.utc(start).format('HH:mm'))
+    }
+    
+
+  }, [updated_at])
 
   return (
     <div
@@ -68,7 +86,10 @@ const ChatItemComponent: FC<I> = ({
                   id<CopyableText>{selfUser?.id || 999}</CopyableText>
                 </Col>
                 <Col span={24}>
-                  {/* timer */}
+                  <div className={styles.time}>
+                    {/* {moment.utc(moment.utc(updated_at)).fromNow()} */}
+                    {ago}
+                  </div>
                 </Col>
               </Row>
             </div>
@@ -98,6 +119,7 @@ const ChatItemComponent: FC<I> = ({
             </div>
             <div className={styles.avatar}>
               <Avatar
+                isOnline={otherUser?.online === 1}
                 image={otherUser?.user_thumbnail_url}
                 size={60}
               />
