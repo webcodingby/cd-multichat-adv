@@ -39,7 +39,7 @@ const ChatAction:FC<any> = ({
   onUpdateMessage
 }) => {
   const navigate = useNavigate()
-  const {chatData: {currentChatId, chatType}, createChatData} = useAppSelector(s => s.mainSlice)
+  const {chatData: {currentChatId, chatType, dialogUsers}, createChatData} = useAppSelector(s => s.mainSlice)
   const {token} = useAppSelector(s => s.mainSlice)
   const dispatch = useAppDispatch()
 
@@ -183,7 +183,7 @@ const ChatAction:FC<any> = ({
           sendGift({
             token,
             body: {
-              id: currentChatId,
+              id: dialogUsers?.man?.id,
               gift_id: gift
             }
           })
@@ -197,7 +197,8 @@ const ChatAction:FC<any> = ({
   }
 
   const onSendMedia = (selected: any[]) => {
-    if(token && currentChatId && selected?.length > 0) {
+    console.log(selected)
+    if(token && selected?.length > 0) {
       if(chatType === 'CHAT') {
         if(createChatData && !currentChatId) {
           setLoading(true)
@@ -223,6 +224,7 @@ const ChatAction:FC<any> = ({
           })
         }
         if(currentChatId) {
+
           setLoading(true)
           sendMedia({
             token,

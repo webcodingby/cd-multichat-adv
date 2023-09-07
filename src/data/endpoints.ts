@@ -55,7 +55,9 @@ const endpoints = {
   //общее количество сообщений по анкетам  оператора
   getStatMessageCountOperatorAnket: `${API_PATH}admin/statistics/operator/count/message/ancet`,
 
-  getStatAnketCount: `${API_PATH}admin/statistics/operator/count/anket`
+  getStatAnketCount: `${API_PATH}admin/statistics/operator/count/anket`,
+
+  
 }
 
 export default endpoints;
