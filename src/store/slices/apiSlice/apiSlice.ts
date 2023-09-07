@@ -44,7 +44,7 @@ const apiSlice = createApi({
         url: endpoints.getMessageChats + `?page=${page}&per_page=${per_page}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
       // serializeQueryArgs: ({ endpointName }) => {
       //   return endpointName
       // },
@@ -74,7 +74,7 @@ const apiSlice = createApi({
         url: endpoints.getLetterChats + `?page=${page}&per_page=${per_page}&search=${search}&filter_type=${filter_type}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getMessageChat: builder.query({
@@ -96,7 +96,7 @@ const apiSlice = createApi({
         url: endpoints.getMessageChat + `/${id}?page=${page}&per_page=${per_page}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getLetterChat: builder.query({
@@ -118,7 +118,7 @@ const apiSlice = createApi({
         url: endpoints.getLetterChat + `/${id}?page=${page}&per_page=${per_page}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getInboxList: builder.query({
@@ -140,7 +140,7 @@ const apiSlice = createApi({
         url: endpoints.getInboxList + `?page=${page}&per_page=${per_page}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getLimitsList: builder.query({
@@ -158,7 +158,7 @@ const apiSlice = createApi({
         url: endpoints.getLimitList + `?page=${page}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getStickers: builder.query({
@@ -170,7 +170,7 @@ const apiSlice = createApi({
         url: endpoints.getStickers,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getGifts: builder.query({
@@ -182,7 +182,7 @@ const apiSlice = createApi({
         url: endpoints.getGifts,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getSelf: builder.query({
@@ -190,7 +190,7 @@ const apiSlice = createApi({
         url: endpoints.getSelf,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getWorkCurrentStatus: builder.query({
@@ -198,7 +198,7 @@ const apiSlice = createApi({
         url:endpoints.getWorkCurrentStatus,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
     
     getWorkStatusList: builder.query({
@@ -206,7 +206,7 @@ const apiSlice = createApi({
         url: endpoints.getWorkStatusList,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     workStart: builder.mutation({
@@ -215,7 +215,7 @@ const apiSlice = createApi({
         url:endpoints.workStart,
         headers: setHeaderWithToken(token),
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     workStop: builder.mutation({
@@ -224,7 +224,7 @@ const apiSlice = createApi({
         url:endpoints.workStop,
         headers: setHeaderWithToken(token),
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     workPausedStart: builder.mutation({
@@ -233,7 +233,7 @@ const apiSlice = createApi({
         url: endpoints.workPausedStart,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     workPausedStop: builder.mutation({
@@ -242,7 +242,7 @@ const apiSlice = createApi({
         url: endpoints.workPausedStop,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getReports: builder.query({
@@ -264,7 +264,7 @@ const apiSlice = createApi({
         url: endpoints.getReports + `?page=${page}&per_page=${per_page}&date=${date}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     deleteReport: builder.mutation({
@@ -279,7 +279,7 @@ const apiSlice = createApi({
         url:endpoints.getReports + `/${id}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getLogs: builder.query({
@@ -301,7 +301,7 @@ const apiSlice = createApi({
         url: endpoints.getLogs + `?page=${page}&per_page=${per_page}&date=${date}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
     
     getFaults: builder.query({
@@ -323,7 +323,7 @@ const apiSlice = createApi({
         url: endpoints.getFault + `?page=${page}&per_page=${per_page}&date=${date}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getMedia: builder.query({
@@ -347,7 +347,7 @@ const apiSlice = createApi({
         url: `${API_PATH}operators/ancets/${id}/media?page=${page}&category_id=${category_id}&per_page=${per_page}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     sendMediaMessageChat: builder.mutation({
@@ -368,7 +368,7 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         body: JSON.stringify(body)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     createMessageChat: builder.mutation({
@@ -388,7 +388,7 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         body: JSON.stringify(body)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     createLetterChat: builder.mutation({
@@ -408,7 +408,7 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         body: JSON.stringify(body)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     sendMessage: builder.mutation({
@@ -426,7 +426,7 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         body: JSON.stringify(body)
       }),
-      transformErrorResponse: checkFetchAuthorization,
+      // transformErrorResponse: checkFetchAuthorization,
     }),
 
     sendLetter: builder.mutation({
@@ -447,7 +447,7 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         body: JSON.stringify(body)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     uploadImages: builder.mutation({
@@ -465,7 +465,7 @@ const apiSlice = createApi({
         },
         body
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     deleteImages: builder.mutation({
@@ -484,7 +484,7 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         body: JSON.stringify(body)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     sendSticker: builder.mutation({
@@ -505,7 +505,7 @@ const apiSlice = createApi({
         method: "POST",
         headers: setHeaderWithToken(token),
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     sendGift: builder.mutation({
@@ -526,7 +526,7 @@ const apiSlice = createApi({
         method: "POST",
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
 
@@ -541,7 +541,7 @@ const apiSlice = createApi({
         url: endpoints.getStatChatAvgTime,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getStatChatAvgTimeList: builder.query({
@@ -553,7 +553,7 @@ const apiSlice = createApi({
         url: endpoints.getStatChatAvgTimeList,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getStatMessageCount: builder.query({
@@ -565,7 +565,7 @@ const apiSlice = createApi({
         url: endpoints.getStatMessageCount,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
     
     getStatMessageCountOperatorAnket: builder.query({
@@ -579,7 +579,7 @@ const apiSlice = createApi({
         url: endpoints.getStatMessageCountOperatorAnket + `?page=${page}`,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     getStatAnketCount: builder.query({
@@ -589,7 +589,7 @@ const apiSlice = createApi({
         url: endpoints.getStatAnketCount,
         headers: setHeaderWithToken(token)
       }),
-      transformErrorResponse: checkFetchAuthorization
+      // transformErrorResponse: checkFetchAuthorization
     }),
 
     readMessage: builder.mutation({
@@ -610,7 +610,7 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         method: "POST"
       }),
-      transformErrorResponse: checkFetchAuthorization,
+      // transformErrorResponse: checkFetchAuthorization,
     })
   }),
 })
