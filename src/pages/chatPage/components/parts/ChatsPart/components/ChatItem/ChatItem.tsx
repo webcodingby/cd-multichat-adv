@@ -54,8 +54,13 @@ const ChatItemComponent: FC<I> = ({
     // console.log(moment.utc(start).get('hours'))
     if(moment.utc(start).get('hours') >= 24) {
       setAgo(`${Math.floor(moment.utc(start).get('hours') / 24).toString()}д`)
-    } else {
-      setAgo(moment.utc(start).format('HH:mm'))
+    }
+    if(moment.utc(start).get('hours') < 24 && moment.utc(start).get('hours') >= 1) {
+      // setAgo(moment.utc(start).get('hours') + 'ч')
+      setAgo(`${moment.utc(start).format('HH')}ч ${moment.utc(start).format('mm')}мин`)
+    }
+    if(moment.utc(start).get('hours') < 1) {
+      setAgo(moment.utc(start).get('minutes') + 'мин')
     }
     
 

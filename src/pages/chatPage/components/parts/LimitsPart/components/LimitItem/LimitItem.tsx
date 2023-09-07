@@ -102,7 +102,7 @@ const LimitItemComponent:FC<any> = ({
                       )
                     } else {
                       return (
-                        <span style={{color:'var(--green_1)'}}>
+                        <span className={getClassNames([styles.timer])}>
                           {hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
                         </span>
                       )
