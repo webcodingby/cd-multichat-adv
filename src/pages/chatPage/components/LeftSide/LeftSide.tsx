@@ -11,7 +11,7 @@ import { useAppSelector } from '@hooks/useReduxTypedHook';
 const LeftSide:FC<any> = () => {
   const {chatData} = useAppSelector(s => s.mainSlice)
   const {limits} = chatData || {}
-  const [activeTab, setActiveTab] = useState<'1' | '2'>('1')
+  const [activeTab, setActiveTab] = useState<'1' | '2'>('2')
 
   return (
     <div className={getClassNames(['panel', 'panel-with-padding'])}>
