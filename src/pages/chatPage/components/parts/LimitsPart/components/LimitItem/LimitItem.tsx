@@ -25,18 +25,16 @@ const LimitItemComponent:FC<any> = ({
   const [isDisabled, setIsDisabled] = useState(false)
 
   const onClick = () => {
-    if(!isDisabled) {
-      navigate('/chat?chatType=CHAT')
+    navigate('/chat?chatType=CHAT')
     
-      dispatch(main_updateDialogUsers({man, girl}))
-      dispatch(main_updateCreateChatData({
-        anket_id: girl_id,
-        man_id: man_id,
-        operator_chat_limit_id: id,
-        man,
-        girl
-      }))
-    }
+    dispatch(main_updateDialogUsers({man, girl}))
+    dispatch(main_updateCreateChatData({
+      anket_id: girl_id,
+      man_id: man_id,
+      operator_chat_limit_id: id,
+      man,
+      girl
+    }))
   }
 
   return (
