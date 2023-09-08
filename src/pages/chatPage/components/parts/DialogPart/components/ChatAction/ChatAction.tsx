@@ -346,6 +346,7 @@ const ChatAction:FC<any> = ({
   useEffect(() => {
     const {data, isSuccess, isLoading} = sendMediaRes
     if(data && isSuccess && !isLoading) {
+      setMediaModal(false)
       if(data?.id) {
         const messageBody = data?.last_message
         const dialogBody = data
