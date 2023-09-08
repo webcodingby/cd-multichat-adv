@@ -17,6 +17,7 @@ import Loader from "@components/Loader/Loader";
 
 interface I extends ModalFuncProps {
   onSendMedia?: (...args:any[]) => any,
+  isSendLoading?: boolean,
 }
 const tabs = [
   {value: '1', label: 'Аватар', icon: <BsImages/>},
@@ -31,6 +32,7 @@ const Media:FC<I> = (props) => {
     open,
     onCancel,
     onSendMedia,
+    isSendLoading,
   } = props
   const {inView, ref} = useInView()
   const {chatData: {dialogUsers, chatType}, token} = useAppSelector(s => s.mainSlice)
@@ -66,10 +68,10 @@ const Media:FC<I> = (props) => {
   }, [params?.get('selfId')])
 
   //выбор медиафайлов
-  const onSelect = (item: number | string) => {
+  const onSelect = (item: any) => {
     if(chatType === 'MAIL') {
       setSelectedList(s => {
-        const findIndex = s.findIndex(i => i == item)
+        const findIndex = s.findIndex(i => i?.id == item?.id)
         if(findIndex !== -1) {
           const m = [...s];
           const rm = m.splice(findIndex, 1)
@@ -217,7 +219,7 @@ const Media:FC<I> = (props) => {
             selectedList?.length < mediaList?.length && (
               <div className={styles.action_item}>
                 <Button
-                  onClick={() => setSelectedList(mediaList?.map(i => i?.id))}
+                  onClick={() => setSelectedList(mediaList)}
                   >
                   Выбрать все
                 </Button>
@@ -228,6 +230,7 @@ const Media:FC<I> = (props) => {
             (chatType === 'CHAT' && selectedList?.length === 1) && (
               <div className={styles.action_item}>
                 <Button
+                  isLoading={isSendLoading}
                   onClick={() => onSendMedia && onSendMedia(selectedList)}>
                   Отправить{selectedList.length > 0 ? ':' + selectedList.length : ''}
                 </Button>
@@ -289,8 +292,8 @@ const Media:FC<I> = (props) => {
                       <Item
                         id={i?.id}
                         img={i?.image_url}
-                        onSelect={() => onSelect(i?.id)}
-                        isActive={selectedList?.find(f => f == i?.id)}
+                        onSelect={() => onSelect(i)}
+                        isActive={selectedList?.find(f => f?.id == i?.id)}
                       />
                     </Col>
                   ))

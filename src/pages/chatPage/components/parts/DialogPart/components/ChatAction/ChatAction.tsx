@@ -197,7 +197,6 @@ const ChatAction:FC<any> = ({
   }
 
   const onSendMedia = (selected: any[]) => {
-    console.log(selected)
     if(token && selected?.length > 0) {
       if(chatType === 'CHAT') {
         if(createChatData && !currentChatId) {
@@ -398,6 +397,7 @@ const ChatAction:FC<any> = ({
         onSendMedia={onSendMedia}
         open={mediaModal}
         onCancel={() => setMediaModal(false)}
+        isSendLoading={loading}
         />
       <div className={styles.body}>
         <div className={getClassNames([styles.main, isFocused && styles.focused])}>
