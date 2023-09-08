@@ -28,7 +28,7 @@ const apiSlice = createApi({
         token,
         body: {
           page = 1,
-          per_page = 10,
+          per_page = 1000,
           search = '',
           filter_type
         }
@@ -58,7 +58,7 @@ const apiSlice = createApi({
         token,
         body: {
           page = 1,
-          per_page = 10,
+          per_page = 1000,
           search = '',
           filter_type
         }
@@ -105,7 +105,7 @@ const apiSlice = createApi({
         body: {
           id,
           page,
-          per_page = 10
+          per_page = 1000
         }
       }: {
         token: any,
@@ -126,7 +126,7 @@ const apiSlice = createApi({
         token,
         body: {
           page,
-          per_page = 10,
+          per_page = 1000,
           search
         }
       }: {
@@ -148,7 +148,7 @@ const apiSlice = createApi({
         token,
         body: {
           page,
-          per_page = 100
+          per_page = 1000
         }
       }: {
         token:any,
@@ -289,7 +289,7 @@ const apiSlice = createApi({
         token,
         body: {
           page,
-          per_page,
+          per_page = 1000,
           date = ''
         }
       }: {
@@ -311,7 +311,7 @@ const apiSlice = createApi({
         token,
         body: {
           page,
-          per_page,
+          per_page = 1000,
           date = ''
         }
       }: {

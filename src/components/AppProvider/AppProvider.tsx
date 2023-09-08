@@ -217,7 +217,6 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
       getUserData(token).then(res => {
         const {isSuccess, data} = res
         const d = Cookies.get(ADMIN)
-        const userData: any = typeof d === 'string' ? JSON.parse(d) : null
         if (data !== null && isSuccess) {
           const userD = {
             id: res?.data?.id,
@@ -243,7 +242,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
 
   const updateMessageChats = () => {
     if(token) {
-      getMessageChats({token, body: {page: 1, per_page: messageChats?.length}}).then(res => {
+      getMessageChats({token, body: {page: 1, per_page: 1000}}).then(res => {
         const {isSuccess, data} = res;
         if (data && isSuccess) {
           dispatch(main_initChatDataMessageChats(data?.data))
@@ -254,7 +253,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
 
   const updateInbox = () => {
     if(token) {
-      getInbox({token, body: {page: 1, per_page: inbox?.length}}).then(res => {
+      getInbox({token, body: {page: 1, per_page: 1000}}).then(res => {
         const {isSuccess, data} = res
         if(data && isSuccess) {
           dispatch(main_initInboxTotalCount(data?.total))
@@ -272,7 +271,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     return () => {
       if(tm) clearInterval(tm)
     }
-  }, [token, messageChats?.length])
+  }, [token])
 
   useEffect(() => {
     let tm:any
@@ -282,7 +281,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     return () => {
       if(tm) clearInterval(tm)
     }
-  }, [token, inbox?.length])
+  }, [token])
 
 
   const getLimitsFunc = () => {
