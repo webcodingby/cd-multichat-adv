@@ -117,7 +117,7 @@ const ChatItemComponent: FC<I> = ({
                   <UserTitle
                     style={{ wrapperStyle: { textAlign: 'right' } }}
                     name={otherUser?.name || 'Username'}
-                    age={20}
+                    age={otherUser?.age}
                   />
                 </Col>
               </Row>
