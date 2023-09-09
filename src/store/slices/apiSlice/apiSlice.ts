@@ -503,7 +503,7 @@ const apiSlice = createApi({
           sticker_id: string | number
         }
       }) => ({
-        url: `operators/chats/${id}/send/sticker/${sticker_id}`,
+        url: `${API_PATH}operators/chats/${id}/send/sticker/${sticker_id}`,
         method: "POST",
         headers: setHeaderWithToken(token),
       }),
