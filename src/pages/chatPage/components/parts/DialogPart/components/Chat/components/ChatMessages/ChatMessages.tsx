@@ -3,9 +3,10 @@ import Message from '../Message/Message';
 import styles from './ChatMessages.module.scss';
 import { useInView } from 'react-intersection-observer';
 import apiSlice, { useGetMessageChatQuery } from '@store/slices/apiSlice/apiSlice';
-import { useAppSelector } from '@hooks/useReduxTypedHook';
+import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
 import { useSearchParams } from 'react-router-dom';
 import Loader from '@components/Loader/Loader';
+import { main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
 
 interface I {
   list:any[],
@@ -16,7 +17,8 @@ const ChatMessages:FC<I> = ({
   list,
   setList
 }) => {
-  const {token, chatData: {currentChatId}, newMessage, createChatData} = useAppSelector(s => s.mainSlice)
+  const dispatch = useAppDispatch()
+  const {token, chatData: {currentChatId, dialogUsers}, newMessage, createChatData} = useAppSelector(s => s.mainSlice)
   const [getList, getListRes] = apiSlice.endpoints.getMessageChat.useLazyQuery()
   const [page, setPage] = useState(0);
   const [params] = useSearchParams()
@@ -96,6 +98,24 @@ const ChatMessages:FC<I> = ({
     setPage(1)
     setList([])
   }, [currentChatId])
+
+  useEffect(() => {
+    if(list?.length > 0 && !dialogUsers && selfId) {
+      const element = list[0]
+      if(element?.sender_user?.id == selfId) {
+        dispatch(main_updateDialogUsers({
+          man: element?.recepient_user,
+          girl: element?.sender_user
+        }))
+      }
+      if(element?.recepient_user == selfId) {
+        dispatch(main_updateDialogUsers({
+          man: element?.sender_user,
+          girl: element?.recepient_user
+        }))
+      }
+    }
+  }, [list, dialogUsers, selfId])
 
   return (
     <div className={styles.wrapper}>

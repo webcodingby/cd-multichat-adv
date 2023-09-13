@@ -154,7 +154,7 @@ const ChatAction:FC<any> = ({
   }
 
   const onSendGift = (gift: number | string) => {
-    if(token && currentChatId) {
+    if(token && dialogUsers) {
       if(chatType === 'CHAT') {
         if(createChatData && !currentChatId) {
           setLoading(true)
@@ -167,8 +167,10 @@ const ChatAction:FC<any> = ({
               sendGift({
                 token,
                 body: {
-                  id: res?.data?.id,
-                  gift_id: gift
+                  // id: res?.data?.id,
+                  gift_id: gift,
+                  to_id: dialogUsers?.man?.id,
+                  from_id: dialogUsers?.girl?.id
                 }
               })
               .finally(() => {
@@ -183,8 +185,10 @@ const ChatAction:FC<any> = ({
           sendGift({
             token,
             body: {
-              id: dialogUsers?.man?.id,
-              gift_id: gift
+              // id: dialogUsers?.man?.id,
+              gift_id: gift,
+              to_id: dialogUsers?.man?.id,
+              from_id: dialogUsers?.girl?.id
             }
           })
           .finally(() => {

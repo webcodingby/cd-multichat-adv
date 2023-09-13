@@ -20,6 +20,7 @@ interface I {
   limits?: { avialable_limit: any, max_limit: any } | null,
   created_at?: any,
   updated_at?: any,
+  last_message?:any
 }
 
 const ChatItemComponent: FC<I> = ({
@@ -29,7 +30,8 @@ const ChatItemComponent: FC<I> = ({
   otherUser,
   limits,
   created_at,
-  updated_at
+  updated_at,
+  last_message
 }) => {
   const nav = useNavigate()
   const dispatch = useAppDispatch()
@@ -46,25 +48,28 @@ const ChatItemComponent: FC<I> = ({
   }
 
   useEffect(() => {
-    const dateFrom = moment.utc(updated_at)
-    const dateNow = moment.utc()
+    if(last_message && last_message?.created_at) {
+      const dateFrom = moment.utc(last_message?.created_at)
+      const dateNow = moment.utc()
 
-    const diff = dateNow.diff(dateFrom)
-    const start = moment.utc(diff).valueOf()
-    // console.log(moment.utc(start).get('hours'))
-    if(moment.utc(start).get('hours') >= 24) {
-      setAgo(`${Math.floor(moment.utc(start).get('hours') / 24).toString()}д`)
-    }
-    if(moment.utc(start).get('hours') < 24 && moment.utc(start).get('hours') >= 1) {
-      // setAgo(moment.utc(start).get('hours') + 'ч')
-      setAgo(`${moment.utc(start).format('HH')}ч ${moment.utc(start).format('mm')}мин`)
-    }
-    if(moment.utc(start).get('hours') < 1) {
-      setAgo(moment.utc(start).get('minutes') + 'мин')
+      const diff = dateNow.diff(dateFrom)
+      const start = moment.utc(diff).valueOf()
+      // console.log(moment.utc(start).get('hours'))
+      if(moment.utc(start).get('hours') >= 24) {
+        setAgo(`${Math.floor(moment.utc(start).get('hours') / 24).toString()}д`)
+      }
+      if(moment.utc(start).get('hours') < 24 && moment.utc(start).get('hours') >= 1) {
+        // setAgo(moment.utc(start).get('hours') + 'ч')
+        setAgo(`${moment.utc(start).format('HH')}ч ${moment.utc(start).format('mm')}мин`)
+      }
+      if(moment.utc(start).get('hours') < 1) {
+        setAgo(moment.utc(start).get('minutes') + 'мин')
+      }
     }
     
+    
 
-  }, [updated_at])
+  }, [last_message])
 
   return (
     <div

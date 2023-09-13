@@ -514,17 +514,21 @@ const apiSlice = createApi({
       query: ({
         token,
         body: {
-          id,
-          gift_id
+          // id,
+          gift_id,
+          to_id,
+          from_id
         }
       }: {
         token:any,
         body: {
-          id: number | string,
-          gift_id: number | string
+          // id: number | string,
+          gift_id: number | string,
+          from_id?:number | string,
+          to_id?: number | string
         }
       }) => ({
-        url: `${API_PATH}operators/chats/${id}/send/gift/${gift_id}`,
+        url: `${API_PATH}operators/chats/${from_id}/${to_id}/send/gift/${gift_id}`,
         method: "POST",
         headers: setHeaderWithToken(token)
       }),

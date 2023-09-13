@@ -44,6 +44,7 @@ const ChatsPart:FC<any> = () => {
             }}
             selfUser={i?.self_user}
             otherUser={i?.other_user}
+            last_message={i?.last_message}
             key={index}/>
         ))
       }
