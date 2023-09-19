@@ -5,7 +5,9 @@ import {Row, Col} from 'antd';
 import UserTitle from '@components/UserTitle/UserTitle';
 import Avatar from '@components/Avatar/Avatar';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { useAppSelector } from '@hooks/useReduxTypedHook';
+import { useAppSelector, useAppDispatch } from '@hooks/useReduxTypedHook';
+import { main_updateCurrentUser } from '@store/slices/mainSlice/mainSlice';
+
 interface I {
   data?: any,
   type?: 'man' | 'girl'
@@ -15,6 +17,7 @@ const DialogUser:FC<I> = ({
   data,
   type
 }) => {
+  const dispatch = useAppDispatch()
   const {
     id,
     about_self = '',
@@ -48,6 +51,7 @@ const DialogUser:FC<I> = ({
     setIsOpen(false)
   }, [dialogUsers])
 
+
   if(type === 'man') {
     return (
       <div className={getClassNames([styles.wrapper, 'custom-scroll'])}>
@@ -56,6 +60,7 @@ const DialogUser:FC<I> = ({
             <div className={styles.top}>
               <div style={{marginRight: 10}}>
                 <Avatar
+                  onClick={() => dispatch(main_updateCurrentUser(id))}
                   image={user_thumbnail_url}
                   isOnline={online === 1}
                   />
@@ -117,6 +122,7 @@ const DialogUser:FC<I> = ({
             <div className={styles.top}>
               <div style={{marginRight: 10}}>
                 <Avatar
+                  onClick={() => dispatch(main_updateCurrentUser(id))}
                   image={user_thumbnail_url}
                   isOnline={online === 1}
                   />

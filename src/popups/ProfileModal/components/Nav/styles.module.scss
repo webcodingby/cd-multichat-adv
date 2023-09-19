@@ -1,0 +1,23 @@
+.wrapper {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: calc(50% - 12.5px);
+  border-radius: 100%;
+  background-color: var(--violet_1);
+  color: #fff;
+  font-size: 15px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.wrapper.prev {
+  left: 10px;
+}
+
+.wrapper.next {
+  right: 10px;
+}

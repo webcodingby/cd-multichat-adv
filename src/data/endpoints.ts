@@ -42,8 +42,9 @@ const endpoints = {
   deleteImages: `${API_PATH}operators/store/image/delete`,
 
   //stat
-
   //средне время ответа на сообщение по операторам 
+  getAdminStat: `${API_PATH}admin/statistics/operator/list/admin`,
+
   getStatChatAvgTime: `${API_PATH}admin/statistics/operator/first/message/avg/time`,
 
   //средне время ответа на сообщение по чатам операторам
@@ -57,7 +58,7 @@ const endpoints = {
 
   getStatAnketCount: `${API_PATH}admin/statistics/operator/count/anket`,
 
-  
+  getUser: `${API_PATH}profile/get_profile`
 }
 
 export default endpoints;

@@ -21,25 +21,32 @@ const StatTable:FC<any> = () => {
   const [getStatMessageCount] = apiSlice.endpoints.getStatMessageCount.useLazyQuery()
   const [getStatMessageCountOperatorAnket] = apiSlice.endpoints.getStatMessageCountOperatorAnket.useLazyQuery()
   const [getStatAnketCount] = apiSlice.endpoints.getStatAnketCount.useLazyQuery()
+  const [getList, getListRes] = apiSlice.endpoints.getAdminStat.useLazyQuery();
 
   const [data, setData] = useState<any>()
-  const [isLoading, setIsLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
   const [list, setList] = useState<any[]>([])
 
-  // const getAnkets = () => {
-  //   if(token && page) {
-  //     setIsLoading(true)
-  //     getStatAnkets({token, page}).then(res => {
-  //       if(res?.data) {
-  //         console.log(res?.data)
-  //         setTotal(res?.data?.pagination?.countPage)
-  //         setList(res?.data?.result)
-  //       }
-  //     }).finally(() => setIsLoading(false))
-  //   }
-  // }
+  const getAnkets = () => {
+    if(token) {
+      getList({token})
+    }
+  }
+
+  useEffect(() => {
+    getAnkets()
+  }, [token])
+
+  useEffect(() => {
+    const {isLoading, data, isSuccess} = getListRes
+    setLoading(isLoading)
+    if(data && isSuccess && !isLoading) {
+      console.log(data?.result[0])
+      setList(data?.result)
+    }
+  },[getListRes])
 
   const getStatChatAvgTimeFunc = () => {
     if(token) {
@@ -116,7 +123,7 @@ const StatTable:FC<any> = () => {
         </Col>
         <Col span={24}>
           <div className={styles.body}>
-            {isLoading && <div className={styles.loader}><Loader/></div>}
+            {loading && <div className={styles.loader}><Loader/></div>}
             <table className={getClassNames(['table'])}>
               <tr className={getClassNames(['table-row', 'table-headow'])}>
                 {

@@ -8,7 +8,9 @@ import apiSlice, {
   useGetLetterChatsQuery,
   useGetLimitsListQuery,
   useGetMessageChatsQuery,
-  useGetSelfQuery
+  useGetSelfQuery,
+  useGetUserQuery,
+  useGetAdminStatQuery
 } from '@store/slices/apiSlice/apiSlice';
 import {Cookies} from 'typescript-cookie';
 import {cookiesStorageKeys} from '@utils/storageKeys';
@@ -26,6 +28,7 @@ import {
   main_updateChatDataInbox,
   main_updateChatDataLetterChats,
   main_updateChatDataMessageChats,
+  main_updateCurrentUser,
   main_updateIsEndInbox,
   main_updateIsEndMessageChats,
   main_updateNewMessage,
@@ -36,6 +39,7 @@ import notify from '@utils/notify';
 import PUSH_SOUND from '@assets/audio/push-sound.mp3';
 import LIMIT_SOUND from '@assets/audio/limit-sound.mp3';
 import * as L from 'lodash';
+import ProfileModal from '@popups/ProfileModal/ProfileModal';
 
 const {ADMIN} = cookiesStorageKeys;
 
@@ -52,7 +56,8 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     messageChatsPage,
     letterChatPage,
     inboxPage,
-    historyPage
+    historyPage,
+    currentUser
   } = useAppSelector(s => s.mainSlice)
   const {
     currentChatId, 
@@ -66,6 +71,8 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
   const [oldLimits, setOldLimits] = useState<any[]>([])
   const [oldInbox, setOldInbox] = useState<any[]>([])
 
+
+
   const [getUserData] = apiSlice.endpoints.getSelf.useLazyQuery()
 
   const [getMessageChats] = apiSlice.endpoints.getMessageChats.useLazyQuery()
@@ -73,9 +80,9 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
   const [getLimits, limitsRes] = apiSlice.endpoints.getLimitsList.useLazyQuery()
   const [getInbox] = apiSlice.endpoints.getInboxList.useLazyQuery()
 
-  //
   const [getStatAnkets] = apiSlice.endpoints?.getStatMessageCountOperatorAnket.useLazyQuery({pollingInterval: 1800000})
   const [getStatMessages] = apiSlice.endpoints?.getStatMessageCount.useLazyQuery({pollingInterval: 1800000})
+ 
 
   useEffect(() => {
     setOldLimits(limits?.map(i => i?.id))
@@ -242,7 +249,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
 
   const updateMessageChats = () => {
     if(token) {
-      getMessageChats({token, body: {page: 1, per_page: 1000}}).then(res => {
+      getMessageChats({token, body: {page: 1, per_page: 100}}).then(res => {
         const {isSuccess, data} = res;
         if (data && isSuccess) {
           dispatch(main_initChatDataMessageChats(data?.data))
@@ -367,6 +374,10 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
 
   return (
     <>
+      <ProfileModal
+        open={currentUser}
+        onCancel={() => dispatch(main_updateCurrentUser(null))}
+        />
       <audio src={PUSH_SOUND} ref={pushRef}/>
       <audio src={LIMIT_SOUND} ref={limitRef}/>
       {children}

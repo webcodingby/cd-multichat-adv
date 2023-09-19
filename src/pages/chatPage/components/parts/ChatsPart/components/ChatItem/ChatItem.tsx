@@ -71,6 +71,8 @@ const ChatItemComponent: FC<I> = ({
 
   }, [last_message])
 
+  
+
   return (
     <div
       onClick={goToChat}

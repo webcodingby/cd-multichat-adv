@@ -11,11 +11,13 @@ const Avatar:FC<I> = ({
   isRound,
   style,
   isActive,
-  isError
+  isError,
+  onClick
 }) => {
   const [loaded, setLoaded] = useState(false)
   return (
     <div 
+      onClick={onClick}
       className={getClassNames([styles.wrapper, isRound && styles.round, isOnline && styles.online, isActive && styles.active, isError && styles.error])}>
       <div className={styles.img} style={{...style, width: size, height: size}}>
         <img 

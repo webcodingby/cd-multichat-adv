@@ -28,7 +28,7 @@ const apiSlice = createApi({
         token,
         body: {
           page = 1,
-          per_page = 1000,
+          per_page = 100,
           search = '',
           filter_type
         }
@@ -58,7 +58,7 @@ const apiSlice = createApi({
         token,
         body: {
           page = 1,
-          per_page = 1000,
+          per_page = 100,
           search = '',
           filter_type
         }
@@ -598,6 +598,19 @@ const apiSlice = createApi({
       // transformErrorResponse: checkFetchAuthorization
     }),
 
+    getUser: builder.query({
+      query: ({
+        token,
+        id
+      }: {
+        token:any,
+        id: number | string
+      }) => ({
+        url: endpoints.getUser + `?user_id=${id}`,
+        headers: setHeaderWithToken(token)
+      })
+    }),
+
     readMessage: builder.mutation({
       query: ({
         token,
@@ -621,6 +634,19 @@ const apiSlice = createApi({
     // getIndicators: builder.query({
 
     // })
+
+    getAdminStat: builder.query({
+      query: ({
+        token
+      }: {
+        token: any,
+
+      }) => ({
+        url: endpoints.getAdminStat,
+        headers: setHeaderWithToken(token),
+        method: "GET"
+      }),
+    })
   }),
 })
 
@@ -655,7 +681,10 @@ export const {
   useGetStatChatAvgTimeQuery,
   useGetStatMessageCountOperatorAnketQuery,
   useGetStatMessageCountQuery,
-  useGetStatAnketCountQuery
+  useGetStatAnketCountQuery,
+
+  useGetUserQuery,
+  useGetAdminStatQuery
 } = apiSlice
 
 export default apiSlice;

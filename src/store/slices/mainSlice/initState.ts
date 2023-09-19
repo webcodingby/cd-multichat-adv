@@ -43,6 +43,7 @@ const initState:MainStore = {
   newLettersCount: 0,
 
   totalInboxCount: 0,
+
 }
 
 export default initState;

@@ -1,0 +1,13 @@
+.wrapper {
+  border-bottom: 1px solid var(--gray_1);
+  
+  .label {
+    color: var(--violet_2);
+    font-size: 14px;
+    line-height: 18px;
+    // margin-bottom: 5px;
+  }
+  .body {
+    color: #fff;
+  }
+}

@@ -1,4 +1,4 @@
-import { CSSProperties } from "react"
+import { CSSProperties, MouseEventHandler, ReactEventHandler } from "react"
 
 interface I {
   image?: string,
@@ -7,7 +7,8 @@ interface I {
   isError?: boolean
   isRound?: boolean,
   style?: CSSProperties,
-  isActive?: boolean
+  isActive?: boolean,
+  onClick?: MouseEventHandler
 }
 
 export default I
