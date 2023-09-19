@@ -8,7 +8,7 @@ import CopyableText from '@components/CopyableText/CopyableText';
 import { useNavigate } from 'react-router-dom';
 import Countdown from 'react-countdown';
 import { useAppDispatch } from '@hooks/useReduxTypedHook';
-import { main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
+import { main_updateCurrentUser, main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
 const InboxItemComponent:FC<any> = (props) => {
   const {
     name,
@@ -58,6 +58,7 @@ const InboxItemComponent:FC<any> = (props) => {
               size={60}
               image={user_thumbnail_url}
               isOnline={online == 1}
+              onClick={() => dispatch(main_updateCurrentUser(props?.other_user?.id))}
               />
           </div>
           <div className={styles.body}>
@@ -89,6 +90,7 @@ const InboxItemComponent:FC<any> = (props) => {
           <Avatar
             size={54}
             image={self_user?.user_thumbnail_url}
+            onClick={() => dispatch(main_updateCurrentUser(self_user?.id))}
             />
         </div>
         <div className={styles.ex_body}>

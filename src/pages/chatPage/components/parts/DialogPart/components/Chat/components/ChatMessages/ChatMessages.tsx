@@ -135,6 +135,7 @@ const ChatMessages:FC<I> = ({
               isShowAvatar={i.sender_user?.id !== list[index - 1]?.sender_user?.id}
               key={index}
               pureBody={i}
+              userId={i?.sender_user?.id}
               />
           )
         ))

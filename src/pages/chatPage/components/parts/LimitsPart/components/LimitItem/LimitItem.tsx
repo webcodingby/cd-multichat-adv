@@ -6,7 +6,7 @@ import UserTitle from '@components/UserTitle/UserTitle';
 import getClassNames from '@utils/getClassNames';
 import CopyableText from '@components/CopyableText/CopyableText';
 import moment from 'moment';
-import { main_updateCreateChatData, main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
+import { main_updateCreateChatData, main_updateCurrentUser, main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
 import { useAppDispatch } from '@hooks/useReduxTypedHook';
 import { useNavigate } from 'react-router-dom';
 import Countdown from 'react-countdown';
@@ -49,6 +49,7 @@ const LimitItemComponent:FC<any> = ({
                 size={60}
                 image={man?.user_thumbnail_url || man?.user_avatar_url}
                 isOnline={man?.online === 1}
+                onClick={() => dispatch(main_updateCurrentUser(man?.id))}
                 />  
             </div>  
             <div className={styles.body}>
@@ -116,6 +117,7 @@ const LimitItemComponent:FC<any> = ({
                 size={60}
                 isOnline={girl?.online === 1}
                 image={girl?.user_thumbnail_url || girl?.user_avatar_url}
+                onClick={() => dispatch(main_updateCurrentUser(girl?.id))}
                 />
             </div>
           </div>  

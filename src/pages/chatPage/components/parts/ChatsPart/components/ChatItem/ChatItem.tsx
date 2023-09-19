@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import CopyableText from '@components/CopyableText/CopyableText';
 import copyText from '@components/CopyableText/copyText';
 import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
-import { main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
+import { main_updateCurrentUser, main_updateDialogUsers } from '@store/slices/mainSlice/mainSlice';
 import moment from 'moment';
 
 interface I {
@@ -84,6 +84,7 @@ const ChatItemComponent: FC<I> = ({
               <Avatar
                 image={selfUser?.user_thumbnail_url}
                 size={60}
+                onClick={() => dispatch(main_updateCurrentUser(selfUser?.id))}
               />
             </div>
             <div className={styles.main}>
@@ -134,6 +135,7 @@ const ChatItemComponent: FC<I> = ({
                 isOnline={otherUser?.online === 1}
                 image={otherUser?.user_thumbnail_url}
                 size={60}
+                onClick={() => dispatch(main_updateCurrentUser(otherUser?.id))}
               />
             </div>
           </div>

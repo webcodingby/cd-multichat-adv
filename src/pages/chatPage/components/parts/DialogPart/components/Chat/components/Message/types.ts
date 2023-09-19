@@ -10,7 +10,7 @@ interface I {
   updatedAt?:any,
   createdAt?:any,
   isShowAvatar?: boolean,
-
+  userId?: any,
   pureBody?:any
 }
 

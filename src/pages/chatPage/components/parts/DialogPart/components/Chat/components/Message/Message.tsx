@@ -13,7 +13,8 @@ import MessageStatus from "@components/MessageStatus/MessageStatus";
 import { useInView } from 'react-intersection-observer';
 import { useReadMessageMutation } from '@store/slices/apiSlice/apiSlice';
 import { useAppSelector, useAppDispatch } from '@hooks/useReduxTypedHook';
-import { main_updateNewMessage } from '@store/slices/mainSlice/mainSlice';
+import { main_updateCurrentUser, main_updateNewMessage } from '@store/slices/mainSlice/mainSlice';
+
 
 const MessageComponent:FC<I> = ({
   avatar,
@@ -28,7 +29,8 @@ const MessageComponent:FC<I> = ({
   createdAt,
   isShowAvatar,
 
-  pureBody
+  pureBody,
+  userId
 }) => {
   const {token, chatData} = useAppSelector(s => s.mainSlice)
   const {currentChatId} = chatData || {}
@@ -140,6 +142,7 @@ const MessageComponent:FC<I> = ({
           <div className={styles.avatar}>
             {isShowAvatar && (
               <Avatar
+                onClick={() => dispatch(main_updateCurrentUser(userId))}
                 size={40}
                 image={avatar}
                 isOnline={isOnline}  
@@ -163,6 +166,7 @@ const MessageComponent:FC<I> = ({
                 image={avatar}
                 isOnline={isOnline}
                 isRound
+                onClick={() => dispatch(main_updateCurrentUser(userId))}
                 />
             )}
           </div>
