@@ -323,15 +323,14 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     }
   }, [limits])
 
-  // useEffect(() => {
-  //   if(inbox?.length > 0) {
-  //     const dif = L.difference(inbox?.map(i => i?.id), oldInbox)
-  //     if(dif?.length > 0 && pushRef?.current) {
-  //       console.log('NEW MESSAGE')
-  //       pushRef?.current?.play().catch(() => console.log('interracte with document before play media'))
-  //     }
-  //   }
-  // }, [inbox])
+  useEffect(() => {
+    if(inbox?.length > 0) {
+      const dif = L.difference(inbox?.map(i => i?.id), oldInbox)
+      if(dif?.length > 0 && pushRef?.current) {
+        pushRef?.current?.play().catch(() => console.log('interracte with document before play media'))
+      }
+    }
+  }, [inbox])
 
   useEffect(() => {
     if (messageChatsPage > 1 && token) {
