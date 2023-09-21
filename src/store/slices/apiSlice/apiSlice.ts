@@ -640,7 +640,6 @@ const apiSlice = createApi({
         token
       }: {
         token: any,
-
       }) => ({
         url: endpoints.getAdminStat,
         headers: setHeaderWithToken(token),

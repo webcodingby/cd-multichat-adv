@@ -11,6 +11,25 @@ import { useAppSelector } from '@hooks/useReduxTypedHook';
 import apiSlice from '@store/slices/apiSlice/apiSlice';
 import {Pagination} from 'antd';
 import Loader from '@components/Loader/Loader';
+import moment from 'moment';
+
+
+
+interface IStatItem {
+  ancet_without_message?:any
+  avg_time?:any
+  count_ancet?:any
+  count_inactive?:any
+  count_message?:any
+  created_at?:any
+  day_work?:any
+  id?:any
+  man_whith_limit?:any
+  name?:any
+  time_paused?:any
+  time_work?:any,
+  ancet_with_message?:any
+}
 
 const StatTable:FC<any> = () => {
   const {token} = useAppSelector(s => s.mainSlice)
@@ -27,7 +46,7 @@ const StatTable:FC<any> = () => {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
-  const [list, setList] = useState<any[]>([])
+  const [list, setList] = useState<IStatItem[]>([])
 
   const getAnkets = () => {
     if(token) {
@@ -137,34 +156,64 @@ const StatTable:FC<any> = () => {
               {
                 list?.map((i, index) => (
                   <tr className='table-row'>
+                    <td className='table-item'></td>
+                    {/* id */}
                     <td className='table-item'>
-
+                      {i?.id}
                     </td>
+                    {/*  */}
+                    <td className='table-item'></td>
+                    {/* Имя */}
                     <td className='table-item'>
-                      {i?.operator_id}
+                      {i?.name}
                     </td>
-                    <td className='table-item'></td>
+                    {/* Профили */}
                     <td className='table-item'>
-                      {i?.anceta}
+                      {i?.count_ancet}
                     </td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
-                    <td className='table-item'></td>
+                    {/* Скорость ответов */}
+                    <td className='table-item'>
+                      {i?.avg_time}
+                    </td>
+                    {/* Рабочих смен */}
+                    <td className='table-item'>
+                      {i?.day_work}
+                    </td>
+                    {/* Средняя смена */}
+                    <td className='table-item'>
+                      {i?.time_work}
+                    </td>
+                    {/* Дата найма */}
+                    <td className='table-item' style={{whiteSpace: 'nowrap'}}>
+                      {
+                        i?.created_at && (
+                          moment(i?.created_at).format('YYYY-MM-DD HH:mm')
+                        )
+                      }
+                    </td>
+                    {/* Сообщения (сегодня) */}
+                    <td className='table-item'>
+                      {i?.count_message}
+                    </td>
+                    {/* Сообщения без ответов */}
+                    <td className='table-item'>
+                      {i?.ancet_with_message}
+                    </td>
+                    {/* Просроченных таймеров */}
+                    <td className='table-item'>
+                      {i?.count_inactive}
+                    </td>
+                    {/* Мужчин с лимитами */}
+                    <td className='table-item'>
+                      {i?.man_whith_limit}
+                    </td>
                   </tr>
                 ))
               }
             </table>
           </div>
         </Col>
-        <Col span={24}>
+        {/* <Col span={24}>
           <div className={styles.pag}>
             <Pagination
               current={page}
@@ -173,7 +222,7 @@ const StatTable:FC<any> = () => {
               total={total}
               />
           </div>
-        </Col>
+        </Col> */}
       </Row>
       <div className={styles.top}>
         
