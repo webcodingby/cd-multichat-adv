@@ -53,10 +53,17 @@ const ProfileModal:FC<ModalFuncProps> = (props) => {
   }
 
   useEffect(() => {
-    if(profile_photo?.length > 0) {
+    if(profile_photo?.length > 0 && user_avatar_url) {
       setPhotoList([{image_url: user_avatar_url}, ...profile_photo])
-    } else {
+    }
+    if(profile_photo?.length === 0 && user_avatar_url) {
       setPhotoList([{image_url: user_avatar_url}])
+    }
+    if(profile_photo?.length > 0 && !user_avatar_url) {
+      setPhotoList(profile_photo)
+    }
+    if(profile_photo?.length === 0 && !user_avatar_url) {
+      setPhotoList([])
     }
     
   }, [user_avatar_url, profile_photo])
