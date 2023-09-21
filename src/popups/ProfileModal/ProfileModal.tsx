@@ -14,6 +14,7 @@ const ProfileModal:FC<ModalFuncProps> = (props) => {
   const {onCancel, open} = props
   const {currentUser, token} = useAppSelector(s => s.mainSlice);
   const [getUser, {isFetching, data, isSuccess}] = apiSlice.endpoints.getUser.useLazyQuery()
+  const [photoList, setPhotoList] = useState<any[]>([])
   
   const [userData, setUserData] = useState<any>(null)
   const {
@@ -30,7 +31,8 @@ const ProfileModal:FC<ModalFuncProps> = (props) => {
     prompt_sources,
     prompt_targets,
     prompt_want_kids,
-    about_self
+    about_self,
+    user_avatar_url
   } = userData || {}
 
   useEffect(() => {
@@ -50,6 +52,15 @@ const ProfileModal:FC<ModalFuncProps> = (props) => {
     onCancel && onCancel()
   }
 
+  useEffect(() => {
+    if(profile_photo?.length > 0) {
+      setPhotoList([{image_url: user_avatar_url}, ...profile_photo])
+    } else {
+      setPhotoList([{image_url: user_avatar_url}])
+    }
+    
+  }, [user_avatar_url, profile_photo])
+
   return (
     <Modal
       {...props}
@@ -62,14 +73,14 @@ const ProfileModal:FC<ModalFuncProps> = (props) => {
       {(!isFetching && isSuccess && userData) && (
         <Row gutter={[20, 20]}>
           {
-            profile_photo?.length > 0 && (
+            photoList?.length > 0 && (
               <Col span={12}>
                 <Row gutter={[10,10]}>
                   <div className={styles.slider}>
                     <Swiper 
                       className={styles.slider_body}>
                       {
-                        profile_photo?.map((i:any) => (
+                        photoList?.map((i:any) => (
                           <SwiperSlide className={styles.slide}>
                             <div className={styles.img}>
                               <img src={i?.image_url} alt="" />
