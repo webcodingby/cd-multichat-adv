@@ -29,7 +29,9 @@ const InboxPart:FC<I> = ({
   useEffect(() => {
     setLoadMore(true)
   }, [inbox])
-  
+
+
+  useEffect(() => console.log(inbox), [inbox])
   
   return (
     <div 

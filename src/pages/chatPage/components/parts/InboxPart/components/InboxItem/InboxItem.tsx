@@ -42,7 +42,7 @@ const InboxItemComponent:FC<any> = (props) => {
       }
       dispatch(main_updateDialogUsers({
         man: props?.other_user,
-        girl: self_user
+        girl: self_user 
       }))
     }
   } 
@@ -102,7 +102,7 @@ const InboxItemComponent:FC<any> = (props) => {
               />
           </div>
           <div className={styles.ex_item}>
-            {/* <Countdown 
+            <Countdown 
               date={Date.now() + 10000}
               renderer={({hours,minutes,seconds, completed}) => {
                 if(completed) {
@@ -116,10 +116,8 @@ const InboxItemComponent:FC<any> = (props) => {
                     </span>
                   )
                 }
-                
               }}
-
-              /> */}
+              />
             </div>
           <div className={styles.ex_item}>
             id{<CopyableText>{self_user?.id}</CopyableText>}
