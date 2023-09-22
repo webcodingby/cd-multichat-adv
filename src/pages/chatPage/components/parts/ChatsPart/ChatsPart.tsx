@@ -5,6 +5,7 @@ import ChatItem from './components/ChatItem/ChatItem';
 import getClassNames from '@utils/getClassNames';
 import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
 import { main_incMessageChatsPage } from '@store/slices/mainSlice/mainSlice';
+import Input from '@components/Input/Input';
 
 
 
@@ -28,7 +29,6 @@ const ChatsPart:FC<any> = () => {
     setLoadMore(true)
   }, [messageChats])
   
-
   return (
     <div className={getClassNames([styles.wrapper, 'custom-scroll'])}>
       {

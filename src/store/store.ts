@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import mainSlice from './slices/mainSlice/mainSlice';
 import apiSlice from "./slices/apiSlice/apiSlice";
 
+
 const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,

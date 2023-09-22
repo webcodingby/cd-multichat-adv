@@ -304,6 +304,8 @@ const mainSlice = createSlice({
 
     main_updateIsEndInbox: (state, action) => {state.chatData.isEndInbox = action.payload},
     main_updateIsEndMessageChats: (state, action) => {state.chatData.isEndMessageChats = action.payload},
+
+    main_updateChatFilter: (state, action) => {state.chatFilter = action.payload}
   }
 })
 
@@ -358,6 +360,7 @@ export const {
   main_updateCreateChatData,
 
   main_updateIsEndInbox,
-  main_updateIsEndMessageChats
+  main_updateIsEndMessageChats,
+  main_updateChatFilter
 } = actions
 export default reducer;

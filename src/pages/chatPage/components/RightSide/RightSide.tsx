@@ -5,15 +5,24 @@ import Button from '../../../../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import ChatsPart from '../parts/ChatsPart/ChatsPart';
 import { useAppDispatch, useAppSelector } from '@hooks/useReduxTypedHook';
-import { main_updateChatType, main_updateCurrentChatId } from '@store/slices/mainSlice/mainSlice';
+import { main_updateChatType, main_updateCurrentChatId, main_updateChatFilter } from '@store/slices/mainSlice/mainSlice';
 import MailsPart from '../parts/ChatsPart/MailsPart';
-
+import Input from '@components/Input/Input';
+import styles from './RightSide.module.scss';
 
 const RightSide:FC<any> = () => {
   const dispatch = useAppDispatch()
-  const {chatData} = useAppSelector(s => s.mainSlice)
+  const {chatData, chatFilter} = useAppSelector(s => s.mainSlice)
   const {chatType} = chatData || {}
   const navigate = useNavigate()
+
+  const onFilterChange = (type: 'online' | 'premium' | 'payed' | 'super_payed' | '') => {
+    if(chatFilter === type) {
+      dispatch(main_updateChatFilter(''))
+    } else {
+      dispatch(main_updateChatFilter(type))
+    }
+  }
 
   return (
     <div className={getClassNames(['panel', 'panel-with-padding'])}>
@@ -42,6 +51,32 @@ const RightSide:FC<any> = () => {
                 isFill>Письма</Button>
             </Col>
           </Row>
+        </Col>
+        {/* <Col span={24}>
+          <Input
+            inputProps={{
+              placeholder: 'Поиск...',
+              style: {
+                backgroundColor: 'var(--blue_4)'
+              }
+            }}
+            />
+        </Col> */}
+        <Col span={24}>
+          <div className={styles.filter}>
+            <button 
+              onClick={() => onFilterChange('online')}
+              className={getClassNames([styles.item, styles.online, chatFilter === 'online' && styles.active])}>O</button>
+            <button 
+              onClick={() => onFilterChange('premium')}
+              className={getClassNames([styles.item, styles.premium, chatFilter === 'premium' && styles.active])}>P</button>
+            <button 
+              onClick={() => onFilterChange('payed')}
+              className={getClassNames([styles.item, styles.payed, chatFilter === 'payed' && styles.active])}>PA</button>
+            <button 
+              onClick={() => onFilterChange('super_payed')}
+              className={getClassNames([styles.item, styles.super, chatFilter === 'super_payed' && styles.active])}>S</button>
+          </div>
         </Col>
         <Col span={24}>
           {

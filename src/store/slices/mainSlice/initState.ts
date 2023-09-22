@@ -44,6 +44,9 @@ const initState:MainStore = {
 
   totalInboxCount: 0,
 
+  chatFilter: ''
+  
+
 }
 
 export default initState;

@@ -1,0 +1,37 @@
+.filter {
+  display: flex;
+  align-items: center;
+  margin-left: -3px;
+  margin-right: -3px;
+
+  .item {
+    margin: 0 3px;
+    flex: 0 0 auto;
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    color: #fff;
+    border: 2px solid transparent;
+    transition: all .2s ease;
+  }
+
+  .item.online {
+    background-image: url('../../../../assets/icons/chat-filter-1.svg');
+  }
+  .item.payed {
+    background-image: url('../../../../assets/icons/chat-filter-2.svg');
+  }
+  .item.premium {
+    background-image: url('../../../../assets/icons/chat-filter-3.svg');
+  }
+  .item.super {
+    background-image: url('../../../../assets/icons/chat-filter-4.svg');
+  }
+
+  .item.active {
+    border-color: #fff;
+  }
+}

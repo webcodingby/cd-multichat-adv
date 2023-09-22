@@ -1,9 +1,25 @@
 .wrapper {
-  height: calc(100vh - 90px - 20px - 24px - 36px - 14px);
+  height: calc(
+    100vh - 
+    90px - 
+    20px - 
+    24px - 
+    36px - 
+    14px - 
+    // 35px - 
+    37px - 
+    10px 
+  );
+
+  .ex {
+    padding: 4px;
+  }
+
   .loader {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2px;
   }
+
 }

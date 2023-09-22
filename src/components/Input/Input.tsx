@@ -1,5 +1,5 @@
 import styles from './Input.module.scss';
-import { ChangeEvent, FC } from 'react'
+import { FC } from 'react'
 import getClassNames from '../../utils/getClassNames';
 import I from './types';
 

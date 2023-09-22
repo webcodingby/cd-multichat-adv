@@ -57,7 +57,8 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
     letterChatPage,
     inboxPage,
     historyPage,
-    currentUser
+    currentUser,
+    chatFilter
   } = useAppSelector(s => s.mainSlice)
   const {
     currentChatId, 
@@ -249,7 +250,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
 
   const updateMessageChats = () => {
     if(token) {
-      getMessageChats({token, body: {page: 1, per_page: 100}}).then(res => {
+      getMessageChats({token, body: {page: 1, per_page: 100, filter_type: chatFilter}}).then(res => {
         const {isSuccess, data} = res;
         if (data && isSuccess) {
           dispatch(main_initChatDataMessageChats(data?.data))
@@ -273,12 +274,13 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
   useEffect(() => {
     let tm:any
     if(token) {
+      updateMessageChats()
       tm = setInterval(updateMessageChats, 4000)
     }
     return () => {
       if(tm) clearInterval(tm)
     }
-  }, [token])
+  }, [token, chatFilter])
 
   useEffect(() => {
     let tm:any
@@ -344,6 +346,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
       })
     }
   }, [messageChatsPage, token])
+  
 
   useEffect(() => {
     if (letterChatPage > 1 && token) {

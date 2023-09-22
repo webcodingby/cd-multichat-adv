@@ -58,7 +58,9 @@ interface MainStore {
 
   newMessagesCount: number,
   newLettersCount: number,
-  totalInboxCount: number
+  totalInboxCount: number,
+
+  chatFilter: 'online' | 'premium' | 'payed' | 'super_payed' | ''
   
 }
 
