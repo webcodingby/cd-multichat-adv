@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import getClassNames from '../../../../utils/getClassNames';
 import {Row, Col} from 'antd';
 import Button from '../../../../components/Button/Button';
@@ -9,12 +9,42 @@ import { main_updateChatType, main_updateCurrentChatId, main_updateChatFilter } 
 import MailsPart from '../parts/ChatsPart/MailsPart';
 import Input from '@components/Input/Input';
 import styles from './RightSide.module.scss';
+import ROUTES from '@data/routes';
+import apiSlice from '@store/slices/apiSlice/apiSlice';
 
 const RightSide:FC<any> = () => {
   const dispatch = useAppDispatch()
-  const {chatData, chatFilter} = useAppSelector(s => s.mainSlice)
+  const {chatData, chatFilter, token} = useAppSelector(s => s.mainSlice)
   const {chatType} = chatData || {}
+  const [historyTab, setHistoryTab] = useState(false)
+  const [historyList, setHistoryList] = useState<any[]>([])
+  const [getHistory, historyRes] = apiSlice.endpoints.getHistory.useLazyQuery()
   const navigate = useNavigate()
+
+
+  // const updateHistory = () => {
+  //   if(token) {
+  //     getHistory({token, body: {page: 1}})
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   let tm:any;
+  //   if(token) {
+  //     updateHistory()
+  //     tm = setInterval(updateHistory, 4000)
+  //   }
+  //   return () => {
+  //     clearInterval(tm)
+  //   }
+  // }, [token])
+
+  // useEffect(() => {
+  //   const {data, isFetching, isSuccess} = historyRes
+  //   if(isSuccess && !isFetching && data) {
+  //     setHistoryList(data?.data)
+  //   }
+  // }, [historyRes])
 
   const onFilterChange = (type: 'online' | 'premium' | 'payed' | 'super_payed' | '') => {
     if(chatFilter === type) {
@@ -29,26 +59,34 @@ const RightSide:FC<any> = () => {
       <Row gutter={[10,10]}>
         <Col span={24}>
           <Row gutter={[10,10]}>
-            <Col span={12}>
+            <Col span={8}>
               <Button 
-                
                 onClick={() => {
-                  navigate('/chat?chatType=CHAT')
+                  setHistoryTab(false)
+                  navigate(ROUTES.chatMessagePage)
                   dispatch(main_updateChatType('CHAT'))
                   dispatch(main_updateCurrentChatId(null))
                 }}
-                variant={chatType === 'CHAT' ? 'default' : 'dark'}
+                variant={(chatType === 'CHAT' && !historyTab) ? 'default' : 'dark'}
                 isFill>Чат</Button>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Button 
                 onClick={() => {
-                  navigate('/chat?chatType=MAIL')
+                  setHistoryTab(false)
+                  navigate(ROUTES.chatLetterPage)
                   dispatch(main_updateChatType('MAIL'))
                   dispatch(main_updateCurrentChatId(null))
                 }}
-                variant={chatType === 'MAIL' ? 'default' : 'dark'}
+                variant={(chatType === 'MAIL' && !historyTab) ? 'default' : 'dark'}
                 isFill>Письма</Button>
+            </Col>
+            <Col span={8}>
+              <Button
+                onClick={() => setHistoryTab(s => !s)}
+                isFill
+                variant={historyTab ? 'default' : 'dark'}
+                >История</Button>
             </Col>
           </Row>
         </Col>
@@ -73,9 +111,9 @@ const RightSide:FC<any> = () => {
             <button 
               onClick={() => onFilterChange('payed')}
               className={getClassNames([styles.item, styles.payed, chatFilter === 'payed' && styles.active])}>PA</button>
-            <button 
+            {/* <button 
               onClick={() => onFilterChange('super_payed')}
-              className={getClassNames([styles.item, styles.super, chatFilter === 'super_payed' && styles.active])}>S</button>
+              className={getClassNames([styles.item, styles.super, chatFilter === 'super_payed' && styles.active])}>S</button> */}
           </div>
         </Col>
         <Col span={24}>

@@ -23,6 +23,25 @@ const apiSlice = createApi({
       })
     }),
 
+    getHistory: builder.query({
+      query: ({
+        token,
+        body: {
+          page = 1,
+          per_page = 1000
+        }
+      }: {
+        token: any,
+        body: {
+          page?: number,
+          per_page?: number
+        }
+      }) => ({
+        url: endpoints.getHistory,
+        headers: setHeaderWithToken(token)
+      })
+    }),
+
     getMessageChats: builder.query({
       query: ({
         token,
@@ -641,11 +660,17 @@ const apiSlice = createApi({
 
     getAdminStat: builder.query({
       query: ({
-        token
+        token,
+        date_from,
+        date_to
       }: {
         token: any,
+        date_from?:any,
+        date_to?:any
       }) => ({
-        url: endpoints.getAdminStat,
+        url: (date_from && date_to) ? (
+          endpoints.getAdminStat + `?date_from=${date_from}&date_to=${date_to}`
+        ) : endpoints.getAdminStat,
         headers: setHeaderWithToken(token),
         method: "GET"
       }),

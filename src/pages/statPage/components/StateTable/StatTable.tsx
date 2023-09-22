@@ -2,17 +2,18 @@ import getClassNames from '@utils/getClassNames';
 import styles from './StatTable.module.scss';
 import { FC, useEffect, useState, useRef } from 'react'
 import tableHead from './data/tableHead';
-import {Row, Col} from 'antd';
+import {Row, Col, DatePicker} from 'antd';
 import CardAnkets from '../cards/CardAnkets/CardAnkets';
 import CardReps from '../cards/CardReps/CardReps';
 import CardBalance from '../cards/CardBalance/CardBalance';
 import CardAvg from '../cards/CardAvg/CardAvg';
 import { useAppSelector } from '@hooks/useReduxTypedHook';
 import apiSlice from '@store/slices/apiSlice/apiSlice';
-import {Pagination} from 'antd';
 import Loader from '@components/Loader/Loader';
 import moment from 'moment';
+import dayjs from 'dayjs';
 
+const {RangePicker} = DatePicker
 
 
 interface IStatItem {
@@ -48,21 +49,22 @@ const StatTable:FC<any> = () => {
   const [total, setTotal] = useState(0)
   const [list, setList] = useState<IStatItem[]>([])
 
+  const [date, setDate] = useState<{from: any, to: any}>({from: dayjs(Date.now()), to:  dayjs(Date.now())})
+
   const getAnkets = () => {
-    if(token) {
-      getList({token})
+    if(token && date) {
+      getList({token, date_from: dayjs(date.from).format(), date_to: dayjs(date.to).format()})
     }
   }
 
   useEffect(() => {
     getAnkets()
-  }, [token])
+  }, [token, date])
 
   useEffect(() => {
     const {isLoading, data, isSuccess} = getListRes
     setLoading(isLoading)
     if(data && isSuccess && !isLoading) {
-      console.log(data?.result[0])
       setList(data?.result)
     }
   },[getListRes])
@@ -101,7 +103,7 @@ const StatTable:FC<any> = () => {
 
   const getStatAnketCountFunc = () => {
     if(token) {
-      getStatAnketCount({token}).then(res => {
+      getStatAnketCount({token}).then((res:any) => {
         console.log(res)
       })
     }
@@ -112,7 +114,7 @@ const StatTable:FC<any> = () => {
     // getStatChatAvgTimeListFunc()
     // getStatMessageCountFunc()
     // getStatMessageCountOperatorAnketFunc()
-    // getStatAnketCountFunc()
+    getStatAnketCountFunc()
     if(wrapperRef?.current) wrapperRef.current.scrollTo(0,0)
   }, [token, page, wrapperRef])
 
@@ -139,6 +141,16 @@ const StatTable:FC<any> = () => {
               </Col>
             </Row>
           </div>
+        </Col>
+        <Col span={24}>
+          <RangePicker
+            value={[date.from, date.to]}
+            onChange={(e) => {
+              if(e?.length === 2) {
+                setDate({from: e[0], to: e[1]})
+              }
+            }}
+            />
         </Col>
         <Col span={24}>
           <div className={styles.body}>

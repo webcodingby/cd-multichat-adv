@@ -14,6 +14,7 @@ const endpoints = {
 
   getMessageChat: `${API_PATH}operators/chats`,
   getLetterChat: `${API_PATH}operators/letter`,
+  getHistory: `${API_PATH}admin/messages/last/work/day`,
 
   getInboxList: `${API_PATH}operators/messages`,
 
@@ -56,7 +57,7 @@ const endpoints = {
   //общее количество сообщений по анкетам  оператора
   getStatMessageCountOperatorAnket: `${API_PATH}admin/statistics/operator/count/message/ancet`,
 
-  getStatAnketCount: `${API_PATH}admin/statistics/operator/count/anket`,
+  getStatAnketCount: `${API_PATH}admin/statistics/count/anket`,
 
   getUser: `${API_PATH}profile/get_profile`
 }

@@ -72,8 +72,6 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
   const [oldLimits, setOldLimits] = useState<any[]>([])
   const [oldInbox, setOldInbox] = useState<any[]>([])
 
-
-
   const [getUserData] = apiSlice.endpoints.getSelf.useLazyQuery()
 
   const [getMessageChats] = apiSlice.endpoints.getMessageChats.useLazyQuery()
@@ -253,6 +251,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
       getMessageChats({token, body: {page: 1, per_page: 100, filter_type: chatFilter}}).then(res => {
         const {isSuccess, data} = res;
         if (data && isSuccess) {
+          
           dispatch(main_initChatDataMessageChats(data?.data))
         }
       })
@@ -273,7 +272,7 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
 
   useEffect(() => {
     let tm:any
-    if(token) {
+    if(token && chatFilter !== undefined) {
       updateMessageChats()
       tm = setInterval(updateMessageChats, 4000)
     }
@@ -291,7 +290,6 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
       if(tm) clearInterval(tm)
     }
   }, [token])
-
 
   const getLimitsFunc = () => {
     if(token) {
