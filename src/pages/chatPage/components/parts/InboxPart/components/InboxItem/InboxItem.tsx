@@ -120,7 +120,7 @@ const InboxItemComponent:FC<any> = (props) => {
               />
             </div>
           <div className={styles.ex_item}>
-            id{<CopyableText>{self_user?.id}</CopyableText>}
+            id{<CopyableText>{self_user?.id}</CopyableText>} | 
           </div>
         </div>
       </div>
