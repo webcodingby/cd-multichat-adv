@@ -1,9 +1,8 @@
 // import styles from './AuthPage.module.scss';
 import Layout from './components/Layout/Layout';
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect} from 'react'
 import Form from './components/Form/Form';
 import { useAppSelector } from '@hooks/useReduxTypedHook';
-import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const AuthPage:FC<any> = () => {

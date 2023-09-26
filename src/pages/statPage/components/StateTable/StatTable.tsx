@@ -32,6 +32,15 @@ interface IStatItem {
   ancet_with_message?:any
 }
 
+interface IstatData {
+  totalAncet?: number,
+  ancetInWork?: number,
+  totalSendMessages?: number,
+  totalSendLetters?: number,
+  avgAnswerTime?: string,
+  avgIdleTime?: string
+}
+
 const StatTable:FC<any> = () => {
   const {token} = useAppSelector(s => s.mainSlice)
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -41,9 +50,19 @@ const StatTable:FC<any> = () => {
   const [getStatMessageCount] = apiSlice.endpoints.getStatMessageCount.useLazyQuery()
   const [getStatMessageCountOperatorAnket] = apiSlice.endpoints.getStatMessageCountOperatorAnket.useLazyQuery()
   const [getStatAnketCount] = apiSlice.endpoints.getStatAnketCount.useLazyQuery()
+  const [getStatAnketWorkCount] = apiSlice.endpoints.getStatAnketWorkCount.useLazyQuery()
+  const [getStatAnketMessagesCount] = apiSlice.endpoints.getStatAnketMessageCount.useLazyQuery()
   const [getList, getListRes] = apiSlice.endpoints.getAdminStat.useLazyQuery();
 
-  const [data, setData] = useState<any>()
+  const [data, setData] = useState<IstatData>({
+    totalAncet: 0,
+    ancetInWork: 0,
+    totalSendLetters: 0,
+    totalSendMessages: 0,
+    avgAnswerTime: '',
+    avgIdleTime: ''
+  })
+  
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
@@ -93,6 +112,7 @@ const StatTable:FC<any> = () => {
     }
   }
 
+
   // const getStatMessageCountOperatorAnketFunc = () => {
   //   if(token) {
   //     getStatMessageCountOperatorAnket({token}).then(res => {
@@ -101,10 +121,45 @@ const StatTable:FC<any> = () => {
   //   }
   // }
 
+
+  
+
   const getStatAnketCountFunc = () => {
     if(token) {
       getStatAnketCount({token}).then((res:any) => {
-        console.log(res)
+        if(res?.data) {
+          setData(s => ({
+            ...s,
+            totalAncet: res?.data?.result[0]?.count_ancet
+          }))
+        }
+      })
+    }
+  }
+
+  const getStatAnketCountWorkFunc = () => {
+    if(token) {
+      getStatAnketWorkCount({token}).then((res:any) => {
+        if(res?.data) {
+          setData(s => ({
+            ...s,
+            ancetInWork: res?.data?.result[0]?.count_ancet
+          }))
+        }
+      })
+    }
+  }
+
+  const getStatAnketMessagesCountFunc = () => {
+    if(token) {
+      getStatAnketMessagesCount({token}).then((res:any) => {
+        if(res?.data) {
+          console.log(res?.data)
+          setData(s => ({
+            ...s,
+            totalSendMessages: res?.data?.result[0]?.count_message
+          }))
+        }
       })
     }
   }
@@ -114,7 +169,11 @@ const StatTable:FC<any> = () => {
     // getStatChatAvgTimeListFunc()
     // getStatMessageCountFunc()
     // getStatMessageCountOperatorAnketFunc()
+    getStatChatAvgTimeFunc()
+    getStatAnketMessagesCountFunc()
+    getStatAnketCountWorkFunc()
     getStatAnketCountFunc()
+    
     if(wrapperRef?.current) wrapperRef.current.scrollTo(0,0)
   }, [token, page, wrapperRef])
 
@@ -128,16 +187,27 @@ const StatTable:FC<any> = () => {
           <div className={styles.cards}>
             <Row gutter={[12,12]}>
               <Col span={6}>
-                <CardAnkets/>
+                <CardAnkets
+                  totalAncet={data?.totalAncet}
+                  ancetInWork={data?.ancetInWork}
+                  />
               </Col>
               <Col span={6}>
-                <CardReps/>
+                <CardReps
+                  totalSendLetters={data?.totalSendLetters}
+                  totalSendMessages={data?.totalSendMessages}
+                  />
               </Col>
               <Col span={6}>
-                <CardBalance/>
+                <CardBalance
+                  
+                  />
               </Col>
               <Col span={6}>
-                <CardAvg/>
+                <CardAvg
+                  avgAnswerTime={data?.avgAnswerTime}
+                  avgIdleTime={data?.avgIdleTime}
+                  />
               </Col>
             </Row>
           </div>
@@ -147,6 +217,7 @@ const StatTable:FC<any> = () => {
             value={[date.from, date.to]}
             onChange={(e) => {
               if(e?.length === 2) {
+                
                 setDate({from: e[0], to: e[1]})
               }
             }}

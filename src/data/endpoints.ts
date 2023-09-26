@@ -46,7 +46,7 @@ const endpoints = {
   //средне время ответа на сообщение по операторам 
   getAdminStat: `${API_PATH}admin/statistics/operator/list/admin`,
 
-  getStatChatAvgTime: `${API_PATH}admin/statistics/operator/first/message/avg/time`,
+  getStatChatAvgTime: `${API_PATH}admin/statistics/first/message/avg/time`,
 
   //средне время ответа на сообщение по чатам операторам
   getStatChatAvgTimeList: `${API_PATH}admin/statistics/operator/first/message/chat/time`,
@@ -57,7 +57,11 @@ const endpoints = {
   //общее количество сообщений по анкетам  оператора
   getStatMessageCountOperatorAnket: `${API_PATH}admin/statistics/operator/count/message/ancet`,
 
-  getStatAnketCount: `${API_PATH}admin/statistics/count/anket`,
+  getStatAnketCount: `${API_PATH}admin/statistics/count/ancet`,
+  
+  getStatAnketWorkCount: `${API_PATH}admin/statistics/count/ancet/work`,
+
+  getStatAnketMessageCount: `${API_PATH}admin/statistics/count/message`,
 
   getUser: `${API_PATH}profile/get_profile`
 }

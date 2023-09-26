@@ -621,6 +621,15 @@ const apiSlice = createApi({
       // transformErrorResponse: checkFetchAuthorization
     }),
 
+    getStatAnketWorkCount: builder.query({
+      query: ({
+        token
+      }: {token: any}) => ({
+        url: endpoints.getStatAnketWorkCount,
+        headers: setHeaderWithToken(token)
+      })
+    }),
+
     getUser: builder.query({
       query: ({
         token,
@@ -674,6 +683,14 @@ const apiSlice = createApi({
         headers: setHeaderWithToken(token),
         method: "GET"
       }),
+    }),
+
+    getStatAnketMessageCount: builder.query({
+      query: ({token}: {token:any}) => ({
+        url: endpoints.getStatAnketMessageCount,
+        headers: setHeaderWithToken(token),
+        method: "GET"
+      })
     })
   }),
 })
@@ -710,6 +727,8 @@ export const {
   useGetStatMessageCountOperatorAnketQuery,
   useGetStatMessageCountQuery,
   useGetStatAnketCountQuery,
+  useGetStatAnketWorkCountQuery,
+  useGetStatAnketMessageCountQuery,
 
   useGetUserQuery,
   useGetAdminStatQuery

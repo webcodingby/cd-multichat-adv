@@ -2,7 +2,13 @@ import styles from '../Card.module.scss';
 import { FC } from 'react'
 import img from '@assets/icons/stat-card-3.png';
 
-const CardBalance:FC<any> = () => {
+interface I {
+  balance?:any
+}
+
+const CardBalance:FC<I> = ({
+  balance
+}) => {
   return (
     <div className={styles.wrapper} style={{background: 'linear-gradient(133deg, #FF9C41 0%, #F3C03C 100%)'}}>
       <div className={styles.body}>
