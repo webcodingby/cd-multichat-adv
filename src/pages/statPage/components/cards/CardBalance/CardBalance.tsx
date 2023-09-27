@@ -13,12 +13,12 @@ const CardBalance:FC<I> = ({
     <div className={styles.wrapper} style={{background: 'linear-gradient(133deg, #FF9C41 0%, #F3C03C 100%)'}}>
       <div className={styles.body}>
         <div className={styles.part}>
-          <div className={styles.main}>Баланс Январь: $556</div>
-          <div className={styles.ex}>от прошлого мес. +125%</div>
+          <div className={styles.main}>Баланс Январь: -</div>
+          <div className={styles.ex}>от прошлого мес. -</div>
         </div>
         <div className={styles.part}>
-          <div className={styles.main}>Баланс сегодня: 126%</div>
-          <div className={styles.ex}>Разница от прошлого дня +126%</div>
+          <div className={styles.main}>Баланс сегодня: -</div>
+          <div className={styles.ex}>Разница от прошлого дня -</div>
         </div>
       </div>
       <div className={styles.img}>

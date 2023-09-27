@@ -15,11 +15,11 @@ const CardAnkets:FC<I> = ({
     <div className={styles.wrapper} style={{background: 'linear-gradient(132deg, #3CA974 0%, #55DEA9 100%)'}}>
       <div className={styles.body}>
         <div className={styles.part}>
-          <div className={styles.main}>Всего Анкет: {totalAncet}</div>
+          <div className={styles.main}>Всего Анкет: {totalAncet ?? '-'}</div>
           {/* <div className={styles.ex}>от прошлого мес. +5%</div> */}
         </div>
         <div className={styles.part}>
-          <div className={styles.main}>Работает Анкет: {ancetInWork}</div>
+          <div className={styles.main}>Работает Анкет: {ancetInWork ?? '-'}</div>
         </div>
       </div>
       <div className={styles.img}>

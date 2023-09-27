@@ -55,12 +55,12 @@ const StatTable:FC<any> = () => {
   const [getList, getListRes] = apiSlice.endpoints.getAdminStat.useLazyQuery();
 
   const [data, setData] = useState<IstatData>({
-    totalAncet: 0,
-    ancetInWork: 0,
-    totalSendLetters: 0,
-    totalSendMessages: 0,
-    avgAnswerTime: '',
-    avgIdleTime: ''
+    totalAncet: undefined,
+    ancetInWork: undefined,
+    totalSendLetters: undefined,
+    totalSendMessages: undefined,
+    avgAnswerTime: undefined,
+    avgIdleTime: undefined
   })
   
   const [loading, setLoading] = useState(false)
@@ -91,7 +91,12 @@ const StatTable:FC<any> = () => {
   const getStatChatAvgTimeFunc = () => {
     if(token) {
       getStatChatAvgTime({token}).then(res => {
-        console.log(res)
+        if(res?.data) {
+          setData(s => ({
+            ...s,
+            avgAnswerTime: res?.data?.result[0]?.time_first_message
+          }))
+        }
       })
     }
   }
