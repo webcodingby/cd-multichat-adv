@@ -49,9 +49,9 @@ const ChatsPart:FC<any> = () => {
         ))
       }
 
-      {
+      {/* {
         (loadMore && messageChats?.length > 0) && <div className={styles.loader} ref={ref}></div>
-      }
+      } */}
       
     </div>
   )

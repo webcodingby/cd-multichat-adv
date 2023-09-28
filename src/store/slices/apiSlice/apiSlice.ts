@@ -37,7 +37,7 @@ const apiSlice = createApi({
           per_page?: number
         }
       }) => ({
-        url: endpoints.getHistory,
+        url: endpoints.getHistory + `?page=${page}&per_page=${per_page}`,
         headers: setHeaderWithToken(token)
       })
     }),

@@ -3,17 +3,19 @@ import LinesEllipsis from "react-lines-ellipsis";
 
 const chatPreview = ({
   messageType,
-  body
+  body,
+  bodyEx
 }: {
   messageType?: any,
-  body?: any
+  body?: any,
+  bodyEx?:any
 }) => {
   switch(messageType) {
     case MS_TYPES.messageText:
       return (
         <LinesEllipsis
           maxLine={2}
-          text={body?.chat_messageable?.text}
+          text={body?.chat_messageable?.text || bodyEx?.text}
         />
       )
     case MS_TYPES.messageImage:

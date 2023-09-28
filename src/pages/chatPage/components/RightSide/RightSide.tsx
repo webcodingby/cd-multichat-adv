@@ -11,6 +11,7 @@ import Input from '@components/Input/Input';
 import styles from './RightSide.module.scss';
 import ROUTES from '@data/routes';
 import apiSlice from '@store/slices/apiSlice/apiSlice';
+import HistoryPart from '../parts/ChatsPart/HistoryPart';
 
 const RightSide:FC<any> = () => {
   const dispatch = useAppDispatch()
@@ -101,7 +102,7 @@ const RightSide:FC<any> = () => {
             />
         </Col> */}
         <Col span={24}>
-          <div className={styles.filter}>
+          <div className={getClassNames([styles.filter, historyTab && styles.hide])}>
             <button 
               onClick={() => onFilterChange('online')}
               className={getClassNames([styles.item, styles.online, chatFilter === 'online' && styles.active])}>O</button>
@@ -118,13 +119,18 @@ const RightSide:FC<any> = () => {
         </Col>
         <Col span={24}>
           {
-            chatType === 'CHAT' && (
+            (chatType === 'CHAT' && !historyTab) && (
               <ChatsPart/>
             )
           }
           {
-            chatType === 'MAIL' && (
+            (chatType === 'MAIL' && !historyTab) && (
               <MailsPart/>
+            )
+          }
+          {
+            historyTab && (
+              <HistoryPart/>
             )
           }
         </Col>

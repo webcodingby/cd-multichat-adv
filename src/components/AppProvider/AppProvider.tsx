@@ -78,10 +78,11 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
   const [getLetterChats] = apiSlice.endpoints.getLetterChats.useLazyQuery()
   const [getLimits, limitsRes] = apiSlice.endpoints.getLimitsList.useLazyQuery()
   const [getInbox] = apiSlice.endpoints.getInboxList.useLazyQuery()
+  const [getHistory] = apiSlice.endpoints.getHistory.useLazyQuery()
 
   const [getStatAnkets] = apiSlice.endpoints?.getStatMessageCountOperatorAnket.useLazyQuery({pollingInterval: 1800000})
   const [getStatMessages] = apiSlice.endpoints?.getStatMessageCount.useLazyQuery({pollingInterval: 1800000})
- 
+  
 
   useEffect(() => {
     setOldLimits(limits?.map(i => i?.id))
@@ -192,12 +193,12 @@ const AppProvider: FC<{ children?: React.ReactNode }> = ({
   //get chat data
   useEffect(() => {
     if (token) {
-      getMessageChats({token, body: {page: 1}}).then(res => {
-        const {isSuccess, data} = res;
-        if (data && isSuccess) {
-          dispatch(main_initChatDataMessageChats(data?.data))
-        }
-      })
+      // getMessageChats({token, body: {page: 1}}).then(res => {
+      //   const {isSuccess, data} = res;
+      //   if (data && isSuccess) {
+      //     dispatch(main_initChatDataMessageChats(data?.data))
+      //   }
+      // })
       getLetterChats({token, body: {page: 1}}).then(res => {
         const {isSuccess, data} = res;
         if (data && isSuccess) {
