@@ -16,12 +16,10 @@ const CardReps:FC<I> = ({
       <div className={styles.body}>
         <div className={styles.part}>
           <div className={styles.main}>Отправлено сообщений: {totalSendMessages ?? '-'}</div>
-          {/* <div className={styles.ex}>от прошлого мес. +15%</div> */}
         </div>
-        <div className={styles.part}>
+        {/* <div className={styles.part}>
           <div className={styles.main}>Отправлено писем: {totalSendLetters ?? '-'}</div>
-          {/* <div className={styles.ex}>от прошлого мес. -20%</div> */}
-        </div>
+        </div> */}
       </div>
       <div className={styles.img}>
         <img src={img} alt="" />

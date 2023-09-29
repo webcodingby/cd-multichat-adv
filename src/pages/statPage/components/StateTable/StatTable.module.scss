@@ -1,6 +1,13 @@
 .wrapper {
   padding: 12px 0;
   height: calc(100vh - 24px - 90px);
+
+  .date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
   .top {
 
   }

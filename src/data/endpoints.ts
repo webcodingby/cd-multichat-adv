@@ -63,6 +63,8 @@ const endpoints = {
 
   getStatAnketMessageCount: `${API_PATH}admin/statistics/count/message`,
 
+  getStatBalance: `${API_PATH}admin/statistics/sale/balance`,
+
   getUser: `${API_PATH}profile/get_profile`
 }
 

@@ -564,10 +564,14 @@ const apiSlice = createApi({
     getStatChatAvgTime: builder.query({
       query: ({
         token,
+        date_from,
+        date_to
       }: {
-        token:any
+        token:any,
+        date_from:any,
+        date_to:any
       }) => ({
-        url: endpoints.getStatChatAvgTime,
+        url: endpoints.getStatChatAvgTime + `?date_from=${date_from}&date_to=${date_to}`,
         headers: setHeaderWithToken(token)
       }),
       // transformErrorResponse: checkFetchAuthorization
@@ -613,9 +617,15 @@ const apiSlice = createApi({
 
     getStatAnketCount: builder.query({
       query: ({
-        token
-      }: {token:any}) => ({
-        url: endpoints.getStatAnketCount,
+        token,
+        date_from,
+        date_to
+      }: {
+        token:any,
+        date_from: any,
+        date_to:any
+      }) => ({
+        url: endpoints.getStatAnketCount + `?date_from=${date_from}&date_to=${date_to}`,
         headers: setHeaderWithToken(token)
       }),
       // transformErrorResponse: checkFetchAuthorization
@@ -623,9 +633,15 @@ const apiSlice = createApi({
 
     getStatAnketWorkCount: builder.query({
       query: ({
-        token
-      }: {token: any}) => ({
-        url: endpoints.getStatAnketWorkCount,
+        token,
+        date_from,
+        date_to
+      }: {
+        token: any,
+        date_from?:any,
+        date_to?:any
+      }) => ({
+        url: endpoints.getStatAnketWorkCount + `?page_from=${date_from}&page_to=${date_to}`,
         headers: setHeaderWithToken(token)
       })
     }),
@@ -681,17 +697,39 @@ const apiSlice = createApi({
           endpoints.getAdminStat + `?date_from=${date_from}&date_to=${date_to}`
         ) : endpoints.getAdminStat,
         headers: setHeaderWithToken(token),
-        method: "GET"
       }),
     }),
 
     getStatAnketMessageCount: builder.query({
-      query: ({token}: {token:any}) => ({
-        url: endpoints.getStatAnketMessageCount,
+      query: ({
+        token,
+        date_from,
+        date_to
+      }: {
+        token:any,
+        date_from:any,
+        date_to:any
+      }) => ({
+        url: endpoints.getStatAnketMessageCount + `?date_from=${date_from}&date_to=${date_to}`,
         headers: setHeaderWithToken(token),
-        method: "GET"
+      })
+    }),
+
+    getStatBalance: builder.query({
+      query: ({
+        token,
+        date_from,
+        date_to
+      }: {
+        token:any,
+        date_from:any,
+        date_to:any
+      }) => ({
+        url: endpoints.getStatBalance + `?date_from=${date_from}&date_to=${date_to}`,
+        headers: setHeaderWithToken(token),
       })
     })
+
   }),
 })
 

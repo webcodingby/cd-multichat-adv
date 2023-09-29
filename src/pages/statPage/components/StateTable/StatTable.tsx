@@ -53,6 +53,7 @@ const StatTable:FC<any> = () => {
   const [getStatAnketWorkCount] = apiSlice.endpoints.getStatAnketWorkCount.useLazyQuery()
   const [getStatAnketMessagesCount] = apiSlice.endpoints.getStatAnketMessageCount.useLazyQuery()
   const [getList, getListRes] = apiSlice.endpoints.getAdminStat.useLazyQuery();
+  const [getStatBalance] = apiSlice.endpoints.getStatBalance.useLazyQuery();
 
   const [data, setData] = useState<IstatData>({
     totalAncet: undefined,
@@ -72,7 +73,7 @@ const StatTable:FC<any> = () => {
 
   const getAnkets = () => {
     if(token && date) {
-      getList({token, date_from: dayjs(date.from).format(), date_to: dayjs(date.to).format()})
+      getList({token, date_from: dayjs(date.from).format('YYYY-MM-DD'), date_to: dayjs(date.to).format('YYYY-MM-DD')})
     }
   }
 
@@ -90,48 +91,22 @@ const StatTable:FC<any> = () => {
 
   const getStatChatAvgTimeFunc = () => {
     if(token) {
-      getStatChatAvgTime({token}).then(res => {
+      getStatChatAvgTime({token, date_from: dayjs(date.from).format('YYYY-MM-DD'), date_to: dayjs(date.to).format('YYYY-MM-DD')}).then(res => {
         if(res?.data) {
-          setData(s => ({
-            ...s,
-            avgAnswerTime: res?.data?.result[0]?.time_first_message
-          }))
+          // setData(s => ({
+          //   ...s,
+          //   avgAnswerTime: res?.data?.result[0]?.time_first_message
+          // }))
+          console.log(res?.data)
         }
       })
     }
   }
-
-  const getStatChatAvgTimeListFunc = () => {
-    if(token) {
-      getStatChatAvgTimeList({token}).then(res => {
-        console.log(res)
-      })
-    }
-  }
-
-  const getStatMessageCountFunc = () => {
-    if(token) {
-      getStatMessageCount({token}).then(res => {
-        console.log(res)
-      })
-    }
-  }
-
-
-  // const getStatMessageCountOperatorAnketFunc = () => {
-  //   if(token) {
-  //     getStatMessageCountOperatorAnket({token}).then(res => {
-  //       console.log(res)
-  //     })
-  //   }
-  // }
-
-
   
 
   const getStatAnketCountFunc = () => {
-    if(token) {
-      getStatAnketCount({token}).then((res:any) => {
+    if(token && date) {
+      getStatAnketCount({token, date_from: dayjs(date.from).format('YYYY-MM-DD'), date_to: dayjs(date.to).format('YYYY-MM-DD')}).then((res:any) => {
         if(res?.data) {
           setData(s => ({
             ...s,
@@ -143,8 +118,8 @@ const StatTable:FC<any> = () => {
   }
 
   const getStatAnketCountWorkFunc = () => {
-    if(token) {
-      getStatAnketWorkCount({token}).then((res:any) => {
+    if(token && date) {
+      getStatAnketWorkCount({token, date_from: dayjs(date.from).format('YYYY-MM-DD'), date_to: dayjs(date.to).format('YYYY-MM-DD')}).then((res:any) => {
         if(res?.data) {
           setData(s => ({
             ...s,
@@ -156,10 +131,9 @@ const StatTable:FC<any> = () => {
   }
 
   const getStatAnketMessagesCountFunc = () => {
-    if(token) {
-      getStatAnketMessagesCount({token}).then((res:any) => {
+    if(token && date) {
+      getStatAnketMessagesCount({token, date_from: dayjs(date.from).format('YYYY-MM-DD'), date_to: dayjs(date.to).format('YYYY-MM-DD')}).then((res:any) => {
         if(res?.data) {
-          console.log(res?.data)
           setData(s => ({
             ...s,
             totalSendMessages: res?.data?.result[0]?.count_message
@@ -169,25 +143,42 @@ const StatTable:FC<any> = () => {
     }
   }
 
+  const getStatBalanceFunc = () => {
+    if(token && date) {
+      getStatBalance({token, date_from: dayjs(date.from).format('YYYY-MM-DD'), date_to: dayjs(date.to).format('YYYY-MM-DD')}).then((res:any) => {
+        if(res?.data) {
+          console.log(res?.data)
+        }
+      })
+    }
+  }
+
   useEffect(() => {
-    // getStatChatAvgTimeFunc()
-    // getStatChatAvgTimeListFunc()
-    // getStatMessageCountFunc()
-    // getStatMessageCountOperatorAnketFunc()
     getStatChatAvgTimeFunc()
     getStatAnketMessagesCountFunc()
     getStatAnketCountWorkFunc()
     getStatAnketCountFunc()
+    getStatBalanceFunc()
     
     if(wrapperRef?.current) wrapperRef.current.scrollTo(0,0)
-  }, [token, page, wrapperRef])
-
-  
+  }, [token, page, wrapperRef, date])
 
   
   return (
     <div ref={wrapperRef} className={getClassNames([styles.wrapper, 'custom-scroll'])}>
       <Row gutter={[12,12]}>
+        <Col span={24}>
+          <div className={styles.date}>
+            <RangePicker
+              value={[date.from, date.to]}
+              onChange={(e) => {
+                if(e?.length === 2) {
+                  setDate({from: e[0], to: e[1]})
+                }
+              }}
+              />
+          </div>
+        </Col>
         <Col span={24}>
           <div className={styles.cards}>
             <Row gutter={[12,12]}>
@@ -217,17 +208,7 @@ const StatTable:FC<any> = () => {
             </Row>
           </div>
         </Col>
-        <Col span={24}>
-          <RangePicker
-            value={[date.from, date.to]}
-            onChange={(e) => {
-              if(e?.length === 2) {
-                
-                setDate({from: e[0], to: e[1]})
-              }
-            }}
-            />
-        </Col>
+        
         <Col span={24}>
           <div className={styles.body}>
             {loading && <div className={styles.loader}><Loader/></div>}

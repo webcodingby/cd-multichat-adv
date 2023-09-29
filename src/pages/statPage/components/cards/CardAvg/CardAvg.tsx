@@ -17,12 +17,12 @@ const CardAvg:FC<I> = ({
       <div className={styles.body}>
         <div className={styles.part}>
           <div className={styles.main}>Среднее время ответа: {avgAnswerTime ?? '-'}</div>
-          <div className={styles.ex}>Разница от прошлого мес. +3%</div>
+          {/* <div className={styles.ex}>Разница от прошлого мес. +3%</div> */}
         </div>
-        <div className={styles.part}>
+        {/* <div className={styles.part}>
           <div className={styles.main}>Среднее время простоя: {avgIdleTime ?? '-'}</div>
           <div className={styles.ex}>Разницаот прошлого мес. -20%</div>
-        </div>
+        </div> */}
       </div>
       <div className={styles.img}>
         <img src={img} alt="" />
